@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xml>
+<Administrador>
+<Name>Tiago Almeida</Name>
+<Email>tfpaa@iscte-iul.pt</Email>
+</Administrador>
+<Paths>
+<JMetal_Path>jmetal</JMetal_Path>
+<Jar_Path>jar</Jar_Path>
+</Paths>
+</xml>
