@@ -4,43 +4,41 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
-import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
+/**Frame that supports the GUI implementation for the E-Mail functionality.
+ * 
+ * @author afgos-iscteiulpt & pvmpa-iscteiulpt
+ *
+ */
 public class EmailTestFrame {
 
 	private JFrame frame;
 	private JTextField toField;
 	private JTextField ccField;
 	private JLabel titleLabel;
-	private JTextField titleField;
-	private JTextArea textArea;
+	private JTextField subjectField;
+	private JTextArea bodyText;
 	private JPanel attachmentPanel;
+	private JPanel infoPanel;
 	private JLabel attachmentLabel;
 	private JTextField attachementField;
 	private JButton chooseButton;
 	private JLabel passwordLabel;
 	private JTextField passwordField;
+	private JScrollPane bodyScroll;
+	
 
-	/**
-	 * Launch the application.
-	 * V0.01 Made in 20m, do not expect much of it
-	 * 
-	 * There is no scroll in textArea too
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -79,7 +77,7 @@ public class EmailTestFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel infoPanel = new JPanel();
+		infoPanel = new JPanel();
 		frame.getContentPane().add(infoPanel, BorderLayout.NORTH);
 		infoPanel.setLayout(new GridLayout(4, 2, 0, 0));
 		
@@ -100,9 +98,9 @@ public class EmailTestFrame {
 		titleLabel = new JLabel("Title:");
 		infoPanel.add(titleLabel);
 		
-		titleField = new JTextField();
-		infoPanel.add(titleField);
-		titleField.setColumns(10);
+		subjectField = new JTextField();
+		infoPanel.add(subjectField);
+		subjectField.setColumns(10);
 		
 		passwordLabel = new JLabel("Password: (Temp)");
 		infoPanel.add(passwordLabel);
@@ -111,8 +109,9 @@ public class EmailTestFrame {
 		infoPanel.add(passwordField);
 		passwordField.setColumns(10);
 		
-		textArea = new JTextArea();
-		frame.getContentPane().add(textArea, BorderLayout.CENTER);
+		bodyText = new JTextArea();
+		bodyScroll = new JScrollPane(bodyText);
+		frame.getContentPane().add(bodyScroll, BorderLayout.CENTER);
 		
 		attachmentPanel = new JPanel();
 		frame.getContentPane().add(attachmentPanel, BorderLayout.SOUTH);
@@ -145,12 +144,12 @@ public class EmailTestFrame {
 		return ccField;
 	}
 
-	public JTextField getTitleField() {
-		return titleField;
+	public JTextField getSubjectField() {
+		return subjectField;
 	}
 
-	public JTextArea getTextArea() {
-		return textArea;
+	public JTextArea getBodyText() {
+		return bodyText;
 	}
 
 	public JTextField getAttachementField() {
