@@ -10,7 +10,7 @@ public class GraphicsTab extends JPanel{
 	
 	public GraphicsTab() {
 		
-		setBackground(Color.yellow);
+		setBackground(Color.green);
 		
 	}
 

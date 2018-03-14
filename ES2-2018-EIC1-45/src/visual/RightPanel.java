@@ -18,7 +18,6 @@ public class RightPanel extends JPanel {
 		setLayout(null);
 		
 		panel_map.put("optimization", new OptimizationTab());
-		panel_map.put("importExport", new ImportExportTab());
 		panel_map.put("graphics", new GraphicsTab());
 		panel_map.put("help", new HelpTab());
 		
