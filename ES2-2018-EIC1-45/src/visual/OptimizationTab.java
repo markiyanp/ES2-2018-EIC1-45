@@ -186,6 +186,8 @@ public class OptimizationTab extends JPanel {
 					disableAll();
 				}else if(e.getSource() == variable_remove_button){
 					removeVariable();
+				}else if(e.getSource() == tools_run_button){
+					sendMailAdmin();
 				}
 			}
 		};
@@ -255,6 +257,35 @@ public class OptimizationTab extends JPanel {
 			table.repaint();
 		}
 	}
+	
+	
+	private void sendMailAdmin(){
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			String[] admin = { EMail_Tools.getAdminEmail() };
+			
+			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", //optimization bot
+					"******", //password goes here. do not commit a version with password PLEASE
+					User.getEmailAddr(), //send email to user
+					admin, //cc to admin
+					"Otimização em curso: " + //need to say what it is
+					problem_name_field.getText() + //get the problem's name
+					" "+
+					dateFormat.format(date), //and the current date:time
+					"Muito obrigado por usar esta plataforma de otimização. "
+					+ "Será informado por email sobre o progresso do processo de otimização, "
+					+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
+					+ "do tempo estimado, " //this train might need to be moved to its own String TODO
+					+ "e também quando o processo tiver terminado, "
+					+ "com sucesso ou devido à ocorrência de erros.", 
+					""); //no attachment YET, it needs to be an XML
+		} catch (EmailException e1) {
+			e1.printStackTrace();
+		} catch (Throwable e1) {
+			e1.printStackTrace();
+		}
+	}
 
 	
 	private void tools_panel() {
@@ -268,39 +299,7 @@ public class OptimizationTab extends JPanel {
 		tools_export_button.setBounds(15, 25, 95, 30);
 		tools_run_button.setBounds(15, 105, 200, 30);
 		
-		tools_run_button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					Date date = new Date();
-					String[] admin = { EMail_Tools.getAdminEmail() };
-					
-					EMail_Tools.sendMail("group45.optimization.bot@gmail.com", //optimization bot
-							"******", //password goes here. do not commit a version with password PLEASE
-							User.getEmailAddr(), //send email to user
-							admin, //cc to admin
-							"Otimização em curso: " + //need to say what it is
-							problem_name_field.getText() + //get the problem's name
-							" "+
-							dateFormat.format(date), //and the current date:time
-							"Muito obrigado por usar esta plataforma de otimização. "
-							+ "Será informado por email sobre o progresso do processo de otimização, "
-							+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
-							+ "do tempo estimado, " //this train might need to be moved to its own String TODO
-							+ "e também quando o processo tiver terminado, "
-							+ "com sucesso ou devido à ocorrência de erros.", 
-							""); //no attachment YET, it needs to be an XML
-				} catch (EmailException e1) {
-					e1.printStackTrace();
-				} catch (Throwable e1) {
-					e1.printStackTrace();
-				}
-				
-			}
-			
-		});
+		tools_run_button.addActionListener(listener);
 		
 		tools_panel.add(tools_run_button);
 		tools_panel.add(tools_reset_button);
