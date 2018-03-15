@@ -262,8 +262,13 @@ public class HelpTab extends JPanel{
 				}else if(e.getSource() == help_send_field){
 					try {
 						//TODO !!! SE O EMAIL NAO FOR ENVIADO POR CAUSA DA PASSE, O ERRO PODE ESTAR AQUI!!!  help....to STRING()
-						EMail_Tools.sendMail(User.getEmailAddr(),help_passwd_field.getPassword().toString(), EMail_Tools.getAdminEmail(), null,
-								help_possibleSubj_field.getSelectedItem().toString(), help_text_field.getText(), "");
+						EMail_Tools.sendMail(User.getEmailAddr(),
+								String.copyValueOf(help_passwd_field.getPassword()), 
+								EMail_Tools.getAdminEmail(), 
+								null,
+								help_possibleSubj_field.getSelectedItem().toString(), 
+								help_text_field.getText(), 
+								"");
 					} catch (EmailException e1) {
 						e1.printStackTrace();
 					}
