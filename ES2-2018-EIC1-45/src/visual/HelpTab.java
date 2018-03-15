@@ -1,7 +1,6 @@
 package visual;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,14 +11,11 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.Border;
@@ -38,8 +34,8 @@ import email.EMail_Tools;
 public class HelpTab extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 	//*************************************GENERAL FIELDS****************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
 	private TitledBorder faq_area_border = BorderFactory.createTitledBorder(blackline, "FAQ");
@@ -51,7 +47,7 @@ public class HelpTab extends JPanel{
 	private final int help_panel_width = 805;
 	private final int help_panel_height = 230;
 
-	
+
 	//************************************FAQ FIELDS********************************************
 	private JList<String> list;
 	private JTextPane textPane;
@@ -64,34 +60,31 @@ public class HelpTab extends JPanel{
 	private File[] files;
 	private ArrayList<Article> articles;
 	//************************************FAQ FIELDS********************************************
-	
-	
-	
+
+
+
 	//************************************HELP FIELDS********************************************
 	private JLabel help_to_label = new JLabel("TO:");
 	private JLabel help_subj_label = new JLabel("SUBJ:");
 	private JLabel help_from_label = new JLabel("FROM:");
 	private JLabel help_text_label = new JLabel("TEXT:");
-	
-	private JComboBox<String> help_possibleSubj_field = new JComboBox<String>();
+	private JLabel help_atachment_label = new JLabel("ATTACH:");
+	private JLabel help_passwd_label = new JLabel("PASS:");
+
 	private JTextField help_to_field = new JTextField();
 	private JTextField help_subj_field = new JTextField();
 	private JTextField help_from_field = new JTextField();
+	private JTextField help_attachment_field  = new JTextField();
 	private JTextField help_text_field  = new JTextField();
+	private JPasswordField help_passwd_field = new JPasswordField();
+	private JButton help_choose_field = new JButton("...");
 	private JButton help_send_field = new JButton("SEND QUESTION");
-	
-	private String[] possible_subj = {"General Issue",
-			"XML Issue",
-			"User registration Issue",
-			"Problem registration Issue",
-			"Variable Issue",
-			"Algorithm Issue",
-			"Graphs Issue",
-			"Other Issue",
-			"Other Inquiry"};
+	private String[] possible_subj = {"General Issue","XML Issue","User registration Issue","Problem registration Issue",
+			"Variable Issue", "Algorithm Issue", "Graphs Issue", "Other Issue", "Other Inquiry"};
+	private JComboBox<String> help_possibleSubj_field = new JComboBox<String>(possible_subj);
 	//************************************HELP FIELDS********************************************
-	
-	
+
+
 	//*************************************GENERAL FIELDS****************************************
 
 	public HelpTab() {
@@ -119,7 +112,7 @@ public class HelpTab extends JPanel{
 
 		this.scrollpane2.setBounds(320, 25, 470,310);
 		this.list.setBounds(15, 25, 300, 310);
-		
+
 		faq_panel.add(scrollpane2);
 		faq_panel.add(list);
 
@@ -142,37 +135,46 @@ public class HelpTab extends JPanel{
 
 
 	private void help() {
-		
-		for (int i = 0; i < possible_subj.length; i++) {
-			help_possibleSubj_field.addItem(possible_subj[i]);
-		}
-		
 		help_panel.setBorder(help_area_border);
 		help_panel.setBounds(15, 10, help_panel_width, help_panel_height);
 		help_panel.setOpaque(false);
 		help_panel.setLayout(null);
-		
+
 		help_to_label.setBounds(30, 20, 40, 25);
 		help_subj_label.setBounds(18, 90, 40, 25);
 		help_from_label.setBounds(15, 55, 40, 25);
-		help_text_label.setBounds(350, 20, 50, 25);
-		
+		help_text_label.setBounds(360, 20, 50, 25);
+
 		help_possibleSubj_field.setBounds(60, 90, 270, 25);
 		help_to_field.setBounds(60, 20, 270, 25);
 		help_subj_field.setBounds(1, 1, 1, 1);
 		help_from_field.setBounds(60, 55, 270, 25);
-		help_text_field.setBounds(400, 25, 380, 185);
-		
-		help_send_field.setBounds(70, 150, 250, 30);
-		
+		help_text_field.setBounds(400, 25, 380, 145);
+
+		help_send_field.setBounds(90, 170, 200, 30);
+		help_send_field.addActionListener(listener());
+
+		help_atachment_label.setBounds(340, 180, 70, 25);
+		help_passwd_label.setBounds(17, 125, 270, 25);
+		help_attachment_field.setBounds(400, 185, 340, 25);
+		help_passwd_field.setBounds(60, 125, 270, 25);
+
+		help_choose_field.setBounds(748, 185, 30, 25);
+		help_choose_field.addActionListener(listener());
+
 		//TODO This should refer to the Admin E-Mail on config.xml instead of EMail_Tools.getAdminEmail().
 		help_to_field.setText(EMail_Tools.getAdminEmail());
 		help_to_field.setEditable(false);
-		
+
 		//TODO This should refer to the User E-Mail on OptimizationTab instead of User.getEmailAddr().
 		help_from_field.setText(User.getEmailAddr());
 		help_from_field.setEditable(false);
-		
+
+		help_panel.add(help_choose_field);
+		help_panel.add(help_atachment_label);
+		help_panel.add(help_passwd_label);
+		help_panel.add(help_attachment_field);
+		help_panel.add(help_passwd_field);
 		help_panel.add(help_to_label);
 		help_panel.add(help_subj_label);
 		help_panel.add(help_from_label);
@@ -183,73 +185,95 @@ public class HelpTab extends JPanel{
 		help_panel.add(help_from_field);
 		help_panel.add(help_text_field);
 		help_panel.add(help_send_field);
-		
-		help_send_field.addActionListener(new ActionListener(){
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				class LoginDialog extends JDialog{
-			
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = -3022013935007435491L;
-					
-					private JFrame frame = new JFrame("Password required");
-					private JPanel panel = new JPanel();
-					private JPasswordField password_field = new JPasswordField();
-					private JButton login_button = new JButton("Login");
-					private JLabel warning = new JLabel("Password:");
-					
-					public LoginDialog(){
-						initialize();
-					}
+//		help_send_field.addActionListener(new ActionListener(){
+//
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//
+//				class LoginDialog extends JDialog{
+//					private static final long serialVersionUID = -3022013935007435491L;
+//
+//					private JFrame frame = new JFrame("Password required");
+//					private JPanel panel = new JPanel();
+//					private JPasswordField password_field = new JPasswordField();
+//					private JButton login_button = new JButton("Login");
+//					private JLabel warning = new JLabel("Password:");
+//
+//					public LoginDialog(){
+//						initialize();
+//					}
+//
+//					private void initialize() {
+//						frame.add(panel);
+//						frame.setBounds(400, 100, 300, 100);
+//						frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//						frame.setResizable(false);
+//						panel.setLayout(new GridLayout(2,2));
+//
+//						panel.add(warning);
+//						panel.add(password_field);
+//						panel.add(login_button);
+//
+//						login_button.addActionListener(new ActionListener() {
+//
+//							@Override
+//							public void actionPerformed(ActionEvent e) {
+//								try {
+//									EMail_Tools.sendMail(User.getEmailAddr(), 
+//											String.copyValueOf(password_field.getPassword()),
+//											EMail_Tools.getAdminEmail(),
+//											null,
+//											help_possibleSubj_field.getSelectedItem().toString(),
+//											help_text_field.getText(), 
+//											"");
+//									frame.setVisible(false);
+//									frame.dispose();
+//								} catch (EmailException e1) {
+//									warning.setText("Authentication failed.");
+//								} catch (Throwable e1) {
+//									e1.printStackTrace();
+//								}
+//
+//							}
+//						});
+//
+//						frame.setVisible(true);
+//					}
+//				}
+//				new LoginDialog();
+//			}
+//
+//		});
 
-					private void initialize() {
-						frame.add(panel);
-						frame.setBounds(400, 100, 300, 100);
-						frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-						frame.setResizable(false);
-						panel.setLayout(new GridLayout(2,2));
-						
-						panel.add(warning);
-						panel.add(password_field);
-						panel.add(login_button);
-						
-						login_button.addActionListener(new ActionListener() {
-							
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								try {
-									EMail_Tools.sendMail(User.getEmailAddr(), 
-											String.copyValueOf(password_field.getPassword()),
-											EMail_Tools.getAdminEmail(),
-											null,
-											help_possibleSubj_field.getSelectedItem().toString(),
-											help_text_field.getText(), 
-											"");
-									frame.setVisible(false);
-									frame.dispose();
-								} catch (EmailException e1) {
-									warning.setText("Authentication failed.");
-								} catch (Throwable e1) {
-									e1.printStackTrace();
-								}
-								
-							}
-						});
-						
-						frame.setVisible(true);
-					}
-				}
-				new LoginDialog();
-			}
-			
-		});
-		
 		add(help_panel);
 
+	}
+
+
+	private ActionListener listener(){
+		ActionListener list = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == help_choose_field){
+					
+				//TODO IMPLEMENTAR A FUNCIONALIDADE DE ADICIONAR ATTACHMENT!!!
+
+				}else if(e.getSource() == help_send_field){
+					try {
+						//TODO !!! SE O EMAIL NAO FOR ENVIADO POR CAUSA DA PASSE, O ERRO PODE ESTAR AQUI!!!  help....to STRING()
+						EMail_Tools.sendMail(User.getEmailAddr(),help_passwd_field.getPassword().toString(), EMail_Tools.getAdminEmail(), null,
+								help_possibleSubj_field.getSelectedItem().toString(), help_text_field.getText(), "");
+					} catch (EmailException e1) {
+						e1.printStackTrace();
+					}
+
+				}
+
+			}
+		};
+		return list;
 	}
 
 
@@ -261,22 +285,22 @@ public class HelpTab extends JPanel{
 			textPane.setContentType("text/html");
 			textPane.setText("<html><b>" +art.getHeader() + "</b></html>");
 			appendString("\n");
-			
+
 			for(String s : art.getArticle()){
 				if(art.getArticle().indexOf(s) != 0)
-				appendString(s + "\n");
+					appendString(s + "\n");
 			}
 		}
 		textPane.setCaretPosition(0);
 	}
 
-	
+
 	public void appendString(String str) throws BadLocationException{
 		StyledDocument document = (StyledDocument) textPane.getDocument();
 		document.insertString(document.getLength(), str, null);
 	}
-	
-	
+
+
 	private void loadArticles() throws InterruptedException{
 		this.current_prev = new HashMap<>();
 		this.articles = new ArrayList<>();
@@ -292,5 +316,5 @@ public class HelpTab extends JPanel{
 		this.scrollpane1.getViewport().repaint();
 		this.list.setListData(cat_array);
 	}
-	
+
 }
