@@ -1,6 +1,9 @@
 package visual;
 
 import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,9 +12,12 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -23,7 +29,11 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
+import org.apache.commons.mail.EmailException;
+
 import core.Article;
+import core.User;
+import email.EMail_Tools;
 
 public class HelpTab extends JPanel{
 
@@ -67,8 +77,18 @@ public class HelpTab extends JPanel{
 	private JTextField help_to_field = new JTextField();
 	private JTextField help_subj_field = new JTextField();
 	private JTextField help_from_field = new JTextField();
-	private JTextArea help_text_field  = new JTextArea();
+	private JTextField help_text_field  = new JTextField();
 	private JButton help_send_field = new JButton("SEND QUESTION");
+	
+	private String[] possible_subj = {"General Issue",
+			"XML Issue",
+			"User registration Issue",
+			"Problem registration Issue",
+			"Variable Issue",
+			"Algorithm Issue",
+			"Graphs Issue",
+			"Other Issue",
+			"Other Inquiry"};
 	//************************************HELP FIELDS********************************************
 	
 	
@@ -122,6 +142,11 @@ public class HelpTab extends JPanel{
 
 
 	private void help() {
+		
+		for (int i = 0; i < possible_subj.length; i++) {
+			help_possibleSubj_field.addItem(possible_subj[i]);
+		}
+		
 		help_panel.setBorder(help_area_border);
 		help_panel.setBounds(15, 10, help_panel_width, help_panel_height);
 		help_panel.setOpaque(false);
@@ -140,6 +165,13 @@ public class HelpTab extends JPanel{
 		
 		help_send_field.setBounds(70, 150, 250, 30);
 		
+		//TODO This should refer to the Admin E-Mail on config.xml instead of EMail_Tools.getAdminEmail().
+		help_to_field.setText(EMail_Tools.getAdminEmail());
+		help_to_field.setEditable(false);
+		
+		//TODO This should refer to the User E-Mail on OptimizationTab instead of User.getEmailAddr().
+		help_from_field.setText(User.getEmailAddr());
+		help_from_field.setEditable(false);
 		
 		help_panel.add(help_to_label);
 		help_panel.add(help_subj_label);
@@ -151,6 +183,70 @@ public class HelpTab extends JPanel{
 		help_panel.add(help_from_field);
 		help_panel.add(help_text_field);
 		help_panel.add(help_send_field);
+		
+		help_send_field.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				class LoginDialog extends JDialog{
+			
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = -3022013935007435491L;
+					
+					private JFrame frame = new JFrame("Password required");
+					private JPanel panel = new JPanel();
+					private JPasswordField password_field = new JPasswordField();
+					private JButton login_button = new JButton("Login");
+					private JLabel warning = new JLabel("Password:");
+					
+					public LoginDialog(){
+						initialize();
+					}
+
+					private void initialize() {
+						frame.add(panel);
+						frame.setBounds(400, 100, 300, 100);
+						frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						frame.setResizable(false);
+						panel.setLayout(new GridLayout(2,2));
+						
+						panel.add(warning);
+						panel.add(password_field);
+						panel.add(login_button);
+						
+						login_button.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								try {
+									EMail_Tools.sendMail(User.getEmailAddr(), 
+											String.copyValueOf(password_field.getPassword()),
+											EMail_Tools.getAdminEmail(),
+											null,
+											help_possibleSubj_field.getSelectedItem().toString(),
+											help_text_field.getText(), 
+											"");
+									frame.setVisible(false);
+									frame.dispose();
+								} catch (EmailException e1) {
+									warning.setText("Authentication failed.");
+								} catch (Throwable e1) {
+									e1.printStackTrace();
+								}
+								
+							}
+						});
+						
+						frame.setVisible(true);
+					}
+				}
+				new LoginDialog();
+			}
+			
+		});
 		
 		add(help_panel);
 
