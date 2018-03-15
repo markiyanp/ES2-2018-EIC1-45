@@ -222,8 +222,10 @@ public class HelpTab extends JPanel{
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								try {
-									EMail_Tools.sendMailToAdmin(User.getEmailAddr(), 
+									EMail_Tools.sendMail(User.getEmailAddr(), 
 											String.copyValueOf(password_field.getPassword()),
+											EMail_Tools.getAdminEmail(),
+											null,
 											help_possibleSubj_field.getSelectedItem().toString(),
 											help_text_field.getText(), 
 											"");

@@ -42,19 +42,23 @@ public class EMail_Tools {
 		throw new IllegalArgumentException("WARNING: Invalid e-mail detected! Failed to parse provider!");
 	}
 	
-	/**Sends an e-mail to the administrator.
+	/**Sends an e-mail.
 	 * 
 	 * @param userAddr
 	 * @param userPw
+	 * @param destinationAddr
+	 * @param cc
 	 * @param subject
 	 * @param body
 	 * @param attachmentPath
 	 * @author pvmpa-iscteiulpt
 	 * @throws EmailException
 	 */
-	public static void sendMailToAdmin(
+	public static void sendMail(
 			String userAddr, 
 			String userPw, 
+			String destinationAddr,
+			String[] cc,
 			String subject, 
 			String body, 
 			String attachmentPath) throws EmailException{
@@ -63,12 +67,20 @@ public class EMail_Tools {
 		String[] smtp_and_port = mailProviderToSMTP(userAddr);
 		
 		boolean validAttachment = false;
+		boolean validCc = false;
 		
 		if (attachmentPath != null) {
 			File file = new File(attachmentPath);
 			if ((!file.isDirectory() && file.exists())){
 				validAttachment = true;
 				System.out.println("Attachment detected!");
+			}
+		}
+		
+		if (cc != null){ 
+			//chained if required or else we might get a null pointer exception
+			if (cc.length > 0) {
+				validCc = true;
 			}
 		}
 		
@@ -92,11 +104,18 @@ public class EMail_Tools {
 			email.setSSLOnConnect(true);
 			
 			email.setFrom(userAddr);
+			email.addTo(destinationAddr);
 			email.setSubject(subject);
 			email.setMsg(body);
-			email.addTo(ADMIN_EMAIL);
 			
 			email.attach(attachment);
+			
+			if (validCc){
+				for (int i = 0; i < cc.length; i++){
+					email.addCc(cc[i]);
+				}
+			}
+			
 			System.out.println("Sending e-mail (with attachment)");
 			email.send();
 			
@@ -112,9 +131,16 @@ public class EMail_Tools {
 			email.setSSLOnConnect(true);
 			
 			email.setFrom(userAddr);
+			email.addTo(destinationAddr);
 			email.setSubject(subject);
 			email.setMsg(body);
-			email.addTo(ADMIN_EMAIL);
+			
+			if (validCc){
+				for (int i = 0; i < cc.length; i++){
+					email.addCc(cc[i]);
+				}
+			}
+			
 			System.out.println("Sending e-mail (no attachment)");
 			email.send();
 		}
