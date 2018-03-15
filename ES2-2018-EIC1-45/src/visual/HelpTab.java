@@ -167,7 +167,8 @@ public class HelpTab extends JPanel{
 		help_to_field.setEditable(false);
 
 		//TODO This should refer to the User E-Mail on OptimizationTab instead of User.getEmailAddr().
-		help_from_field.setText(User.getEmailAddr());
+		User u = new User("default", "group45.dummy.user.1@gmail.com");
+		help_from_field.setText(u.getEmailAddr());
 		help_from_field.setEditable(false);
 
 		help_panel.add(help_choose_field);
@@ -262,7 +263,8 @@ public class HelpTab extends JPanel{
 				}else if(e.getSource() == help_send_field){
 					try {
 						//TODO !!! SE O EMAIL NAO FOR ENVIADO POR CAUSA DA PASSE, O ERRO PODE ESTAR AQUI!!!  help....to STRING()
-						EMail_Tools.sendMail(User.getEmailAddr(),help_passwd_field.getPassword().toString(), EMail_Tools.getAdminEmail(), null,
+						User u = new User("default", "group45.dummy.user.1@gmail.com");
+						EMail_Tools.sendMail(u.getEmailAddr(),help_passwd_field.getPassword().toString(), EMail_Tools.getAdminEmail(), null,
 								help_possibleSubj_field.getSelectedItem().toString(), help_text_field.getText(), "");
 					} catch (EmailException e1) {
 						e1.printStackTrace();

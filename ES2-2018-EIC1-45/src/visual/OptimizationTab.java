@@ -256,6 +256,7 @@ public class OptimizationTab extends JPanel {
 	
 	
 	private void sendMailAdmin(){
+		User u = new User("default", "group45.dummy.user.1@gmail.com");
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
@@ -263,7 +264,7 @@ public class OptimizationTab extends JPanel {
 			
 			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", //optimization bot
 					"******", //password goes here. do not commit a version with password PLEASE
-					User.getEmailAddr(), //send email to user
+					u.getEmailAddr(), //send email to user
 					admin, //cc to admin
 					"Otimização em curso: " + //need to say what it is
 					problem_name_field.getText() + //get the problem's name

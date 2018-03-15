@@ -1,32 +1,30 @@
 package core;
 
-/**
- * This class simulates an User for the time being.<p>
- * It should be updated when real users are going to be implemented!
- * 
- * @author pvmpa-iscteiulpt
- *
- */
 public class User {
-	private static String username = "default";
-	private static String emailAddr = "group45.dummy.user.1@gmail.com";
+//	private  String name = "default";
+//	private  String mail = "group45.dummy.user.1@gmail.com";
 	
-	public static String getUsername() {
-		return username;
+	private  String name;
+	private  String mail;
+	
+	public User(String name, String mail) {
+		this.name = name;
+		this.mail = mail;
 	}
 	
-	public static void setUsername(String username) {
-		User.username = username;
+	public  String getUsername() {
+		return name;
 	}
 	
-	public static String getEmailAddr() {
-		return emailAddr;
+	public  void setUsername(String username) {
+		this.name = username;
 	}
 	
-	public static void setEmailAddr(String emailAddr) {
-		User.emailAddr = emailAddr;
+	public  String getEmailAddr() {
+		return mail;
 	}
 	
-	
-	
+	public  void setEmailAddr(String emailAddr) {
+		this.mail = emailAddr;
+	}
 }
