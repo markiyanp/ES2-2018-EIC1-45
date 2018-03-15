@@ -262,9 +262,7 @@ public class OptimizationTab extends JPanel {
 			Date date = new Date();
 			String[] admin = { EMail_Tools.getAdminEmail() };
 			
-			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", //optimization bot
-					"******", //password goes here. do not commit a version with password PLEASE
-					u.getEmailAddr(), //send email to user
+			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(),
 					admin, //cc to admin
 					"Otimização em curso: " + //need to say what it is
 					problem_name_field.getText() + //get the problem's name
