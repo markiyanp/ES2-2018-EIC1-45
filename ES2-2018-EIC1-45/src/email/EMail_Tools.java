@@ -18,7 +18,7 @@ public class EMail_Tools {
 	
 	//temporary!!! The admin_email will be imported from a XML file...
 	private static final String ADMIN_EMAIL = "AGrupo45@gmail.com";
-	
+
 	//This class should never be instatiated!
 	private EMail_Tools(){
 		
@@ -121,4 +121,7 @@ public class EMail_Tools {
 		
 	}
 	
+	public static String getAdminEmail() {
+		return ADMIN_EMAIL;
+	}
 }
