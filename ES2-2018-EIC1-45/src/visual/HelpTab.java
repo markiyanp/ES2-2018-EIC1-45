@@ -189,7 +189,7 @@ public class HelpTab extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				class LoginDialog extends JDialog{
+				class LoginDialog_forHelp extends JDialog{
 			
 					/**
 					 * 
@@ -202,7 +202,7 @@ public class HelpTab extends JPanel{
 					private JButton login_button = new JButton("Login");
 					private JLabel warning = new JLabel("Password:");
 					
-					public LoginDialog(){
+					public LoginDialog_forHelp(){
 						initialize();
 					}
 
@@ -243,7 +243,7 @@ public class HelpTab extends JPanel{
 						frame.setVisible(true);
 					}
 				}
-				new LoginDialog();
+				new LoginDialog_forHelp();
 			}
 			
 		});
