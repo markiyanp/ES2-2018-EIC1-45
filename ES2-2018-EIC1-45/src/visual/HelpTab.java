@@ -11,6 +11,7 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -186,65 +187,6 @@ public class HelpTab extends JPanel{
 		help_panel.add(help_text_field);
 		help_panel.add(help_send_field);
 
-//		help_send_field.addActionListener(new ActionListener(){
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//
-//				class LoginDialog extends JDialog{
-//					private static final long serialVersionUID = -3022013935007435491L;
-//
-//					private JFrame frame = new JFrame("Password required");
-//					private JPanel panel = new JPanel();
-//					private JPasswordField password_field = new JPasswordField();
-//					private JButton login_button = new JButton("Login");
-//					private JLabel warning = new JLabel("Password:");
-//
-//					public LoginDialog(){
-//						initialize();
-//					}
-//
-//					private void initialize() {
-//						frame.add(panel);
-//						frame.setBounds(400, 100, 300, 100);
-//						frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//						frame.setResizable(false);
-//						panel.setLayout(new GridLayout(2,2));
-//
-//						panel.add(warning);
-//						panel.add(password_field);
-//						panel.add(login_button);
-//
-//						login_button.addActionListener(new ActionListener() {
-//
-//							@Override
-//							public void actionPerformed(ActionEvent e) {
-//								try {
-//									EMail_Tools.sendMail(User.getEmailAddr(), 
-//											String.copyValueOf(password_field.getPassword()),
-//											EMail_Tools.getAdminEmail(),
-//											null,
-//											help_possibleSubj_field.getSelectedItem().toString(),
-//											help_text_field.getText(), 
-//											"");
-//									frame.setVisible(false);
-//									frame.dispose();
-//								} catch (EmailException e1) {
-//									warning.setText("Authentication failed.");
-//								} catch (Throwable e1) {
-//									e1.printStackTrace();
-//								}
-//
-//							}
-//						});
-//
-//						frame.setVisible(true);
-//					}
-//				}
-//				new LoginDialog();
-//			}
-//
-//		});
 		add(help_panel);
 
 	}
@@ -256,19 +198,24 @@ public class HelpTab extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == help_choose_field){
-					
+					JFileChooser jc = new JFileChooser();
+					int returnVal = jc.showOpenDialog(help_panel);
+
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						help_attachment_field.setText(jc.getSelectedFile().getAbsolutePath());
+					}
 				//TODO IMPLEMENTAR A FUNCIONALIDADE DE ADICIONAR ATTACHMENT!!!
 
 				}else if(e.getSource() == help_send_field){
 					try {
-						//TODO !!! SE O EMAIL NAO FOR ENVIADO POR CAUSA DA PASSE, O ERRO PODE ESTAR AQUI!!!  help....to STRING()
+						
 						EMail_Tools.sendMail(User.getEmailAddr(),
 								String.copyValueOf(help_passwd_field.getPassword()), 
 								EMail_Tools.getAdminEmail(), 
 								null,
 								help_possibleSubj_field.getSelectedItem().toString(), 
 								help_text_field.getText(), 
-								"");
+								help_attachment_field.getText());
 					} catch (EmailException e1) {
 						e1.printStackTrace();
 					}
