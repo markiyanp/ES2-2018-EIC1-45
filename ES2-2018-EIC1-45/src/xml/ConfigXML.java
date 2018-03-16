@@ -47,6 +47,10 @@ public class ConfigXML {
 				problemRootElement.appendChild(putPath(doc, path.getName(),
 						path.getUrl()));
 			}
+			
+			for(String s : config.getAlgorithms()){
+				problemRootElement.appendChild(putAlgorithm(doc, s));
+			}
 
 
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -88,6 +92,15 @@ public class ConfigXML {
 						Element eElement = (Element) nNode;
 						config.setAdmin_name(eElement.getElementsByTagName("name").item(0).getTextContent());
 						config.setAdmin_mail(eElement.getElementsByTagName("mail").item(0).getTextContent());
+					}
+				}
+				
+				NodeList algorithms = doc.getElementsByTagName("Algorithm");
+				for (int temp = 0; temp < algorithms.getLength(); temp++) {
+					Node nNode = algorithms.item(temp);
+					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element eElement = (Element) nNode;
+						config.getAlgorithms().add(eElement.getElementsByTagName("algo").item(0).getTextContent());
 					}
 				}
 
@@ -134,6 +147,12 @@ public class ConfigXML {
 		Element variable = doc.createElement("Admin");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
+		return variable;
+	}
+	
+	private static Node putAlgorithm(Document doc, String name) {
+		Element variable = doc.createElement("Algorithm");
+		variable.appendChild(putNodeElements(doc, variable, "algo", name));
 		return variable;
 	}
 

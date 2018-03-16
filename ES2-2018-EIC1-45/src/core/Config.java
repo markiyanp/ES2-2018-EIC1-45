@@ -8,6 +8,7 @@ public class Config {
 	private String admin_mail;
 	private ArrayList<User> users;
 	private ArrayList<Path> paths;
+	private ArrayList<String> algorithms;
 	
 	
 	public String getAdmin_name() {
@@ -52,5 +53,16 @@ public class Config {
 
 	public void setPaths(ArrayList<Path> paths) {
 		this.paths = paths;
+	}
+
+	public ArrayList<String> getAlgorithms() {
+		if(algorithms == null){
+			this.algorithms = new ArrayList<String>();
+		}
+		return algorithms;
+	}
+
+	public void setAlgorithms(ArrayList<String> algorithms) {
+		this.algorithms = algorithms;
 	}
 }

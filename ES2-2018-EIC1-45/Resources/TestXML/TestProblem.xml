@@ -2,7 +2,7 @@
 <Problem>
 <About>
 <name>AntiSpamFilterConfig</name>
-<description>Resolver anti-spam filter configuration</description>
+<description>Solve anti-spam filter configuration.</description>
 <algorythm>NSGAII</algorythm>
 </About>
 <User>

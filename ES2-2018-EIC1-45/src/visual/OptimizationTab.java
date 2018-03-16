@@ -107,7 +107,7 @@ public class OptimizationTab extends JPanel {
 
 
 	//***************************ALGO FIELDS********************************************
-	private JComboBox<String> algo_name_field = new JComboBox<String>();
+	private JComboBox<String> algo_name_field;
 	//***************************ALGO FIELDS********************************************
 
 
@@ -149,7 +149,7 @@ public class OptimizationTab extends JPanel {
 		algorithm_panel();
 		
 		//TODO remove this!!!!
-		loadProblems();
+		loadProblem();
 	}
 
 
@@ -171,7 +171,6 @@ public class OptimizationTab extends JPanel {
 				user_email_field.setText(u.getEmailAddr());
 			}
 		}
-
 
 		user_name_field.addActionListener (new ActionListener () {
 			public void actionPerformed(ActionEvent event) {
@@ -345,6 +344,13 @@ public class OptimizationTab extends JPanel {
 		algo_panel.setBounds(590,170, algo_border_width, algo_border_height);
 		algo_panel.setOpaque(false);
 		algo_panel.setLayout(null);
+		
+		String[] algorithms = new String[ConfigXML.config.getAlgorithms().size()];
+		for(String s : ConfigXML.config.getAlgorithms()){
+			algorithms[ConfigXML.config.getAlgorithms().indexOf(s)] = s;
+		}
+		
+		this.algo_name_field = new JComboBox<String>(algorithms);
 
 		algo_name_field.setBounds(17, 25, 195, 25);
 
@@ -471,7 +477,7 @@ public class OptimizationTab extends JPanel {
 		return model;
 	}
 	
-	private void loadProblems(){
+	private void loadProblem(){
 		Object[][] vars = new Object[ProblemXML.problem.getVariables().size()][6];
 		for(Variable var : ProblemXML.problem.getVariables()){
 			vars[ProblemXML.problem.getVariables().indexOf(var)][0] = var.getVariable_name();
@@ -487,6 +493,17 @@ public class OptimizationTab extends JPanel {
 		}
 		this.data = vars;
 		this.table.setModel(tableModel());
+		
+		this.problem_name_field.setText(ProblemXML.problem.getProblem_name());
+		//TODO make text NOT overflow (begin new line)
+		this.problem_description_area.setText(ProblemXML.problem.getProblem_description());
+		
+		for (int i = 0; i < this.algo_name_field.getItemCount(); i++) {
+			if(ProblemXML.problem.getAlgorithm().contains(this.algo_name_field.getItemAt(i))){
+				this.algo_name_field.setSelectedIndex(i);
+			}
+		}
+		
 	}
 
 }
