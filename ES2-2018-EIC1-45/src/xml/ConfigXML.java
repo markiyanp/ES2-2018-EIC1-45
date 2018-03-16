@@ -26,34 +26,6 @@ public class ConfigXML {
 	private static ConfigXML instance;
 	public static Config config;
 
-	//	public static void main(String[] args) {
-	//		Config conf = new Config();
-	//		conf.setAdmin_name("Tiago Almeida");
-	//		conf.setAdmin_mail("tiago.almeida@gmail.com");
-	//
-	//		ArrayList<Path> paths = new ArrayList<>();
-	//		paths.add(new Path("problemXMLfolder", "C:/Users/Admin/Desktop/testXML/"));
-	//		paths.add(new Path("documents", "C:/Users/Admin/"));
-	//		paths.add(new Path("desktop", "C:/Users/Admin/Desktop/"));
-	//
-	//		conf.setPaths(paths);
-	//
-	//
-	//		ArrayList<User> users = new ArrayList<>();
-	//		users.add(new User("Tiago Almeida", "tiago.almeida@gmail.com"));
-	//		users.add(new User("Markiyan Pyekh", "markiyan.pyekh@gmail.com"));
-	//
-	//		conf.setUsers(users);
-	//
-	//		File f = new File("C:/Users/Admin/Desktop/testConfigXML/Config.xml");
-	//
-	////		writeXML(conf, f);
-	//		Config config = readXML(f);
-	//		System.out.println(config.getAdmin_mail());
-	//		//		Problem ret = readXML(f);
-	//		//		System.out.println(ret.getVariables().size());
-	//	}
-
 	public static void writeXML(Config config, File file){
 		DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder icBuilder;
@@ -95,7 +67,6 @@ public class ConfigXML {
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 				Document doc = dBuilder.parse(file);
 				doc.getDocumentElement().normalize();
-
 
 				NodeList variableList = doc.getElementsByTagName("Path");
 

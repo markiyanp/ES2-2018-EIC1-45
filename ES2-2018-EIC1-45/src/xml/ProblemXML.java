@@ -27,25 +27,6 @@ public class ProblemXML {
 
 	private static ProblemXML instance;
 
-	//	public static void main(String[] args) {
-	//		Problem prob = new Problem();
-	//		prob.setProblem_name("AntiSpamFilterConfig");
-	//		prob.setProblem_description("Resolver anti-spam filter configuration");
-	//		prob.setUser_name("Tiago Almeida");
-	//		prob.setUser_email("tiago.almeida@gmail.com");
-	//		Variable var = new Variable();
-	//		var.setVariable_name("var1");
-	//		var.setVariable_type("Double");
-	//		var.setVariable_used("true");
-	//		prob.getVariables().add(var);
-	//		prob.setAlgorithm("NSGAII");
-	//
-	//		File f = new File("C:/Users/Admin/Desktop/testXML/2018-03-15-20-02-25.xml");
-	//
-	//		//writeXML(prob, f);
-	//		Problem ret = readXML(f);
-	//		System.out.println(ret.getVariables().size());
-	//	}
 
 	public static void writeXML(Problem problem, File file){
 		String fileName = null;

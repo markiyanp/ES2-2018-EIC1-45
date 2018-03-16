@@ -27,8 +27,6 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.commons.mail.EmailException;
 
-import core.Config;
-import core.Problem;
 import core.User;
 import core.Variable;
 import email.EMail_Tools;
@@ -58,8 +56,9 @@ public class OptimizationTab extends JPanel {
 	// ******************************INSTANCES*********************************************
 	private static final long serialVersionUID = 4683732155570118854L;
 
-	private File file = new File("C:/Users/Admin/Desktop/testConfigXML/Config.xml");
-	private File file_problem = new File("C:/Users/Admin/Desktop/testXML/2018-03-15-20-02-25.xml");
+	//TODO 
+	private File file_config = new  File("Resources/TestXML/Config.xml");
+	private File file_problem = new File("Resources/TestXML/TestProblem.xml");
 
 	//***************************GENERAL FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -139,10 +138,8 @@ public class OptimizationTab extends JPanel {
 	public OptimizationTab() {
 		setLayout(null);
 		setBackground(Color.LIGHT_GRAY);
-		ConfigXML.readXML(file);
-//		this.config = ConfigXML.config;
+		ConfigXML.readXML(file_config);
 		ProblemXML.readXML(file_problem);
-//		this.problem = ProblemXML.problem;
 
 		createActionListener();
 		problem_panel();
@@ -487,7 +484,6 @@ public class OptimizationTab extends JPanel {
 			}else{
 				vars[ProblemXML.problem.getVariables().indexOf(var)][5] = new Boolean(false);
 			}
-			
 		}
 		this.data = vars;
 		this.table.setModel(tableModel());
