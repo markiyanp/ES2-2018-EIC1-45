@@ -26,6 +26,9 @@ public class Window extends JFrame{
 	private Bott_Panel bott_panel;
 	private MainPanel main_panel;
 	//**********************************INSTANCES**************************************
+	
+	//**********************************CONFIG*****************************************
+	//**********************************CONFIG*****************************************
 
 	
 	public Window() {

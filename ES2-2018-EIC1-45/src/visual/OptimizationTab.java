@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,8 +27,13 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.commons.mail.EmailException;
 
+import core.Config;
+import core.Problem;
 import core.User;
+import core.Variable;
 import email.EMail_Tools;
+import xml.ConfigXML;
+import xml.ProblemXML;
 
 public class OptimizationTab extends JPanel {
 
@@ -41,10 +47,10 @@ public class OptimizationTab extends JPanel {
 
 	private final int variables_border_width = 805;
 	private final int variables_border_height = 350;
-	
+
 	private final int tools_border_width = 230;
 	private final int tools_border_height = 150;
-	
+
 	private final int algo_border_width = 230;
 	private final int algo_border_height = 70;
 
@@ -52,6 +58,8 @@ public class OptimizationTab extends JPanel {
 	// ******************************INSTANCES*********************************************
 	private static final long serialVersionUID = 4683732155570118854L;
 
+	private File file = new File("C:/Users/Admin/Desktop/testConfigXML/Config.xml");
+	private File file_problem = new File("C:/Users/Admin/Desktop/testXML/2018-03-15-20-02-25.xml");
 
 	//***************************GENERAL FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -97,8 +105,8 @@ public class OptimizationTab extends JPanel {
 	private Object[][] data = {};
 
 	//***************************PROBLEM FIELDS********************************************
-	
-	
+
+
 	//***************************ALGO FIELDS********************************************
 	private JComboBox<String> algo_name_field = new JComboBox<String>();
 	//***************************ALGO FIELDS********************************************
@@ -106,7 +114,7 @@ public class OptimizationTab extends JPanel {
 
 	//***************************USER FIELDS********************************************
 	private JLabel user_name_label = new JLabel("Name");
-	private JComboBox<String> user_name_field = new JComboBox<String>();
+	private JComboBox<String> user_name_field;
 	private JLabel user_email_label = new JLabel("E-mail");
 	private JTextField user_email_field = new JTextField();
 	private JButton user_choose_button = new JButton("Choose");
@@ -114,9 +122,9 @@ public class OptimizationTab extends JPanel {
 	private JButton user_create_button = new JButton("Create");
 	private JButton user_modify_button = new JButton("Modify");
 	//***************************USER FIELDS********************************************
-	
-	
-	
+
+
+
 	//***************************TOOLS FIELDS********************************************
 	private JButton tools_import_button = new JButton("LOAD");
 	private JButton tools_export_button = new JButton("SAVE");
@@ -131,6 +139,10 @@ public class OptimizationTab extends JPanel {
 	public OptimizationTab() {
 		setLayout(null);
 		setBackground(Color.LIGHT_GRAY);
+		ConfigXML.readXML(file);
+//		this.config = ConfigXML.config;
+		ProblemXML.readXML(file_problem);
+//		this.problem = ProblemXML.problem;
 
 		createActionListener();
 		problem_panel();
@@ -138,6 +150,9 @@ public class OptimizationTab extends JPanel {
 		tools_panel();
 		variables_panel();
 		algorithm_panel();
+		
+		//TODO remove this!!!!
+		loadProblems();
 	}
 
 
@@ -146,22 +161,47 @@ public class OptimizationTab extends JPanel {
 		user_panel.setBounds(15, 10, user_border_width, user_border_height);
 		user_panel.setOpaque(false);
 		user_panel.setLayout(null);
-		
+
+		String[] usernames = new String[ConfigXML.config.getUsers().size()];
+		for(User u : ConfigXML.config.getUsers()){
+			usernames[ConfigXML.config.getUsers().indexOf(u)] = u.getUsername();
+		}
+		user_name_field = new JComboBox<String>(usernames);
+
+
+		for(User u : ConfigXML.config.getUsers()){
+			if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
+				user_email_field.setText(u.getEmailAddr());
+			}
+		}
+
+
+		user_name_field.addActionListener (new ActionListener () {
+			public void actionPerformed(ActionEvent event) {
+				for(User u : ConfigXML.config.getUsers()){
+					if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
+						user_email_field.setText(u.getEmailAddr());
+					}
+				}
+			}
+		});
+
+
 		user_name_label.setBounds(15, 20, 50, 25);
 		user_name_field.setBounds(15, 43, 230, 25);
 		user_email_label.setBounds(15, 72, 230, 25);
 		user_email_field.setBounds(15, 95, 230, 25);
-		
+
 		user_choose_button.setBounds(15, 135, 230, 23);
 		user_delete_button.setBounds(15, 195, 110, 23);
 		user_create_button.setBounds(135, 195, 110, 23);
 		user_modify_button.setBounds(15, 165, 230, 23);
-		
+
 		user_panel.add(user_choose_button);
 		user_panel.add(user_delete_button);
 		user_panel.add(user_create_button);
 		user_panel.add(user_modify_button);
-		
+
 		user_panel.add(user_email_label);
 		user_panel.add(user_email_field);
 		user_panel.add(user_name_field);
@@ -253,15 +293,15 @@ public class OptimizationTab extends JPanel {
 			table.repaint();
 		}
 	}
-	
-	
+
+
 	private void sendMailAdmin(){
 		User u = new User("default", "group45.dummy.user.1@gmail.com");
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
 			String[] admin = { EMail_Tools.getAdminEmail() };
-			
+
 			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(),
 					admin, //cc to admin
 					"Otimização em curso: " + //need to say what it is
@@ -282,35 +322,35 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
-	
+
 	private void tools_panel() {
 		tools_panel.setBorder(tools_area_border);
 		tools_panel.setBounds(590, 10, tools_border_width, tools_border_height);
 		tools_panel.setOpaque(false);
 		tools_panel.setLayout(null);
-		
+
 		tools_reset_button.setBounds(15, 65, 200, 30);
 		tools_import_button.setBounds(115, 25, 95, 30);
 		tools_export_button.setBounds(15, 25, 95, 30);
 		tools_run_button.setBounds(15, 105, 200, 30);
-		
+
 		tools_run_button.addActionListener(listener);
-		
+
 		tools_panel.add(tools_run_button);
 		tools_panel.add(tools_reset_button);
 		tools_panel.add(tools_import_button);
 		tools_panel.add(tools_export_button);
 		add(tools_panel);
 	}
-	
+
 	private void algorithm_panel() {
 		algo_panel.setBorder(algo_area_border);
 		algo_panel.setBounds(590,170, algo_border_width, algo_border_height);
 		algo_panel.setOpaque(false);
 		algo_panel.setLayout(null);
-		
+
 		algo_name_field.setBounds(17, 25, 195, 25);
-		
+
 		algo_panel.add(algo_name_field);
 		add(algo_panel);
 	}
@@ -432,6 +472,25 @@ public class OptimizationTab extends JPanel {
 
 
 		return model;
+	}
+	
+	private void loadProblems(){
+		Object[][] vars = new Object[ProblemXML.problem.getVariables().size()][6];
+		for(Variable var : ProblemXML.problem.getVariables()){
+			vars[ProblemXML.problem.getVariables().indexOf(var)][0] = var.getVariable_name();
+			vars[ProblemXML.problem.getVariables().indexOf(var)][1] = var.getVariable_type();
+			vars[ProblemXML.problem.getVariables().indexOf(var)][2] = var.getVariable_min_val();
+			vars[ProblemXML.problem.getVariables().indexOf(var)][3] = var.getVariable_max_val();
+			vars[ProblemXML.problem.getVariables().indexOf(var)][4] = var.getVariable_restricted();
+			if(var.isVariable_used().contains("true")){
+				vars[ProblemXML.problem.getVariables().indexOf(var)][5] = new Boolean(true);
+			}else{
+				vars[ProblemXML.problem.getVariables().indexOf(var)][5] = new Boolean(false);
+			}
+			
+		}
+		this.data = vars;
+		this.table.setModel(tableModel());
 	}
 
 }
