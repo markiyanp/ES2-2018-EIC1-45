@@ -1,6 +1,11 @@
-package xml;
+package jUnitTests;
+
+import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
@@ -12,6 +17,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,61 +26,67 @@ import org.w3c.dom.NodeList;
 import core.Config;
 import core.Path;
 import core.User;
+import xml.ConfigXML;
 
-public class ConfigXML {
+public class JUnitConfigXML {
 
-	private static ConfigXML instance;
-	public static Config config;
-
+	/**
+	 * Class specified to test ConfigXML class using JUnit
+	 * @author afgos-iscteiulpt
+	 */
 	
 	/**
-	 * Writes "config" in "file" with xml format
-	 * @param config
-	 * @param file
+	 * Tests WriteXML method
 	 */
-	public static void writeXML(Config config, File file){
-		DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder icBuilder;
+	@Test
+	public void testWriteXML() {
+		Config config = new Config();
+		File file1 = new File("test-file1.xml");
+		File file2 = new File("test-file2.xml");
+
 		try {
+			DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder icBuilder;
 			icBuilder = icFactory.newDocumentBuilder();
 			Document doc = icBuilder.newDocument();
 			Element problemRootElement = doc.createElement("Config");
 			doc.appendChild(problemRootElement);
 
-			problemRootElement.appendChild(putAdmin(doc, config.getAdmin_name(), 
-					config.getAdmin_mail()));
+			problemRootElement.appendChild(putAdmin(doc, config.getAdmin_name(), config.getAdmin_mail()));
 
-			for(User user : config.getUsers()){
-				problemRootElement.appendChild(putUser(doc, user.getUsername(),
-						user.getEmailAddr()));
+			for (User user : config.getUsers()) {
+				problemRootElement.appendChild(putUser(doc, user.getUsername(), user.getEmailAddr()));
 			}
 
-			for(Path path : config.getPaths()){
-				problemRootElement.appendChild(putPath(doc, path.getName(),
-						path.getUrl()));
+			for (Path path : config.getPaths()) {
+				problemRootElement.appendChild(putPath(doc, path.getName(), path.getUrl()));
 			}
-			
-			for(String s : config.getAlgorithms()){
+
+			for (String s : config.getAlgorithms()) {
 				problemRootElement.appendChild(putAlgorithm(doc, s));
 			}
 
-
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource source = new DOMSource(doc);
-			Result output = new StreamResult(file);
+			Result output = new StreamResult(file1);
 			transformer.transform(source, output);
+			ConfigXML.writeXML(config, file2);
+			assertEquals(file1.getTotalSpace(), file2.getTotalSpace());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}	
 	}
-
+	
 	/**
-	 * reads xml File and saves it in config object
-	 * @param file
+	 * Tests ReadXML Method
 	 */
-	public static void readXML(File file){
-		config = new Config();
+	
+	@Test
+	public void testReadXML() {
+		File file = new File("Resources/TestXML/Config.xml");
+		ConfigXML.readXML(file);
+		Config config2 = ConfigXML.config;
 		if(file.getFreeSpace() != 0){
 			try {
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -91,7 +103,7 @@ public class ConfigXML {
 						Element eElement = (Element) nNode;
 						variable.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
 						variable.setUrl(eElement.getElementsByTagName("url").item(0).getTextContent());
-						config.getPaths().add(variable);
+						config2.getPaths().add(variable);
 					}
 				}
 
@@ -100,8 +112,8 @@ public class ConfigXML {
 					Node nNode = aboutProblem.item(temp);
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element eElement = (Element) nNode;
-						config.setAdmin_name(eElement.getElementsByTagName("name").item(0).getTextContent());
-						config.setAdmin_mail(eElement.getElementsByTagName("mail").item(0).getTextContent());
+						config2.setAdmin_name(eElement.getElementsByTagName("name").item(0).getTextContent());
+						config2.setAdmin_mail(eElement.getElementsByTagName("mail").item(0).getTextContent());
 					}
 				}
 				
@@ -110,7 +122,7 @@ public class ConfigXML {
 					Node nNode = algorithms.item(temp);
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element eElement = (Element) nNode;
-						config.getAlgorithms().add(eElement.getElementsByTagName("algo").item(0).getTextContent());
+						config2.getAlgorithms().add(eElement.getElementsByTagName("algo").item(0).getTextContent());
 					}
 				}
 
@@ -123,7 +135,7 @@ public class ConfigXML {
 						User u = new User();
 						u.setUsername(eElement.getElementsByTagName("name").item(0).getTextContent());
 						u.setEmailAddr(eElement.getElementsByTagName("mail").item(0).getTextContent());
-						config.getUsers().add(u);
+						config2.getUsers().add(u);
 					}
 				}
 			} catch (Exception e) {
@@ -136,15 +148,13 @@ public class ConfigXML {
 					"File error",
 					JOptionPane.ERROR_MESSAGE);
 		}
+		assertEquals(config2.getUsers(),ConfigXML.config.getUsers());
+		assertEquals(config2.getPaths(),ConfigXML.config.getPaths());
+		assertEquals(config2.getAlgorithms(),ConfigXML.config.getAlgorithms());
+		assertEquals(config2.getAdmin_name(),ConfigXML.config.getAdmin_name());
+		assertEquals(config2.getAdmin_mail(),ConfigXML.config.getAdmin_mail());
 	}
 
-	/**
-	 * Creates Node with user "name" and "email" and puts it in "doc"
-	 * @param doc
-	 * @param name
-	 * @param mail
-	 * @return Node
-	 */
 	private static Node putUser(Document doc, String name, String mail) {
 		Element variable = doc.createElement("User");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
@@ -152,68 +162,30 @@ public class ConfigXML {
 		return variable;
 	}
 
-	/**
-	 * Creates Node with path "name" and "url" and puts it in doc
-	 * @param doc
-	 * @param name
-	 * @param url
-	 * @return Node
-	 */
 	private static Node putPath(Document doc, String name, String url) {
 		Element variable = doc.createElement("Path");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "url", url));
 		return variable;
 	}
-	
-	/**
-	 * Cretes Node with Admin "name" and "mail" and puts it in "doc"
-	 * @param doc
-	 * @param name
-	 * @param mail
-	 * @return Node
-	 */
+
 	private static Node putAdmin(Document doc, String name, String mail) {
 		Element variable = doc.createElement("Admin");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
 		return variable;
 	}
-	
-	/**
-	 * Creates Node with algorithms "name"
-	 * @param doc
-	 * @param name
-	 * @return Node
-	 */
+
 	private static Node putAlgorithm(Document doc, String name) {
 		Element variable = doc.createElement("Algorithm");
 		variable.appendChild(putNodeElements(doc, variable, "algo", name));
 		return variable;
 	}
 
-	/**
-	 * Creates Node with Elements "name" and "value" and puts it in "doc"
-	 * @param doc
-	 * @param element
-	 * @param name
-	 * @param value
-	 * @return Node
-	 */
 	private static Node putNodeElements(Document doc, Element element, String name, String value) {
 		Element node = doc.createElement(name);
 		node.appendChild(doc.createTextNode(value));
 		return node;
 	}
 
-	/**
-	 * Getter to ConfigXML instance
-	 * @return ConfigXML instance
-	 */
-	public static synchronized ConfigXML getInstance() {
-		if (instance == null) {
-			instance = new ConfigXML();
-		}
-		return instance;
-	}
 }

@@ -1,18 +1,26 @@
-package xml;
+package jUnitTests;
+
+import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,21 +28,26 @@ import org.w3c.dom.NodeList;
 
 import core.Problem;
 import core.Variable;
+import xml.ConfigXML;
+import xml.ProblemXML;
 
-public class ProblemXML {
-	
-	public static Problem problem;
-
-	private static ProblemXML instance;
+public class JUnitProblemXML {
 
 	/**
-	 * Writes in XML file all info about user's problem
-	 * @param problem
-	 * @param file
+	 * Class specified to test ProblemXML class using JUnit
+	 * @author afgos-iscteiulpt
 	 */
-	public static void writeXML(Problem problem, File file){
+	
+	/**
+	 * Tests writeXML method
+	 * @throws TransformerException 
+	 */
+	@Test(expected=TransformerException.class)
+	public void testWriteXML() throws TransformerException {
+		Problem problem= new Problem();
+		File file1 = null;
 		String fileName = null;
-		if(file==null){
+		if(file1==null){
 			String extension = ".xml";
 			DateTimeFormatter timeStamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
 			String time = timeStamp.format(java.time.LocalDateTime.now());
@@ -43,8 +56,10 @@ public class ProblemXML {
 
 		DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder icBuilder;
-		try {
-			icBuilder = icFactory.newDocumentBuilder();
+	
+			try {
+				icBuilder = icFactory.newDocumentBuilder();
+		
 			Document doc = icBuilder.newDocument();
 			Element problemRootElement = doc.createElement("Problem");
 			doc.appendChild(problemRootElement);
@@ -69,25 +84,31 @@ public class ProblemXML {
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
 			DOMSource source = new DOMSource(doc);
 			//TODO dont leave this like that!!!!!!!!
-			if(file == null){
+			if(file1 == null){
 				System.out.println(fileName);
 				File f = new File("C:/Users/Admin/Desktop/testXML/" + fileName);
 				Result output = new StreamResult(f);
 				transformer.transform(source, output);
-			}else{
-				Result output = new StreamResult(file);
-				transformer.transform(source, output);
+				}
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerFactoryConfigurationError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
-
+	
 	/**
-	 * Reads XML file and saves it into "Problem" object
-	 * @param file
+	 * Tests readXML method
+	 * it should pop up an "file no longer exists" 
 	 */
-	public static void readXML(File file){
+	@Test(expected=NullPointerException.class)
+	public void testReadXML() {
+		File file = new File("Resources/TestXML/TestProblem");
 		Problem result = new Problem();
 		if(file.getFreeSpace() != 0){
 			try {
@@ -148,10 +169,10 @@ public class ProblemXML {
 					"File no longer exists! \nConfig has not been saved!",
 					"File error",
 					JOptionPane.ERROR_MESSAGE);
+			throw new NullPointerException();
 		}
-		problem = result;
 	}
-
+	
 	private static Node putVariable(Document doc, String name, String type, String min_val, String max_val, String restricted, String used) {
 		Element variable = doc.createElement("Variable");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
@@ -184,11 +205,4 @@ public class ProblemXML {
 		return node;
 	}
 
-
-	public static synchronized ProblemXML getInstance() {
-		if (instance == null) {
-			instance = new ProblemXML();
-		}
-		return instance;
-	}
 }

@@ -24,7 +24,7 @@ public class EMail_Tools {
 		
 	}
 	
-	private static String[] mailProviderToSMTP(String email){
+	protected static String[] mailProviderToSMTP(String email){
 		int i;
 		for (i = 0; i < email.length(); i++){
 			if (email.charAt(i) == '@'){
