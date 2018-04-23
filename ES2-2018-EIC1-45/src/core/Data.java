@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Data implements Serializable {
 	private static final long serialVersionUID = -4460660903766402949L;
-	private int ocurr_number;
+//	private int ocurr_number;
 //	private Article article;
 	
 //	public Data(int ocurr_number, Article art) {

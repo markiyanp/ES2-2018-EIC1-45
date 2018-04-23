@@ -2,9 +2,6 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
 import org.apache.commons.mail.EmailException;
 import org.junit.Test;
 

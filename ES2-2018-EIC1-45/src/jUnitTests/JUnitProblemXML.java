@@ -1,9 +1,7 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.JOptionPane;
@@ -28,8 +26,6 @@ import org.w3c.dom.NodeList;
 
 import core.Problem;
 import core.Variable;
-import xml.ConfigXML;
-import xml.ProblemXML;
 
 public class JUnitProblemXML {
 

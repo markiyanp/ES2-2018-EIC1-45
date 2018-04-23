@@ -3,9 +3,6 @@ package jUnitTests;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
