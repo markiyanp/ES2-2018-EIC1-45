@@ -11,13 +11,14 @@ public class RightPanel extends JPanel {
 	//********************INSTANCES**********************************
 	private HashMap<String, JPanel> panel_map = new HashMap<String, JPanel>();
 	private JPanel panel = new JPanel();
+	private OptimizationTab opt_tab = new OptimizationTab();
 	//********************INSTANCES**********************************
 	
 	
 	public RightPanel(Window window){
 		setLayout(null);
 		
-		panel_map.put("optimization", new OptimizationTab());
+		panel_map.put("optimization", opt_tab);
 		panel_map.put("graphics", new GraphicsTab());
 		panel_map.put("help", new HelpTab());
 		
@@ -40,5 +41,12 @@ public class RightPanel extends JPanel {
 	public void changeTab(String tab_name){
 		loadTab(tab_name);
 	}
+
+
+	public OptimizationTab getOpt_tab() {
+		return opt_tab;
+	}
+	
+	
 	
 }

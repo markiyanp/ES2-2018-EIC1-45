@@ -1,22 +1,30 @@
 package graphics;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.style.Styler.ChartTheme;
 import org.knowm.xchart.style.Styler.LegendPosition;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
-public class Graphic {
+public class Full_Graphic {
 
-	public Graphic() {
+	private static XYSeries series;
+	
+	public Full_Graphic() {
 		getChart();   
 	}
 
 	public XYChart getChart() {
+		
 		XYChart chart = new XYChartBuilder().title("Graphic").xAxisTitle("Rules").yAxisTitle("Weights").build();
 		ArrayList<ArrayList<String>> results = readFile("Resources/Results/AntiSpamFilterProblem.NSGAII.rs");
 		List<Integer> xData = new ArrayList<Integer>();
@@ -27,11 +35,17 @@ public class Graphic {
 				xData.add(j);
 				yData.add(Double.valueOf(results.get(i).get(j)));
 			}
-			chart.addSeries(Integer.toString(i), xData, yData);
+			series = (XYSeries) chart.addSeries(Integer.toString(i), xData, yData);
+			series.setMarker(SeriesMarkers.NONE); 
 			xData.clear();
 		}
 		chart.getStyler().setChartTitleVisible(true);
+		
 		chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
+		chart.getStyler().setLegendBackgroundColor(Color.LIGHT_GRAY);
+		chart.getStyler().setChartBackgroundColor(Color.LIGHT_GRAY);
+		chart.getStyler().setPlotBackgroundColor(Color.WHITE);
+		chart.getStyler().setPlotBorderColor(Color.GRAY);
 		return chart;
 	}
 
