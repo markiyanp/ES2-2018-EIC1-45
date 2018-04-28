@@ -541,20 +541,9 @@ public class OptimizationTab extends JPanel {
 				if (e.getSource() == variable_restricted_field) {
 					analyzierType();
 				}
-
 			}
 		};
 		this.focus_listener = lis;
-	}
-
-	private void analyzierName() {
-		if (!(variable_name_field.getText().matches("[a-zA-Z0-9_]*"))) {
-			variable_name_field.setText("");
-			String try_again = "<html><font color=RED > Please try again... </font></html>";
-			String message = "<html><font color=RED > The variable name can only have letters and/or numbers! </font></html>";
-			JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
-			variable_name_field.requestFocus();
-		}
 	}
 
 	private void blockTextFields() {
@@ -573,6 +562,16 @@ public class OptimizationTab extends JPanel {
 			variable_minval_field.setText("");
 			variable_maxval_field.setText("");
 			variable_restricted_field.setText("");
+		}
+	}
+	
+	private void analyzierName() {
+		if (!(variable_name_field.getText().matches("[a-zA-Z0-9_]*"))) {
+			variable_name_field.setText("");
+			String try_again = "<html><font color=RED > Please try again... </font></html>";
+			String message = "<html><font color=RED > The variable name can only have letters and/or numbers! </font></html>";
+			JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+			variable_name_field.requestFocus();
 		}
 	}
 
