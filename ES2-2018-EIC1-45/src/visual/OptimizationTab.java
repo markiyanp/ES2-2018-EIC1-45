@@ -343,7 +343,7 @@ public class OptimizationTab extends JPanel {
 	 */
 	private void createUser() {
 		int n = JOptionPane.showConfirmDialog(user_panel, legal_message,
-				"An Inane Question", JOptionPane.YES_NO_OPTION);
+				"Legal Message", JOptionPane.YES_NO_OPTION);
 		if (n == 0) {
 			
 		} else {
