@@ -1,4 +1,4 @@
-package jMetal;
+package jMetal.exampleProblems;
 
 import java.util.ArrayList;
 import java.util.List;

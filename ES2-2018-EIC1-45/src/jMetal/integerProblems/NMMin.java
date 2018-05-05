@@ -1,4 +1,4 @@
-package jMetal.Integer;
+package jMetal.integerProblems;
 
 public class NMMin {
 

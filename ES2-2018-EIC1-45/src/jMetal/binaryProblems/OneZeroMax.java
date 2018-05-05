@@ -1,4 +1,4 @@
-package jMetal.Binary;
+package jMetal.binaryProblems;
 
 import java.util.BitSet;
 

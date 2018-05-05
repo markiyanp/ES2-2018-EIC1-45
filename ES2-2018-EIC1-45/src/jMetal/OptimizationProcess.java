@@ -3,9 +3,9 @@ package jMetal;
 import java.io.IOException;
 import java.lang.Boolean;
 
-import jMetal.Binary.ExperimentsBinary;
-import jMetal.Double.ExperimentsDouble;
-import jMetal.Integer.ExperimentsInteger;
+import jMetal.binaryProblems.ExperimentsBinary;
+import jMetal.doubleProblems.ExperimentsDouble;
+import jMetal.integerProblems.ExperimentsInteger;
 
 public class OptimizationProcess {
 	

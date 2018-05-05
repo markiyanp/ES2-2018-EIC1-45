@@ -1,4 +1,4 @@
-package jMetal.Double;
+package jMetal.doubleProblems;
 
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.gde3.GDE3Builder;

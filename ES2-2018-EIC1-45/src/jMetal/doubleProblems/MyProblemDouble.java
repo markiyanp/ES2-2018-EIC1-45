@@ -1,4 +1,4 @@
-package jMetal.Double;
+package jMetal.doubleProblems;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

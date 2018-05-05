@@ -1,4 +1,4 @@
-package jMetal.Integer;
+package jMetal.integerProblems;
 
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.mocell.MOCellBuilder;

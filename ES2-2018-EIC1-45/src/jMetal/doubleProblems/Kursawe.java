@@ -1,4 +1,4 @@
-package jMetal.Double;
+package jMetal.doubleProblems;
 
 public class Kursawe {
 

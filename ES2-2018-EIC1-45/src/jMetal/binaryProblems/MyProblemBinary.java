@@ -1,4 +1,4 @@
-package jMetal.Binary;
+package jMetal.binaryProblems;
 
 import org.uma.jmetal.problem.impl.AbstractBinaryProblem;
 import org.uma.jmetal.solution.BinarySolution;
