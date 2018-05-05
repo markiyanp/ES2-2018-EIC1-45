@@ -144,12 +144,22 @@ public class OptimizationTab extends JPanel {
 	// FIELDS********************************************
 
 	//****************************RESOURCES**************************************************
-	private String legal_message = "ATTENTION: We need your complete consent to use your e-mail address. It will only be used for the following ends: "
+	private final String legal_message = "ATTENTION: We need your complete consent to use your e-mail address. "
+			+ "It will only be used for the following ends: "
 			+ "\n -General warnings to the system's Administrator about the optimization process; "
-			+ "\n -Reception of messages with information pertinent to the optimization process (start of process, current status, errors, etc); "
+			+ "\n -Reception of messages with information pertinent to the optimization process "
+			+ "(start of process, current status, errors, etc); "
 			+ "\n -Sending help messages to the system's Administrator. "
-			+ "\n \n The system may ask for your e-mail address's password for authentication purposes. Your password will never be saved anywhere or shared with anyone. "
+			+ "\n \n The system may ask for your e-mail address's password for authentication purposes. "
+			+ "Your password will never be saved anywhere or shared with anyone. "
 			+ "\n Proceed with the registration process?";
+	
+	private final String thankyou_message = "Muito obrigado por usar esta plataforma de otimização. "
+			+ "Será informado por email sobre o progresso do processo de otimização, "
+			+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
+			+ "do tempo estimado, " // this train might need to be moved to its own String TODO
+			+ "e também quando o processo tiver terminado, "
+			+ "com sucesso ou devido à ocorrência de erros.";
 	//FIELDS*********************************************
 	
 	// ******************************INSTANCES_END******************************************
@@ -319,17 +329,12 @@ public class OptimizationTab extends JPanel {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
 			String[] admin = { EMail_Tools.getAdminEmail() };
-
+			
 			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc to admin
 					"Otimização em curso: " + // need to say what it is
 							problem_name_field.getText() + // get the problem's name
 							" " + dateFormat.format(date), // and the current date:time
-					"Muito obrigado por usar esta plataforma de otimização. "
-							+ "Será informado por email sobre o progresso do processo de otimização, "
-							+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
-							+ "do tempo estimado, " // this train might need to be moved to its own String TODO
-							+ "e também quando o processo tiver terminado, "
-							+ "com sucesso ou devido à ocorrência de erros.",
+					thankyou_message,
 					""); // no attachment YET, it needs to be an XML
 		} catch (EmailException e1) {
 			e1.printStackTrace();
