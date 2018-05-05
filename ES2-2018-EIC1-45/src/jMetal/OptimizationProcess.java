@@ -42,7 +42,6 @@ public class OptimizationProcess {
 			
 			launchProblem(data, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
 
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
