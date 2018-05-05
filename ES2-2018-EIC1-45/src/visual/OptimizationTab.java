@@ -35,6 +35,7 @@ import org.apache.commons.mail.EmailException;
 import core.User;
 import core.Variable;
 import email.EMail_Tools;
+import jMetal.OptimizationProcess;
 import xml.ConfigXML;
 import xml.ProblemXML;
 
@@ -157,7 +158,7 @@ public class OptimizationTab extends JPanel {
 	private final String thankyou_message = "Muito obrigado por usar esta plataforma de otimização. "
 			+ "Será informado por email sobre o progresso do processo de otimização, "
 			+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
-			+ "do tempo estimado, " // this train might need to be moved to its own String TODO
+			+ "do tempo estimado, "
 			+ "e também quando o processo tiver terminado, "
 			+ "com sucesso ou devido à ocorrência de erros.";
 	//FIELDS*********************************************
@@ -252,8 +253,11 @@ public class OptimizationTab extends JPanel {
 				} else if (e.getSource() == variable_remove_button) {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
-					JOptionPane.showMessageDialog(problem_panel, "Beginning optimization process...", "RUNNING", 1);
 					sendMailAdmin();
+					//TODO:
+					//runOptimization should be handled by a seperate thread
+					//there should be a button to select a Jar file if needed
+					OptimizationProcess.runOptimization(data, (String) algo_name_field.getSelectedItem(), false);
 				} else if (e.getSource() == user_create_button) {
 					createUser();
 				}
