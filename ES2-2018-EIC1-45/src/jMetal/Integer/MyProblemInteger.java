@@ -25,8 +25,8 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 		List<Integer> upperLimit = new ArrayList<>(getNumberOfVariables());
 
 		for (int i = 0; i < getNumberOfVariables(); i++) {
-			lowerLimit.add(-5);
-			upperLimit.add(5);
+			lowerLimit.add(limits[i][0]);
+			upperLimit.add(limits[i][1]);
 		}
 
 		setLowerLimit(lowerLimit);
