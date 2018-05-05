@@ -7,7 +7,11 @@ import org.uma.jmetal.util.JMetalException;
 import java.util.BitSet;
 
 public class MyProblemBinary extends AbstractBinaryProblem {
-	  private int bits ;
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1720856094158596822L;
+	private int bits ;
 
 	  public MyProblemBinary() throws JMetalException {
 		// 10 decision variables by default  

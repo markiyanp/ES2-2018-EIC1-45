@@ -8,7 +8,12 @@ import java.util.List;
 
 public class MyProblemInteger extends AbstractIntegerProblem {
 	
-	  public MyProblemInteger() throws JMetalException {
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5053442100790906706L;
+
+	public MyProblemInteger() throws JMetalException {
 		// 10 decision variables by default  
 	    this(10);
 	  }

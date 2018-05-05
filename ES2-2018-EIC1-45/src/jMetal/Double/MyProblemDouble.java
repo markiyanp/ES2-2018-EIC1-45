@@ -8,7 +8,12 @@ import org.uma.jmetal.solution.DoubleSolution;
 
 public class MyProblemDouble extends AbstractDoubleProblem {
 		
-	  public MyProblemDouble() {
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5661793940199968579L;
+
+	public MyProblemDouble() {
 	    // 10 variables (anti-spam filter rules) by default 
 	    this(10);
 	  }
