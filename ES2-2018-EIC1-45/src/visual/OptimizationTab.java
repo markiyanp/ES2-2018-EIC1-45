@@ -95,7 +95,7 @@ public class OptimizationTab extends JPanel {
 	private JTable table;
 	private JLabel variable_name_label = new JLabel("Name");
 	private JLabel variable_type_label = new JLabel("Type");
-	private JLabel variable_binary_label = new JLabel("Binary");
+	private JLabel variable_binary_label = new JLabel("UNUSED");
 	private JLabel variable_minval_label = new JLabel("Min Val");
 	private JLabel variable_maxval_label = new JLabel("Max Val");
 	private JLabel variable_restricted_label = new JLabel("Restricted");
@@ -252,6 +252,7 @@ public class OptimizationTab extends JPanel {
 				} else if (e.getSource() == variable_remove_button) {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
+					JOptionPane.showMessageDialog(problem_panel, "Beginning optimization process...", "RUNNING", 1);
 					sendMailAdmin();
 				} else if (e.getSource() == user_create_button) {
 					createUser();
@@ -331,11 +332,11 @@ public class OptimizationTab extends JPanel {
 			String[] admin = { EMail_Tools.getAdminEmail() };
 			
 			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc to admin
-					"Otimização em curso: " + // need to say what it is
-							problem_name_field.getText() + // get the problem's name
-							" " + dateFormat.format(date), // and the current date:time
-					thankyou_message,
-					""); // no attachment YET, it needs to be an XML
+								 "Otimização em curso: " + // need to say what it is
+								 problem_name_field.getText() + // get the problem's name
+								 " " + dateFormat.format(date), // and the current date:time
+								 thankyou_message,
+								 ""); // no attachment YET, it needs to be an XML
 		} catch (EmailException e1) {
 			e1.printStackTrace();
 		} catch (Throwable e1) {
