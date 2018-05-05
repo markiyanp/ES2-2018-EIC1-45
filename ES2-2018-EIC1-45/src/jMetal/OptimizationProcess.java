@@ -45,7 +45,6 @@ public class OptimizationProcess {
 			else
 				launchProblem(data, algorithm, integerProblem, doubleProblem, binaryProblem);
 
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
