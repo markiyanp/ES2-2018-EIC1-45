@@ -19,6 +19,17 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 		setNumberOfVariables(limits.length);
 		setNumberOfObjectives(2);
 		setName("MyProblemDouble");
+
+		List<Double> lowerLimit = new ArrayList<>(getNumberOfVariables());
+		List<Double> upperLimit = new ArrayList<>(getNumberOfVariables());
+
+		for (int i = 0; i < getNumberOfVariables(); i++) {
+			lowerLimit.add(limits[i][0]);
+			upperLimit.add(limits[i][1]);
+		}
+
+		setLowerLimit(lowerLimit);
+		setUpperLimit(upperLimit);
 	}
 
 	public void evaluate(DoubleSolution solution) {
