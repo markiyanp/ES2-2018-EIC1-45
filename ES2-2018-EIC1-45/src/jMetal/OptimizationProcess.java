@@ -3,17 +3,24 @@ package jMetal;
 import java.io.IOException;
 import java.lang.Boolean;
 
+import jMetal.Binary.ExperimentsBinary;
 import jMetal.Double.ExperimentsDouble;
-import jMetal.Double.ExperimentsDoubleExternalViaJAR;
+import jMetal.Integer.ExperimentsInteger;
 
 public class OptimizationProcess {
 	
-/* O conjunto de algoritmos adequados a cada tipo de problema estão indicados aqui */
 	private static String[] AlgorithmsForDoubleProblemType = new String[]{"NSGAII","SMSEMOA","GDE3","IBEA","MOCell","MOEAD","PAES","RandomSearch"};
 	private static String[] AlgorithmsForIntegerProblemType = new String[]{"NSGAII","SMSEMOA","MOCell","PAES","RandomSearch"};
 	private static String[] AlgorithmsForBinaryProblemType = new String[]{"NSGAII","SMSEMOA","MOCell","MOCH","PAES","RandomSearch","SPEA2"};	
 
-	public static void runOptimization(Object[][] data, String algorithm) {
+	/**Executes a problem depending on the data fed from the GUI's table, the chosen algorithm, and whether a jar is used or not.
+	 * 
+	 * @param data
+	 * @param algorithm
+	 * @param isJar
+	 * @author pvmpa-iscteiulpt
+	 */
+	public static void runOptimization(Object[][] data, String algorithm, boolean isJar) {
 		try {
 			boolean integerProblem = false, 
 					doubleProblem = false, 
@@ -31,28 +38,39 @@ public class OptimizationProcess {
 				}
 			}
 			
-			verifyAlgorithm(algorithm, integerProblem, doubleProblem, binaryProblem);
+			verifyAlgorithmAndTypes(algorithm, integerProblem, doubleProblem, binaryProblem);
 			
-			
-/* Deverão ser comentadas ou retiradas de comentário as linhas 
-   correspondentes às simulações que se pretendem executar */
-//			ExperimentsDouble.main(null);
-//			ExperimentsInteger.main(null);
-//			ExperimentsBinary.main(null);
+			if (isJar)
+				launchProblemWithJar(data, algorithm);
+			else
+				launchProblem(data, algorithm, integerProblem, doubleProblem, binaryProblem);
 
-/* As simulações com ExternalViaJAR no nome tem as funções de avaliação 
-   implementadas em .JAR externos que são invocados no método evaluate() 
-   As simulações que executam .jar externos são muito mais demoradas, 
-   maxEvaluations e INDEPENDENT_RUNS tem por isso valores mais baixos */
-//			ExperimentsDoubleExternalViaJAR.main(null);
-//			ExperimentsIntegeExternalViaJAR.main(null);
-//			ExperimentsBinaryExternalViaJAR.main(null);		
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static void verifyAlgorithm(String algorithm, boolean integerProblem, boolean doubleProblem,
+	/**Launches the problem with an associated jar file.
+	 * 
+	 * @param data
+	 * @param algorithm
+	 * @author pvmpa-iscteiulpt
+	 */
+	private static void launchProblemWithJar(Object[][] data, String algorithm) {
+		// TODO Everything
+		
+	}
+
+	/**Verifies whether a valid algorithm was chosen or not. Also verifies if there are any datatypes mixed together.
+	 * 
+	 * @param algorithm
+	 * @param integerProblem
+	 * @param doubleProblem
+	 * @param binaryProblem
+	 * @author pvmpa-iscteiulpt
+	 */
+	private static void verifyAlgorithmAndTypes(String algorithm, boolean integerProblem, boolean doubleProblem,
 			boolean binaryProblem) {
 		if (integerProblem && !doubleProblem && !binaryProblem) {
 			for (int i = 0; i < AlgorithmsForIntegerProblemType.length; i++) {
@@ -86,4 +104,40 @@ public class OptimizationProcess {
 		}
 		else throw new IllegalArgumentException("Multiple data types detected!");
 	} 
+	
+	/**Launches a problem after parsing which datatype it pertains to.
+	 * 
+	 * @param data
+	 * @param algorithm
+	 * @param integerProblem
+	 * @param doubleProblem
+	 * @param binaryProblem
+	 * @throws IOException
+	 * @author pvmpa-iscteiulpt
+	 */
+	private static void launchProblem(Object[][] data, String algorithm, boolean integerProblem, boolean doubleProblem,
+			boolean binaryProblem) throws IOException {
+		if (integerProblem && !doubleProblem && !binaryProblem) {
+			int[][] limits = new int[data.length][2];
+			for (int i = 0; i < limits.length; i++) {
+				limits[i][0] = Integer.parseInt((String) data[i][2]);
+				limits[i][1] = Integer.parseInt((String) data[i][3]);
+			}
+			ExperimentsInteger.execute(limits, algorithm);
+		}
+		else if (doubleProblem && !integerProblem && !binaryProblem) {
+			double[][] limits = new double[data.length][2];
+			for (int i = 0; i < limits.length; i++) {
+				limits[i][0] = Double.parseDouble((String) data[i][2]);
+				limits[i][1] = Double.parseDouble((String) data[i][3]);
+			}
+			ExperimentsDouble.execute(limits, algorithm);
+		}
+		else if (binaryProblem && !integerProblem && !doubleProblem) {
+			//TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
+			ExperimentsBinary.execute(8, algorithm, data.length);
+		}
+		else throw new IllegalStateException("How in the world did this happen???");
+		
+	}
 }

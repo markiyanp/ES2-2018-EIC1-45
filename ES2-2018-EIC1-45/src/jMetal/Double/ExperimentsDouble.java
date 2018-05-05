@@ -31,14 +31,14 @@ public class ExperimentsDouble {
   private static final int INDEPENDENT_RUNS = 5;
   private static final int maxEvaluations = 500;
 
-  public static void main(String[] args) throws IOException {
+  public static void execute(double[][] limits, String algorithm) throws IOException {
     String experimentBaseDirectory = "experimentBaseDirectory";
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-    problemList.add(new ExperimentProblem<>(new MyProblemDouble()));
+    problemList.add(new ExperimentProblem<>(new MyProblemDouble(limits)));
 
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
-            configureAlgorithmList(problemList);
+            configureAlgorithmList(problemList, algorithm);
 
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
         new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("ExperimentsDouble")
@@ -61,7 +61,7 @@ public class ExperimentsDouble {
   }
 
   static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
-          List<ExperimentProblem<DoubleSolution>> problemList) {
+          List<ExperimentProblem<DoubleSolution>> problemList, String algorithm) {
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
 
     for (int i = 0; i < problemList.size(); i++) {

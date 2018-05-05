@@ -16,7 +16,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	*/
 	private static final long serialVersionUID = 5053442100790906706L;
 
-	public MyProblemInteger(Integer[][] limits) throws JMetalException {
+	public MyProblemInteger(int[][] limits) throws JMetalException {
 		setNumberOfVariables(limits.length);
 		setNumberOfObjectives(2);
 		setName("MyProblemInteger");

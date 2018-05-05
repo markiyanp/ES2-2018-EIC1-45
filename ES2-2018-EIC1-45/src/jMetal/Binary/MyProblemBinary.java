@@ -16,8 +16,8 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	private static final long serialVersionUID = 1720856094158596822L;
 	private int bits;
 
-	public MyProblemBinary(Integer numberOfBits) throws JMetalException {
-		setNumberOfVariables(1);
+	public MyProblemBinary(Integer numberOfBits, int number_of_variables) throws JMetalException {
+		setNumberOfVariables(number_of_variables);
 		setNumberOfObjectives(2);
 		setName("MyProblemBinary");
 		bits = numberOfBits;

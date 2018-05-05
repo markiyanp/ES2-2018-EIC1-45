@@ -33,14 +33,14 @@ public class ExperimentsBinary {
   private static final int INDEPENDENT_RUNS = 5;
   private static final int maxEvaluations = 500;
   
-  public static void main(String[] args) throws IOException {
+  public static void execute(int limits, String algorithm, int number_of_variables) throws IOException {
     String experimentBaseDirectory = "experimentBaseDirectory";
 
     List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
-    problemList.add(new ExperimentProblem<>(new MyProblemBinary()));
+    problemList.add(new ExperimentProblem<>(new MyProblemBinary(limits, number_of_variables)));
 
     List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList =
-            configureAlgorithmList(problemList);
+            configureAlgorithmList(problemList, algorithm);
 
     Experiment<BinarySolution, List<BinarySolution>> experiment =
         new ExperimentBuilder<BinarySolution, List<BinarySolution>>("ExperimentsBinary")
@@ -63,7 +63,7 @@ public class ExperimentsBinary {
   }
 
   static List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureAlgorithmList(
-          List<ExperimentProblem<BinarySolution>> problemList) {
+          List<ExperimentProblem<BinarySolution>> problemList, String algo) {
     List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithms = new ArrayList<>();
 
     for (int i = 0; i < problemList.size(); i++) {
