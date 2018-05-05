@@ -40,26 +40,12 @@ public class OptimizationProcess {
 			
 			verifyAlgorithmAndTypes(algorithm, integerProblem, doubleProblem, binaryProblem);
 			
-			if (isJar)
-				launchProblemWithJar(data, algorithm);
-			else
-				launchProblem(data, algorithm, integerProblem, doubleProblem, binaryProblem);
+			launchProblem(data, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**Launches the problem with an associated jar file.
-	 * 
-	 * @param data
-	 * @param algorithm
-	 * @author pvmpa-iscteiulpt
-	 */
-	private static void launchProblemWithJar(Object[][] data, String algorithm) {
-		// TODO Everything
-		
 	}
 
 	/**Verifies whether a valid algorithm was chosen or not. Also verifies if there are any datatypes mixed together.
@@ -116,14 +102,14 @@ public class OptimizationProcess {
 	 * @author pvmpa-iscteiulpt
 	 */
 	private static void launchProblem(Object[][] data, String algorithm, boolean integerProblem, boolean doubleProblem,
-			boolean binaryProblem) throws IOException {
+			boolean binaryProblem, boolean isJar) throws IOException {
 		if (integerProblem && !doubleProblem && !binaryProblem) {
 			int[][] limits = new int[data.length][2];
 			for (int i = 0; i < limits.length; i++) {
 				limits[i][0] = Integer.parseInt((String) data[i][2]);
 				limits[i][1] = Integer.parseInt((String) data[i][3]);
 			}
-			ExperimentsInteger.execute(limits, algorithm);
+			ExperimentsInteger.execute(limits, algorithm, isJar);
 		}
 		else if (doubleProblem && !integerProblem && !binaryProblem) {
 			double[][] limits = new double[data.length][2];
@@ -131,11 +117,11 @@ public class OptimizationProcess {
 				limits[i][0] = Double.parseDouble((String) data[i][2]);
 				limits[i][1] = Double.parseDouble((String) data[i][3]);
 			}
-			ExperimentsDouble.execute(limits, algorithm);
+			ExperimentsDouble.execute(limits, algorithm, isJar);
 		}
 		else if (binaryProblem && !integerProblem && !doubleProblem) {
 			//TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
-			ExperimentsBinary.execute(8, algorithm, data.length);
+			ExperimentsBinary.execute(8, algorithm, data.length, isJar);
 		}
 		else throw new IllegalStateException("How in the world did this happen???");
 		

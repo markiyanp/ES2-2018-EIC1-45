@@ -29,14 +29,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ExperimentsBinary {
-	private static final int INDEPENDENT_RUNS = 5;
-	private static final int maxEvaluations = 500;
+	private static int INDEPENDENT_RUNS = 5;
+	private static int maxEvaluations = 500;
 
-	public static void execute(int limits, String algorithm, int number_of_variables) throws IOException {
+	public static void execute(int limits, String algorithm, int number_of_variables, boolean isJar) throws IOException {
+		if (isJar) {
+			INDEPENDENT_RUNS = 2;
+			maxEvaluations = 250;
+		}
+		else { 
+			INDEPENDENT_RUNS = 5;
+			maxEvaluations = 500;
+		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
-		problemList.add(new ExperimentProblem<>(new MyProblemBinary(limits, number_of_variables)));
+		problemList.add(new ExperimentProblem<>(new MyProblemBinary(limits, number_of_variables, isJar)));
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureAlgorithmList(
 				problemList, algorithm);
@@ -118,7 +126,8 @@ public class ExperimentsBinary {
 										.setMaxIterations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm7, "SPEA2", problemList.get(i).getTag()));
 				break;
-
+			default:
+				throw new IllegalStateException("This has got to stop. How did algorithm parsing succeed until the Experiment?");
 			}
 
 		}
