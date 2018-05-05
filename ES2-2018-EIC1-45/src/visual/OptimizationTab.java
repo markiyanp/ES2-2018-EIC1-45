@@ -143,6 +143,15 @@ public class OptimizationTab extends JPanel {
 	// ***************************TOOLS
 	// FIELDS********************************************
 
+	//****************************RESOURCES**************************************************
+	private String legal_message = "ATTENTION: We need your complete consent to use your e-mail address. It will only be used for the following ends: "
+			+ "\n -General warnings to the system's Administrator about the optimization process; "
+			+ "\n -Reception of messages with information pertinent to the optimization process (start of process, current status, errors, etc); "
+			+ "\n -Sending help messages to the system's Administrator. "
+			+ "\n \n The system may ask for your e-mail address's password for authentication purposes. Your password will never be saved anywhere or shared with anyone. "
+			+ "\n Proceed with the registration process?";
+	//FIELDS*********************************************
+	
 	// ******************************INSTANCES_END******************************************
 
 	public OptimizationTab() {
@@ -201,7 +210,13 @@ public class OptimizationTab extends JPanel {
 		user_create_button.setBounds(135, 195, 110, 23);
 		user_modify_button.setBounds(15, 165, 230, 23);
 
+		user_choose_button.addActionListener(action_listener);
+		user_delete_button.addActionListener(action_listener);
+		user_create_button.addActionListener(action_listener);
+		user_modify_button.addActionListener(action_listener);
+
 		user_panel.add(user_choose_button);
+
 		user_panel.add(user_delete_button);
 		user_panel.add(user_create_button);
 		user_panel.add(user_modify_button);
@@ -228,6 +243,8 @@ public class OptimizationTab extends JPanel {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
 					sendMailAdmin();
+				} else if (e.getSource() == user_create_button) {
+					createUser();
 				}
 			}
 		};
@@ -321,6 +338,19 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * JOptionPane returns 0 if "Yes", 1 if "No"
+	 */
+	private void createUser() {
+		int n = JOptionPane.showConfirmDialog(user_panel, legal_message,
+				"An Inane Question", JOptionPane.YES_NO_OPTION);
+		if (n == 0) {
+			
+		} else {
+			
+		}
+	}
+	
 	private void tools_panel() {
 		tools_panel.setBorder(tools_area_border);
 		tools_panel.setBounds(590, 10, tools_border_width, tools_border_height);
@@ -564,7 +594,7 @@ public class OptimizationTab extends JPanel {
 			variable_restricted_field.setText("");
 		}
 	}
-	
+
 	private void analyzierName() {
 		if (!(variable_name_field.getText().matches("[a-zA-Z0-9_]*"))) {
 			variable_name_field.setText("");
