@@ -150,7 +150,7 @@ public class OptimizationTab extends JPanel {
 			+ "\n -Reception of messages with information pertinent to the optimization process "
 			+ "(start of process, current status, errors, etc); "
 			+ "\n -Sending help messages to the system's Administrator. "
-			+ "\n \n The system may ask for your e-mail address's password for authentication purposes. "
+			+ "\n\n The system may ask for your e-mail address's password for authentication purposes. "
 			+ "Your password will never be saved anywhere or shared with anyone. "
 			+ "\n Proceed with the registration process?";
 	

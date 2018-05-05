@@ -2,21 +2,28 @@ package jMetal.Binary;
 
 import java.util.BitSet;
 
+import org.uma.jmetal.solution.BinarySolution;
+
 public class OneZeroMax {
 
-	public static void main(String[] args) {
+	public static double[] OneZeroMaxSolution(BinarySolution solution) {
 	    int counterOnes;
 	    int counterZeroes;
 	    counterOnes = 0;
-	    counterZeroes = 0;    
-	    for (int i = 0; i < args[0].length(); i++) {
-	      if (args[0].charAt(i)=='1') {
+	    counterZeroes = 0;
+
+	    BitSet bitset = solution.getVariableValue(0) ;
+	    for (int i = 0; i < bitset.length(); i++) {
+	      if (bitset.get(i)) {
 	        counterOnes++;
 	      } else {
 	        counterZeroes++;
 	      }
 	    }
+	    double[] returnSolution = new double[2];
+	    returnSolution[0] = -1.0 * counterOnes;
+	    returnSolution[1] = -1.0 * counterZeroes;
 	    // OneZeroMax is a maximization problem: multiply by -1 to minimize
-		System.out.print("" + (-1.0 * counterOnes) + " " + (-1.0 * counterZeroes));
+	    return returnSolution;
 	}
 }

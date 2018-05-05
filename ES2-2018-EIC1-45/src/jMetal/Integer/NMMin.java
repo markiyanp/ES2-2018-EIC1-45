@@ -2,18 +2,19 @@ package jMetal.Integer;
 
 public class NMMin {
 
-	public static void main(String[] args) {
+	public static double[] NMMinSolution(double[] fx, int[] x) {
 		int valueN = 100;
 		int valueM = -100;
-		int approximationToN;
-	    int approximationToM ;
-	    approximationToN = 0;
-	    approximationToM = 0;
-	    for (int i = 0; i < args.length; i++) {
-	      int value = Integer.parseInt(args[i]);//solution.getVariableValue(i) ;
-	      approximationToN += Math.abs(valueN - value) ;
-	      approximationToM += Math.abs(valueM - value) ;
+	    fx[0] = 0;
+	    fx[1] = 0;
+	    for (int i = 0; i < x.length; i++) {
+	      int value = x[i];
+	      fx[0] += Math.abs(valueN - value) ;
+	      fx[1] += Math.abs(valueM - value) ;
 	    }
-	    System.out.print("" + approximationToN + " " + approximationToM);
+	    double[] returnSolution = new double[2];
+	    returnSolution[0] = fx[0];
+	    returnSolution[1] = fx[1];
+	    return returnSolution;
 	}
 }
