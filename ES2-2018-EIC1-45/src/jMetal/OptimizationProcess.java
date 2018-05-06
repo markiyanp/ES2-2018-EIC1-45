@@ -49,13 +49,39 @@ public class OptimizationProcess {
 				}
 			}
 
+			if (!integerProblem && !doubleProblem && !binaryProblem) {
+				System.out.println("WARNING: No variables detected. Cannot proceed!");
+				return;
+			}
+
+			Object[][] true_data = parseTrueData(data);
+
 			verifyAlgorithmAndTypes(algorithm, integerProblem, doubleProblem, binaryProblem);
 
-			launchProblem(data, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
+			launchProblem(true_data, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**Prepares the data selected by the user.
+	 * 
+	 * @param data
+	 * @return true data
+	 * @author pvmpa-iscteiulpt
+	 */
+	private static Object[][] parseTrueData(Object[][] data) {
+		Object[][] true_data = new Object[variable_count][5];
+		int true_data_iterator = 0;
+		for (int i = 0; i < data.length; i++) {
+			if(data[i][5].equals(Boolean.TRUE)) {
+				true_data[true_data_iterator] = data[i];
+				true_data_iterator++;
+			}
+		}
+		debugSysout_Parser(true_data);
+		return true_data;
 	}
 
 	/**
@@ -100,7 +126,8 @@ public class OptimizationProcess {
 					throw new IllegalArgumentException("Invalid algorithm for problem type!");
 				}
 			}
-		} else
+		}
+		else
 			throw new IllegalArgumentException("Multiple data types detected!");
 	}
 
@@ -117,10 +144,11 @@ public class OptimizationProcess {
 	 */
 	private static void launchProblem(Object[][] data, String algorithm, boolean integerProblem, boolean doubleProblem,
 			boolean binaryProblem, boolean isJar) throws IOException {
+		//is an integer Problem
 		if (integerProblem && !doubleProblem && !binaryProblem) {
 			int[][] limits = new int[variable_count][2];
 			for (int i = 0; i < limits.length; i++) {
-				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null) && (data[i][5].equals(Boolean.TRUE)))) {
+				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Integer.parseInt((String) data[i][2]);
 					limits[i][1] = Integer.parseInt((String) data[i][3]);
 				} else {
@@ -130,10 +158,13 @@ public class OptimizationProcess {
 				}
 			}
 			ExperimentsInteger.execute(limits, algorithm, isJar);
-		} else if (doubleProblem && !integerProblem && !binaryProblem) {
+		}
+		
+		//is a double Problem
+		else if (doubleProblem && !integerProblem && !binaryProblem) {
 			double[][] limits = new double[variable_count][2];
 			for (int i = 0; i < limits.length; i++) {
-				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null) && (data[i][5].equals(Boolean.TRUE)))) {
+				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Double.parseDouble((String) data[i][2]);
 					limits[i][1] = Double.parseDouble((String) data[i][3]);
 				} else {
@@ -142,9 +173,11 @@ public class OptimizationProcess {
 					limits[i][1] = 100;
 				}
 			}
-
 			ExperimentsDouble.execute(limits, algorithm, isJar);
-		} else if (binaryProblem && !integerProblem && !doubleProblem) {
+		} 
+		
+		//is a binary Problem
+		else if (binaryProblem && !integerProblem && !doubleProblem) {
 			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
 			ExperimentsBinary.execute(8, algorithm, data.length, isJar);
 		} else
@@ -160,16 +193,21 @@ public class OptimizationProcess {
 					+ data[i][5]);
 		}
 		System.out.println("============================================================");
-		System.out.println("PARSING SELECTED PARAMETERS:");
-		for (int i = 0; i < data.length; i++) {
-			if (data[i][5].equals(Boolean.TRUE)) {
-				System.out.println(data[i][0] + " " + data[i][1] + " " + data[i][2] + " " + data[i][3] + " "
-						+ data[i][4] + " " + data[i][5]);
-			}
-		}
-		System.out.println("============================================================");
+
 		System.out.println("Algorithm: " + algorithm);
 		System.out.println("Use jar: " + isJar);
+	}
+	
+	private static void debugSysout_Parser(Object[][] true_data) {
+		System.out.println("============================================================");
+		System.out.println("PARSING SELECTED PARAMETERS:");
+		for (int i = 0; i < true_data.length; i++) {
+
+			System.out.println(true_data[i][0] + " " + true_data[i][1] + " " + true_data[i][2] + " " + true_data[i][3] + " "
+					+ true_data[i][4] + " " + true_data[i][5]);
+
+		}
+		System.out.println("============================================================");
 	}
 
 }
