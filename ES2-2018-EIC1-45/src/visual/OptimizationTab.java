@@ -46,8 +46,8 @@ public class OptimizationTab extends JPanel {
 	private final int problem_border_width = 284;
 	private final int problem_border_height = 230;
 
-//	private final int user_border_width = 260;
-//	private final int user_border_height = 230;
+	// private final int user_border_width = 260;
+	// private final int user_border_height = 230;
 
 	private final int variables_border_width = 805;
 	private final int variables_border_height = 350;
@@ -68,7 +68,8 @@ public class OptimizationTab extends JPanel {
 	// ***************************GENERAL_FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
 	private TitledBorder problem_area_border = BorderFactory.createTitledBorder(blackline, "About the problem");
-//	private TitledBorder user_area_border = BorderFactory.createTitledBorder(blackline, "User Area");
+	// private TitledBorder user_area_border =
+	// BorderFactory.createTitledBorder(blackline, "User Area");
 	private TitledBorder variables_area_border = BorderFactory.createTitledBorder(blackline, "Variables");
 	private TitledBorder tools_area_border = BorderFactory.createTitledBorder(blackline, "Tools");
 	private TitledBorder algo_area_border = BorderFactory.createTitledBorder(blackline, "Algorithm");
@@ -76,7 +77,7 @@ public class OptimizationTab extends JPanel {
 	private JPanel problem_panel = new JPanel();
 	private JPanel tools_panel = new JPanel();
 	private JPanel variables_panel = new JPanel();
-//	private JPanel user_panel = new JPanel();
+	// private JPanel user_panel = new JPanel();
 	private JPanel algo_panel = new JPanel();
 
 	private ActionListener action_listener;
@@ -114,7 +115,6 @@ public class OptimizationTab extends JPanel {
 	private JComboBox<String> algo_name_field;
 	// ***************************ALGO_FIELDS********************************************
 
-
 	// ***************************TOOLS_FIELDS********************************************
 	private JButton tools_import_button = new JButton("LOAD");
 	private JButton tools_export_button = new JButton("SAVE");
@@ -122,7 +122,7 @@ public class OptimizationTab extends JPanel {
 	private JButton tools_run_button = new JButton("RUN");
 	// ***************************TOOLS_FIELDS********************************************
 
-	//****************************RESOURCES**************************************************
+	// ****************************RESOURCES**************************************************
 	private final String legal_message = "ATTENTION: We need your complete consent to use your e-mail address. "
 			+ "It will only be used for the following ends: "
 			+ "\n -General warnings to the system's Administrator about the optimization process; "
@@ -132,16 +132,14 @@ public class OptimizationTab extends JPanel {
 			+ "\n\n The system may ask for your e-mail address's password for authentication purposes. "
 			+ "Your password will never be saved anywhere or shared with anyone. "
 			+ "\n Proceed with the registration process?";
-	
+
 	private final String thankyou_message = "Muito obrigado por usar esta plataforma de otimização. "
 			+ "Será informado por email sobre o progresso do processo de otimização, "
-			+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
-			+ "do tempo estimado, "
-			+ "e também quando o processo tiver terminado, "
-			+ "com sucesso ou devido à ocorrência de erros.";
-	
-	//FIELDS*********************************************
-	
+			+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total " + "do tempo estimado, "
+			+ "e também quando o processo tiver terminado, " + "com sucesso ou devido à ocorrência de erros.";
+
+	// FIELDS*********************************************
+
 	// ******************************INSTANCES_END******************************************
 
 	public OptimizationTab() {
@@ -153,7 +151,7 @@ public class OptimizationTab extends JPanel {
 		createActionListener();
 		createFocusListener();
 		problem_panel();
-//		user_panel();
+		// user_panel();
 		tools_panel();
 		variables_panel();
 		algorithm_panel();
@@ -161,7 +159,6 @@ public class OptimizationTab extends JPanel {
 		// TODO remove this!!!!
 		loadProblem();
 	}
-
 
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
@@ -178,14 +175,14 @@ public class OptimizationTab extends JPanel {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
 					sendMailAdmin();
-					//TODO:
-					//runOptimization should be handled by a seperate thread
-					//there should be a button to select a Jar file if needed
+					// TODO:
+					// runOptimization should be handled by a seperate thread
+					// there should be a button to select a Jar file if needed
 					Thread thread = new ConsoleOutputCapturer();
 					thread.start();
 					OptimizationProcess.runOptimization(data, (String) algo_name_field.getSelectedItem(), false);
 					thread.interrupt();
-				} 
+				}
 			}
 		};
 		this.action_listener = lis;
@@ -260,26 +257,24 @@ public class OptimizationTab extends JPanel {
 			Date date = new Date();
 			String[] admin = { EMail_Tools.getAdminEmail() };
 
-			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "*******", u.getEmailAddr(),
-					admin, //cc to admin
-					"Otimização em curso: " + //need to say what it is
-					problem_name_field.getText() + //get the problem's name
-					" "+
-					dateFormat.format(date), //and the current date:time
+			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "*******", u.getEmailAddr(), admin, // cc to
+																											// admin
+					"Otimização em curso: " + // need to say what it is
+							problem_name_field.getText() + // get the problem's name
+							" " + dateFormat.format(date), // and the current date:time
 					"Muito obrigado por usar esta plataforma de otimização. "
-					+ "Será informado por email sobre o progresso do processo de otimização, "
-					+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
-					+ "do tempo estimado, " //this train might need to be moved to its own String TODO
-					+ "e também quando o processo tiver terminado, "
-					+ "com sucesso ou devido à ocorrência de erros.", 
-					""); //no attachment YET, it needs to be an XML
-			
+							+ "Será informado por email sobre o progresso do processo de otimização, "
+							+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
+							+ "do tempo estimado, " // this train might need to be moved to its own String TODO
+							+ "e também quando o processo tiver terminado, "
+							+ "com sucesso ou devido à ocorrência de erros.",
+					""); // no attachment YET, it needs to be an XML
+
 			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc to admin
-								 "Otimização em curso: " + // need to say what it is
-								 problem_name_field.getText() + // get the problem's name
-								 " " + dateFormat.format(date), // and the current date:time
-								 thankyou_message,
-								 ""); // no attachment YET, it needs to be an XML
+					"Otimização em curso: " + // need to say what it is
+							problem_name_field.getText() + // get the problem's name
+							" " + dateFormat.format(date), // and the current date:time
+					thankyou_message, ""); // no attachment YET, it needs to be an XML
 		} catch (EmailException e1) {
 			e1.printStackTrace();
 		} catch (Throwable e1) {
@@ -287,19 +282,19 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
-//	/**
-//	 * JOptionPane returns 0 if "Yes", 1 if "No"
-//	 */
-//	private void createUser() {
-//		int n = JOptionPane.showConfirmDialog(user_panel, legal_message,
-//				"Legal Message", JOptionPane.YES_NO_OPTION);
-//		if (n == 0) { //if yes
-//			
-//		} else { //if no
-//			
-//		}
-//	}
-	
+	// /**
+	// * JOptionPane returns 0 if "Yes", 1 if "No"
+	// */
+	// private void createUser() {
+	// int n = JOptionPane.showConfirmDialog(user_panel, legal_message,
+	// "Legal Message", JOptionPane.YES_NO_OPTION);
+	// if (n == 0) { //if yes
+	//
+	// } else { //if no
+	//
+	// }
+	// }
+
 	private void tools_panel() {
 		tools_panel.setBorder(tools_area_border);
 		tools_panel.setBounds(590, 10, tools_border_width, tools_border_height);
@@ -494,9 +489,18 @@ public class OptimizationTab extends JPanel {
 
 	private void createFocusListener() {
 		FocusListener lis = new FocusListener() {
+			int show_message = 0;
 
 			@Override
 			public void focusGained(FocusEvent e) {
+				if (e.getSource() == variable_restricted_field) {
+					show_message++;
+					if (show_message == 1) {
+						String message = "<html><font color=GREEN > If you want an array you will have to use , </font></html>";
+						JOptionPane.showMessageDialog(null, message, "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+						variable_minval_field.requestFocus();
+					}
+				}
 			}
 
 			@Override
@@ -554,6 +558,7 @@ public class OptimizationTab extends JPanel {
 	private void DoubleRestriction(FocusEvent value) {
 		String try_again = "<html><font color=RED > Please try again... </font></html>";
 		String message = null;
+		int show_message = 0;
 		JTextField aux = ((JTextField) value.getComponent());
 		String[] array = variable_restricted_field.getText().split(",");
 		if (!aux.getText().isEmpty()) {
@@ -581,11 +586,14 @@ public class OptimizationTab extends JPanel {
 			if (value.getSource() == variable_restricted_field) {
 				for (String str : array) {
 					if (!isDouble(str) || isInteger(str)) {
-						message = "<html><font color=RED > The restricted value can only have decimal numbers! </font></html>";
-						JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
-								JOptionPane.ERROR_MESSAGE);
-						variable_restricted_field.setText("");
-						variable_restricted_field.requestFocus();
+						show_message++;
+						if (show_message == 1) {
+							message = "<html><font color=RED > The restricted value can only have decimal numbers! </font></html>";
+							JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
+									JOptionPane.ERROR_MESSAGE);
+							variable_restricted_field.setText("");
+							variable_restricted_field.requestFocus();
+						}
 					}
 				}
 			}
@@ -594,11 +602,12 @@ public class OptimizationTab extends JPanel {
 
 	private void compareDoubleValues() {
 		try {
+			int show_message = 0;
 			double minval = Double.parseDouble(variable_minval_field.getText());
 			double maxval = Double.parseDouble(variable_maxval_field.getText());
 			String[] array = variable_restricted_field.getText().split(",");
 			double maxval_suggestion = minval + 0.1;
-			double aux;
+			double restricted = 0;
 			DecimalFormat df = new DecimalFormat("0.#");
 			if (minval > maxval) {
 				variable_maxval_field.setText(df.format(maxval_suggestion));
@@ -615,8 +624,11 @@ public class OptimizationTab extends JPanel {
 				variable_maxval_field.requestFocus();
 			}
 			for (String str : array) {
-				aux = Double.parseDouble(str);
-				if (minval >= aux || maxval <= aux) {
+				restricted = Double.parseDouble(str);
+				if (minval >= restricted || maxval <= restricted) {
+					show_message++;
+				}
+				if (show_message == 1) {
 					String try_again = "<html><font color=RED > Please try again... </font></html>";
 					String message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
 					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -624,6 +636,7 @@ public class OptimizationTab extends JPanel {
 					variable_restricted_field.requestFocus();
 				}
 			}
+
 		} catch (NumberFormatException e) {
 		}
 	}
@@ -637,20 +650,10 @@ public class OptimizationTab extends JPanel {
 		return true;
 	}
 
-	private boolean isArrayInt(String[] array) {
-		for (int i = 1; i < array.length; i++) {
-			if (isInteger(array[i])) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		return false;
-	}
-
 	private void IntegerRestriction(FocusEvent value) {
 		String try_again = "<html><font color=RED > Please try again... </font></html>";
 		String message;
+		int show_message = 0;
 		JTextField aux = ((JTextField) value.getComponent());
 		String[] array = variable_restricted_field.getText().split(",");
 		if (!aux.getText().isEmpty()) {
@@ -665,9 +668,13 @@ public class OptimizationTab extends JPanel {
 					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
 					variable_maxval_field.setText("");
 					variable_maxval_field.requestFocus();
-				} if (value.getSource() == variable_restricted_field) {
-					for (String str : array) {
-						if (!isInteger(str) || isDouble(str)) {
+				}
+			}
+			if (value.getSource() == variable_restricted_field) {
+				for (String str : array) {
+					if (!isInteger(str)) {
+						show_message++;
+						if (show_message == 1) {
 							message = "<html><font color=RED > The restricted value can only have integer numbers! </font></html>";
 							JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
 									JOptionPane.ERROR_MESSAGE);
@@ -685,22 +692,11 @@ public class OptimizationTab extends JPanel {
 			int minval = Integer.parseInt(variable_minval_field.getText());
 			int maxval = Integer.parseInt(variable_maxval_field.getText());
 			int maxval_suggestion;
+			int show_message = 0;
 			String[] array = variable_restricted_field.getText().split(",");
-			int aux;
+			int restricted;
 			String message;
 			String try_again = "<html><font color=RED > Please try again... </font></html>";
-			if (isArrayInt(array)) {
-				for (int i = 0; i < array.length; i++) {
-					aux = Integer.parseInt(array[i]);
-					if (minval >= aux || maxval <= aux) {
-						variable_restricted_field.setText("");
-						try_again = "<html><font color=RED > Please try again... </font></html>";
-						message = "<html><font color=RED > The array of restricted value must be between the minium value and the maximum value! </font></html>";
-						JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
 			if (minval > maxval) {
 				maxval_suggestion = minval + 1;
 				variable_maxval_field.setText(Integer.toString(maxval_suggestion));
@@ -715,17 +711,23 @@ public class OptimizationTab extends JPanel {
 				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
 				variable_maxval_field.requestFocus();
 			}
-			int restricted = Integer.parseInt(variable_restricted_field.getText());
-			if ((minval >= restricted || maxval <= restricted) && !isArrayInt(array)) {
-				int compare_values = maxval - minval;
-				if (compare_values == 1) {
-					maxval_suggestion = minval + 2;
-					variable_maxval_field.setText(Integer.toString(maxval_suggestion));
+			for (String str : array) {
+				restricted = Integer.parseInt(str);
+				if (minval >= restricted || maxval <= restricted) {
+					show_message++;
+					int compare_values = maxval - minval;
+					if (compare_values == 1) {
+						maxval_suggestion = minval + 2;
+						variable_maxval_field.setText(Integer.toString(maxval_suggestion));
+					}
+					if (show_message == 1) {
+						message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
+						JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
+								JOptionPane.ERROR_MESSAGE);
+						variable_restricted_field.requestFocus();
+						variable_restricted_field.setText("");
+					}
 				}
-				variable_restricted_field.setText("");
-				message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
-				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
-				variable_restricted_field.requestFocus();
 			}
 		} catch (NumberFormatException e) {
 		}
@@ -790,6 +792,7 @@ public class OptimizationTab extends JPanel {
 		int minval = 0;
 		int maxval = 0;
 		int restricted = 0;
+		int show_message = 0;
 		String[] array = variable_restricted_field.getText().split(",");
 		int aux;
 		String message;
@@ -818,11 +821,14 @@ public class OptimizationTab extends JPanel {
 					for (int i = 0; i < array.length; i++) {
 						aux = binaryToInteger(array[i]);
 						if (minval >= aux || maxval <= aux) {
-							variable_restricted_field.setText("");
-							try_again = "<html><font color=RED > Please try again... </font></html>";
-							message = "<html><font color=RED > The array of restricted value must be between the minium value and the maximum value! </font></html>";
-							JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
-									JOptionPane.ERROR_MESSAGE);
+							show_message++;
+							if (show_message == 1) {
+								variable_restricted_field.setText("");
+								try_again = "<html><font color=RED > Please try again... </font></html>";
+								message = "<html><font color=RED > The array of restricted value must be between the minium value and the maximum value! </font></html>";
+								JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
+										JOptionPane.ERROR_MESSAGE);
+							}
 						}
 					}
 				}
