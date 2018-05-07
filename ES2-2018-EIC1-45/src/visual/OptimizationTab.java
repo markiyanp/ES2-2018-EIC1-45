@@ -12,7 +12,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,6 +34,8 @@ import org.apache.commons.mail.EmailException;
 import core.User;
 import core.Variable;
 import email.EMail_Tools;
+import jMetal.ConsoleOutputCapturer;
+import jMetal.OptimizationProcess;
 import xml.ConfigXML;
 import xml.ProblemXML;
 
@@ -45,8 +46,8 @@ public class OptimizationTab extends JPanel {
 	private final int problem_border_width = 284;
 	private final int problem_border_height = 230;
 
-	private final int user_border_width = 260;
-	private final int user_border_height = 230;
+//	private final int user_border_width = 260;
+//	private final int user_border_height = 230;
 
 	private final int variables_border_width = 805;
 	private final int variables_border_height = 350;
@@ -67,7 +68,7 @@ public class OptimizationTab extends JPanel {
 	// ***************************GENERAL_FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
 	private TitledBorder problem_area_border = BorderFactory.createTitledBorder(blackline, "About the problem");
-	private TitledBorder user_area_border = BorderFactory.createTitledBorder(blackline, "User Area");
+//	private TitledBorder user_area_border = BorderFactory.createTitledBorder(blackline, "User Area");
 	private TitledBorder variables_area_border = BorderFactory.createTitledBorder(blackline, "Variables");
 	private TitledBorder tools_area_border = BorderFactory.createTitledBorder(blackline, "Tools");
 	private TitledBorder algo_area_border = BorderFactory.createTitledBorder(blackline, "Algorithm");
@@ -75,7 +76,7 @@ public class OptimizationTab extends JPanel {
 	private JPanel problem_panel = new JPanel();
 	private JPanel tools_panel = new JPanel();
 	private JPanel variables_panel = new JPanel();
-	private JPanel user_panel = new JPanel();
+//	private JPanel user_panel = new JPanel();
 	private JPanel algo_panel = new JPanel();
 
 	private ActionListener action_listener;
@@ -111,19 +112,8 @@ public class OptimizationTab extends JPanel {
 
 	// ***************************ALGO_FIELDS********************************************
 	private JComboBox<String> algo_name_field;
-	// ***************************ALGO
-	// FIELDS********************************************
+	// ***************************ALGO_FIELDS********************************************
 
-	// ***************************USER_FIELDS********************************************
-	private JLabel user_name_label = new JLabel("Name");
-	private JComboBox<String> user_name_field;
-	private JLabel user_email_label = new JLabel("E-mail");
-	private JTextField user_email_field = new JTextField();
-	private JButton user_choose_button = new JButton("Choose");
-	private JButton user_delete_button = new JButton("Delete");
-	private JButton user_create_button = new JButton("Create");
-	private JButton user_modify_button = new JButton("Modify");
-	// ***************************USER_FIELDS********************************************
 
 	// ***************************TOOLS_FIELDS********************************************
 	private JButton tools_import_button = new JButton("LOAD");
@@ -132,6 +122,26 @@ public class OptimizationTab extends JPanel {
 	private JButton tools_run_button = new JButton("RUN");
 	// ***************************TOOLS_FIELDS********************************************
 
+	//****************************RESOURCES**************************************************
+	private final String legal_message = "ATTENTION: We need your complete consent to use your e-mail address. "
+			+ "It will only be used for the following ends: "
+			+ "\n -General warnings to the system's Administrator about the optimization process; "
+			+ "\n -Reception of messages with information pertinent to the optimization process "
+			+ "(start of process, current status, errors, etc); "
+			+ "\n -Sending help messages to the system's Administrator. "
+			+ "\n\n The system may ask for your e-mail address's password for authentication purposes. "
+			+ "Your password will never be saved anywhere or shared with anyone. "
+			+ "\n Proceed with the registration process?";
+	
+	private final String thankyou_message = "Muito obrigado por usar esta plataforma de otimização. "
+			+ "Será informado por email sobre o progresso do processo de otimização, "
+			+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
+			+ "do tempo estimado, "
+			+ "e também quando o processo tiver terminado, "
+			+ "com sucesso ou devido à ocorrência de erros.";
+	
+	//FIELDS*********************************************
+	
 	// ******************************INSTANCES_END******************************************
 
 	public OptimizationTab() {
@@ -143,7 +153,7 @@ public class OptimizationTab extends JPanel {
 		createActionListener();
 		createFocusListener();
 		problem_panel();
-		user_panel();
+//		user_panel();
 		tools_panel();
 		variables_panel();
 		algorithm_panel();
@@ -152,55 +162,6 @@ public class OptimizationTab extends JPanel {
 		loadProblem();
 	}
 
-	private void user_panel() {
-		user_panel.setBorder(user_area_border);
-		user_panel.setBounds(15, 10, user_border_width, user_border_height);
-		user_panel.setOpaque(false);
-		user_panel.setLayout(null);
-
-		String[] usernames = new String[ConfigXML.config.getUsers().size()];
-		for (User u : ConfigXML.config.getUsers()) {
-			usernames[ConfigXML.config.getUsers().indexOf(u)] = u.getUsername();
-		}
-		user_name_field = new JComboBox<String>(usernames);
-
-		for (User u : ConfigXML.config.getUsers()) {
-			if (u.getUsername().contains(user_name_field.getSelectedItem().toString())) {
-				user_email_field.setText(u.getEmailAddr());
-			}
-		}
-
-		user_name_field.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				for (User u : ConfigXML.config.getUsers()) {
-					if (u.getUsername().contains(user_name_field.getSelectedItem().toString())) {
-						user_email_field.setText(u.getEmailAddr());
-					}
-				}
-			}
-		});
-
-		user_name_label.setBounds(15, 20, 50, 25);
-		user_name_field.setBounds(15, 43, 230, 25);
-		user_email_label.setBounds(15, 72, 230, 25);
-		user_email_field.setBounds(15, 95, 230, 25);
-
-		user_choose_button.setBounds(15, 135, 230, 23);
-		user_delete_button.setBounds(15, 195, 110, 23);
-		user_create_button.setBounds(135, 195, 110, 23);
-		user_modify_button.setBounds(15, 165, 230, 23);
-
-		user_panel.add(user_choose_button);
-		user_panel.add(user_delete_button);
-		user_panel.add(user_create_button);
-		user_panel.add(user_modify_button);
-
-		user_panel.add(user_email_label);
-		user_panel.add(user_email_field);
-		user_panel.add(user_name_field);
-		user_panel.add(user_name_label);
-		add(user_panel);
-	}
 
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
@@ -217,7 +178,14 @@ public class OptimizationTab extends JPanel {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
 					sendMailAdmin();
-				}
+					//TODO:
+					//runOptimization should be handled by a seperate thread
+					//there should be a button to select a Jar file if needed
+					Thread thread = new ConsoleOutputCapturer();
+					thread.start();
+					OptimizationProcess.runOptimization(data, (String) algo_name_field.getSelectedItem(), false);
+					thread.interrupt();
+				} 
 			}
 		};
 		this.action_listener = lis;
@@ -292,17 +260,26 @@ public class OptimizationTab extends JPanel {
 			Date date = new Date();
 			String[] admin = { EMail_Tools.getAdminEmail() };
 
-			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc to admin
-					"Otimização em curso: " + // need to say what it is
-							problem_name_field.getText() + // get the problem's name
-							" " + dateFormat.format(date), // and the current date:time
+			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "*******", u.getEmailAddr(),
+					admin, //cc to admin
+					"Otimização em curso: " + //need to say what it is
+					problem_name_field.getText() + //get the problem's name
+					" "+
+					dateFormat.format(date), //and the current date:time
 					"Muito obrigado por usar esta plataforma de otimização. "
-							+ "Será informado por email sobre o progresso do processo de otimização, "
-							+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
-							+ "do tempo estimado, " // this train might need to be moved to its own String TODO
-							+ "e também quando o processo tiver terminado, "
-							+ "com sucesso ou devido à ocorrência de erros.",
-					""); // no attachment YET, it needs to be an XML
+					+ "Será informado por email sobre o progresso do processo de otimização, "
+					+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
+					+ "do tempo estimado, " //this train might need to be moved to its own String TODO
+					+ "e também quando o processo tiver terminado, "
+					+ "com sucesso ou devido à ocorrência de erros.", 
+					""); //no attachment YET, it needs to be an XML
+			
+			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc to admin
+								 "Otimização em curso: " + // need to say what it is
+								 problem_name_field.getText() + // get the problem's name
+								 " " + dateFormat.format(date), // and the current date:time
+								 thankyou_message,
+								 ""); // no attachment YET, it needs to be an XML
 		} catch (EmailException e1) {
 			e1.printStackTrace();
 		} catch (Throwable e1) {
@@ -310,6 +287,19 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+//	/**
+//	 * JOptionPane returns 0 if "Yes", 1 if "No"
+//	 */
+//	private void createUser() {
+//		int n = JOptionPane.showConfirmDialog(user_panel, legal_message,
+//				"Legal Message", JOptionPane.YES_NO_OPTION);
+//		if (n == 0) { //if yes
+//			
+//		} else { //if no
+//			
+//		}
+//	}
+	
 	private void tools_panel() {
 		tools_panel.setBorder(tools_area_border);
 		tools_panel.setBounds(590, 10, tools_border_width, tools_border_height);

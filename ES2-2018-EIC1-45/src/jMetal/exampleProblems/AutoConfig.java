@@ -1,4 +1,4 @@
-package jMetal;
+package jMetal.exampleProblems;
 
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Config>
+<Admin>
+<name>Markiyan Pyekh</name>
+<mail>mphna@gmail.com</mail>
+</Admin>
+<User>
+<name>Tiago Almeida</name>
+<mail>tiago@gmail.com</mail>
+</User>
+<User>
+<name>Paulo Pina</name>
+<mail>paulo@gmail.com</mail>
+</User>
+<User>
+<name>Andre Godinho</name>
+<mail>andre@gmail.com</mail>
+</User>
+<Path>
+<name>ProblemsPath</name>
+<url>C:/</url>
+</Path>
+<Algorithm>
+<algo>NSGAII</algo>
+</Algorithm>
+</Config>
