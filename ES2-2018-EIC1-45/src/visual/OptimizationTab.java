@@ -40,8 +40,8 @@ public class OptimizationTab extends JPanel {
 	private final int problem_border_width = 284;
 	private final int problem_border_height = 230;
 
-	private final int user_border_width = 260;
-	private final int user_border_height = 230;
+//	private final int user_border_width = 260;
+//	private final int user_border_height = 230;
 
 	private final int variables_border_width = 805;
 	private final int variables_border_height = 350;
@@ -63,7 +63,7 @@ public class OptimizationTab extends JPanel {
 	//***************************GENERAL FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
 	private TitledBorder problem_area_border = BorderFactory.createTitledBorder(blackline, "About the problem");
-	private TitledBorder user_area_border = BorderFactory.createTitledBorder(blackline, "User Area");
+//	private TitledBorder user_area_border = BorderFactory.createTitledBorder(blackline, "User Area");
 	private TitledBorder variables_area_border = BorderFactory.createTitledBorder(blackline, "Variables");
 	private TitledBorder tools_area_border = BorderFactory.createTitledBorder(blackline, "Tools");
 	private TitledBorder algo_area_border = BorderFactory.createTitledBorder(blackline, "Algorithm");
@@ -71,7 +71,7 @@ public class OptimizationTab extends JPanel {
 	private JPanel problem_panel = new JPanel();
 	private JPanel tools_panel = new JPanel();
 	private JPanel variables_panel = new JPanel();
-	private JPanel user_panel = new JPanel();
+//	private JPanel user_panel = new JPanel();
 	private JPanel algo_panel = new JPanel();
 
 
@@ -111,16 +111,16 @@ public class OptimizationTab extends JPanel {
 	//***************************ALGO FIELDS********************************************
 
 
-	//***************************USER FIELDS********************************************
-	private JLabel user_name_label = new JLabel("Name");
-	private JComboBox<String> user_name_field;
-	private JLabel user_email_label = new JLabel("E-mail");
-	private JTextField user_email_field = new JTextField();
-	private JButton user_choose_button = new JButton("Choose");
-	private JButton user_delete_button = new JButton("Delete");
-	private JButton user_create_button = new JButton("Create");
-	private JButton user_modify_button = new JButton("Modify");
-	//***************************USER FIELDS********************************************
+//	//***************************USER FIELDS********************************************
+//	private JLabel user_name_label = new JLabel("Name");
+//	private JComboBox<String> user_name_field;
+//	private JLabel user_email_label = new JLabel("E-mail");
+//	private JTextField user_email_field = new JTextField();
+//	private JButton user_choose_button = new JButton("Choose");
+//	private JButton user_delete_button = new JButton("Delete");
+//	private JButton user_create_button = new JButton("Create");
+//	private JButton user_modify_button = new JButton("Modify");
+//	//***************************USER FIELDS********************************************
 
 
 
@@ -143,7 +143,7 @@ public class OptimizationTab extends JPanel {
 
 		createActionListener();
 		problem_panel();
-		user_panel();
+//		user_panel();
 		tools_panel();
 		variables_panel();
 		algorithm_panel();
@@ -153,57 +153,57 @@ public class OptimizationTab extends JPanel {
 	}
 
 
-	private void user_panel() {
-		user_panel.setBorder(user_area_border);
-		user_panel.setBounds(15, 10, user_border_width, user_border_height);
-		user_panel.setOpaque(false);
-		user_panel.setLayout(null);
-
-		String[] usernames = new String[ConfigXML.config.getUsers().size()];
-		for(User u : ConfigXML.config.getUsers()){
-			usernames[ConfigXML.config.getUsers().indexOf(u)] = u.getUsername();
-		}
-		user_name_field = new JComboBox<String>(usernames);
-
-
-		for(User u : ConfigXML.config.getUsers()){
-			if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
-				user_email_field.setText(u.getEmailAddr());
-			}
-		}
-
-		user_name_field.addActionListener (new ActionListener () {
-			public void actionPerformed(ActionEvent event) {
-				for(User u : ConfigXML.config.getUsers()){
-					if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
-						user_email_field.setText(u.getEmailAddr());
-					}
-				}
-			}
-		});
-
-
-		user_name_label.setBounds(15, 20, 50, 25);
-		user_name_field.setBounds(15, 43, 230, 25);
-		user_email_label.setBounds(15, 72, 230, 25);
-		user_email_field.setBounds(15, 95, 230, 25);
-
-		user_choose_button.setBounds(15, 135, 230, 23);
-		user_delete_button.setBounds(15, 195, 110, 23);
-		user_create_button.setBounds(135, 195, 110, 23);
-		user_modify_button.setBounds(15, 165, 230, 23);
-
-		user_panel.add(user_choose_button);
-		user_panel.add(user_delete_button);
-		user_panel.add(user_create_button);
-		user_panel.add(user_modify_button);
-
-		user_panel.add(user_email_label);
-		user_panel.add(user_email_field);
-		user_panel.add(user_name_field);
-		user_panel.add(user_name_label);
-		add(user_panel);
-	}
+//	private void user_panel() {
+//		user_panel.setBorder(user_area_border);
+//		user_panel.setBounds(15, 10, user_border_width, user_border_height);
+//		user_panel.setOpaque(false);
+//		user_panel.setLayout(null);
+//
+//		String[] usernames = new String[ConfigXML.config.getUsers().size()];
+//		for(User u : ConfigXML.config.getUsers()){
+//			usernames[ConfigXML.config.getUsers().indexOf(u)] = u.getUsername();
+//		}
+//		user_name_field = new JComboBox<String>(usernames);
+//
+//
+//		for(User u : ConfigXML.config.getUsers()){
+//			if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
+//				user_email_field.setText(u.getEmailAddr());
+//			}
+//		}
+//
+//		user_name_field.addActionListener (new ActionListener () {
+//			public void actionPerformed(ActionEvent event) {
+//				for(User u : ConfigXML.config.getUsers()){
+//					if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
+//						user_email_field.setText(u.getEmailAddr());
+//					}
+//				}
+//			}
+//		});
+//
+//
+//		user_name_label.setBounds(15, 20, 50, 25);
+//		user_name_field.setBounds(15, 43, 230, 25);
+//		user_email_label.setBounds(15, 72, 230, 25);
+//		user_email_field.setBounds(15, 95, 230, 25);
+//
+//		user_choose_button.setBounds(15, 135, 230, 23);
+//		user_delete_button.setBounds(15, 195, 110, 23);
+//		user_create_button.setBounds(135, 195, 110, 23);
+//		user_modify_button.setBounds(15, 165, 230, 23);
+//
+//		user_panel.add(user_choose_button);
+//		user_panel.add(user_delete_button);
+//		user_panel.add(user_create_button);
+//		user_panel.add(user_modify_button);
+//
+//		user_panel.add(user_email_label);
+//		user_panel.add(user_email_field);
+//		user_panel.add(user_name_field);
+//		user_panel.add(user_name_label);
+//		add(user_panel);
+//	}
 
 	private void createActionListener(){
 		ActionListener lis = new ActionListener() {
@@ -298,7 +298,7 @@ public class OptimizationTab extends JPanel {
 			Date date = new Date();
 			String[] admin = { EMail_Tools.getAdminEmail() };
 
-			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(),
+			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "*******", u.getEmailAddr(),
 					admin, //cc to admin
 					"Otimização em curso: " + //need to say what it is
 					problem_name_field.getText() + //get the problem's name

@@ -65,4 +65,8 @@ public class Config {
 	public void setAlgorithms(ArrayList<String> algorithms) {
 		this.algorithms = algorithms;
 	}
+
+	public User getAdmin() {
+		return new User(admin_name, admin_mail);
+	}
 }
