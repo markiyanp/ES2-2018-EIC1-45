@@ -20,3 +20,5 @@ Grupo **45**
 
 -Apache Commons Email (org.apache.commons/commons-email, 1.5) - APACHE LICENSE, VERSION 2.0  
 
+-XChart (org.knowm.xchart, 3.5.1)
+

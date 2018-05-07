@@ -10,7 +10,7 @@ public class Window extends JFrame{
 	private static final long serialVersionUID = -1172067089622609226L;
 	
 	private final String TITLE = "ES2-2018-EIC1-G45";
-	
+
 	//**********************************DIMENSIONS*************************************
 	private final int WIDTH = 1140;
 	private final int HEIGHT = 699;
@@ -79,4 +79,5 @@ public class Window extends JFrame{
 		new Window();
 		
 	}
+
 }

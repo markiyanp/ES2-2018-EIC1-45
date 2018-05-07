@@ -3,17 +3,22 @@ package visual;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,6 +35,8 @@ import org.apache.commons.mail.EmailException;
 import core.User;
 import core.Variable;
 import email.EMail_Tools;
+import jMetal.ConsoleOutputCapturer;
+import jMetal.OptimizationProcess;
 import xml.ConfigXML;
 import xml.ProblemXML;
 
@@ -52,15 +59,15 @@ public class OptimizationTab extends JPanel {
 	private final int algo_border_width = 230;
 	private final int algo_border_height = 70;
 
-
 	// ******************************INSTANCES*********************************************
 	private static final long serialVersionUID = 4683732155570118854L;
 
-	//TODO 
-	private File file_config = new  File("Resources/TestXML/Config.xml");
+	// TODO
+	private File file_config = new File("Resources/TestXML/Config.xml");
 	private File file_problem = new File("Resources/TestXML/TestProblem.xml");
 
-	//***************************GENERAL FIELDS********************************************
+	// ***************************GENERAL
+	// FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
 	private TitledBorder problem_area_border = BorderFactory.createTitledBorder(blackline, "About the problem");
 //	private TitledBorder user_area_border = BorderFactory.createTitledBorder(blackline, "User Area");
@@ -74,25 +81,27 @@ public class OptimizationTab extends JPanel {
 //	private JPanel user_panel = new JPanel();
 	private JPanel algo_panel = new JPanel();
 
+	private ActionListener action_listener;
+	private FocusListener focus_listener;
+	// ***************************GENERAL_FIELDS********************************************
 
-	private ActionListener listener;
-	//***************************GENERAL FIELDS********************************************
-
-	//***************************PROBLEM FIELDS********************************************
+	// ***************************PROBLEM_FIELDS********************************************
 	private JLabel problem_name_label = new JLabel("Problem Name");
 	private JLabel problem_description_label = new JLabel("Description");
 	private JTextField problem_name_field = new JTextField();
 	private JTextArea problem_description_area = new JTextArea();
 	private JButton create_problem_button = new JButton("+");
-	private String[] variable_types = { "String", "Integer", "Boolean", "Double", "Long" };
+	private String[] variable_types = { "Integer", "Binary", "Double" };
 	private JTable table;
 	private JLabel variable_name_label = new JLabel("Name");
 	private JLabel variable_type_label = new JLabel("Type");
+	private JLabel variable_binary_label = new JLabel("UNUSED");
 	private JLabel variable_minval_label = new JLabel("Min Val");
 	private JLabel variable_maxval_label = new JLabel("Max Val");
 	private JLabel variable_restricted_label = new JLabel("Restricted");
 	private JTextField variable_name_field = new JTextField();
 	private JComboBox<String> variable_type_field = new JComboBox<String>(variable_types);
+	private JTextField variable_binary_field = new JTextField();
 	private JTextField variable_minval_field = new JTextField();
 	private JTextField variable_maxval_field = new JTextField();
 	private JTextField variable_restricted_field = new JTextField();
@@ -103,36 +112,40 @@ public class OptimizationTab extends JPanel {
 	private String[] column_names = { "Name", "Type", "Min Val", "Max Val", "Restricted", "Used" };
 	private Object[][] data = {};
 
-	//***************************PROBLEM FIELDS********************************************
+	// ***************************PROBLEM_FIELDS********************************************
 
-
-	//***************************ALGO FIELDS********************************************
+	// ***************************ALGO_FIELDS********************************************
 	private JComboBox<String> algo_name_field;
-	//***************************ALGO FIELDS********************************************
+	// ***************************ALGO_FIELDS********************************************
 
 
-//	//***************************USER FIELDS********************************************
-//	private JLabel user_name_label = new JLabel("Name");
-//	private JComboBox<String> user_name_field;
-//	private JLabel user_email_label = new JLabel("E-mail");
-//	private JTextField user_email_field = new JTextField();
-//	private JButton user_choose_button = new JButton("Choose");
-//	private JButton user_delete_button = new JButton("Delete");
-//	private JButton user_create_button = new JButton("Create");
-//	private JButton user_modify_button = new JButton("Modify");
-//	//***************************USER FIELDS********************************************
-
-
-
-	//***************************TOOLS FIELDS********************************************
+	// ***************************TOOLS_FIELDS********************************************
 	private JButton tools_import_button = new JButton("LOAD");
 	private JButton tools_export_button = new JButton("SAVE");
 	private JButton tools_reset_button = new JButton("Reset fields");
 	private JButton tools_run_button = new JButton("RUN");
-	//***************************TOOLS FIELDS********************************************
+	// ***************************TOOLS_FIELDS********************************************
 
-
-
+	//****************************RESOURCES**************************************************
+	private final String legal_message = "ATTENTION: We need your complete consent to use your e-mail address. "
+			+ "It will only be used for the following ends: "
+			+ "\n -General warnings to the system's Administrator about the optimization process; "
+			+ "\n -Reception of messages with information pertinent to the optimization process "
+			+ "(start of process, current status, errors, etc); "
+			+ "\n -Sending help messages to the system's Administrator. "
+			+ "\n\n The system may ask for your e-mail address's password for authentication purposes. "
+			+ "Your password will never be saved anywhere or shared with anyone. "
+			+ "\n Proceed with the registration process?";
+	
+	private final String thankyou_message = "Muito obrigado por usar esta plataforma de otimização. "
+			+ "Será informado por email sobre o progresso do processo de otimização, "
+			+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
+			+ "do tempo estimado, "
+			+ "e também quando o processo tiver terminado, "
+			+ "com sucesso ou devido à ocorrência de erros.";
+	
+	//FIELDS*********************************************
+	
 	// ******************************INSTANCES_END******************************************
 
 	public OptimizationTab() {
@@ -142,13 +155,14 @@ public class OptimizationTab extends JPanel {
 		ProblemXML.readXML(file_problem);
 
 		createActionListener();
+		createFocusListener();
 		problem_panel();
 //		user_panel();
 		tools_panel();
 		variables_panel();
 		algorithm_panel();
-		
-		//TODO remove this!!!!
+
+		// TODO remove this!!!!
 		loadProblem();
 	}
 
@@ -160,28 +174,26 @@ public class OptimizationTab extends JPanel {
 //		user_panel.setLayout(null);
 //
 //		String[] usernames = new String[ConfigXML.config.getUsers().size()];
-//		for(User u : ConfigXML.config.getUsers()){
+//		for (User u : ConfigXML.config.getUsers()) {
 //			usernames[ConfigXML.config.getUsers().indexOf(u)] = u.getUsername();
 //		}
 //		user_name_field = new JComboBox<String>(usernames);
 //
-//
-//		for(User u : ConfigXML.config.getUsers()){
-//			if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
+//		for (User u : ConfigXML.config.getUsers()) {
+//			if (u.getUsername().contains(user_name_field.getSelectedItem().toString())) {
 //				user_email_field.setText(u.getEmailAddr());
 //			}
 //		}
 //
-//		user_name_field.addActionListener (new ActionListener () {
+//		user_name_field.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent event) {
-//				for(User u : ConfigXML.config.getUsers()){
-//					if(u.getUsername().contains(user_name_field.getSelectedItem().toString())){
+//				for (User u : ConfigXML.config.getUsers()) {
+//					if (u.getUsername().contains(user_name_field.getSelectedItem().toString())) {
 //						user_email_field.setText(u.getEmailAddr());
 //					}
 //				}
 //			}
 //		});
-//
 //
 //		user_name_label.setBounds(15, 20, 50, 25);
 //		user_name_field.setBounds(15, 43, 230, 25);
@@ -193,7 +205,13 @@ public class OptimizationTab extends JPanel {
 //		user_create_button.setBounds(135, 195, 110, 23);
 //		user_modify_button.setBounds(15, 165, 230, 23);
 //
+//		user_choose_button.addActionListener(action_listener);
+//		user_delete_button.addActionListener(action_listener);
+//		user_create_button.addActionListener(action_listener);
+//		user_modify_button.addActionListener(action_listener);
+//
 //		user_panel.add(user_choose_button);
+//
 //		user_panel.add(user_delete_button);
 //		user_panel.add(user_create_button);
 //		user_panel.add(user_modify_button);
@@ -205,32 +223,38 @@ public class OptimizationTab extends JPanel {
 //		add(user_panel);
 //	}
 
-	private void createActionListener(){
+	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == variable_add_button){
+				if (e.getSource() == variable_add_button) {
 					createVariable();
-				}else if(e.getSource() == variable_selectAll_button){
+				} else if (e.getSource() == variable_selectAll_button) {
 					enableAll();
-				}else if(e.getSource() == variable_deselectAll_button){
+				} else if (e.getSource() == variable_deselectAll_button) {
 					disableAll();
-				}else if(e.getSource() == variable_remove_button){
+				} else if (e.getSource() == variable_remove_button) {
 					removeVariable();
-				}else if(e.getSource() == tools_run_button){
+				} else if (e.getSource() == tools_run_button) {
 					sendMailAdmin();
-				}
+					//TODO:
+					//runOptimization should be handled by a seperate thread
+					//there should be a button to select a Jar file if needed
+					Thread thread = new ConsoleOutputCapturer();
+					thread.start();
+					OptimizationProcess.runOptimization(data, (String) algo_name_field.getSelectedItem(), false);
+					thread.interrupt();
+				} 
 			}
 		};
-		this.listener = lis;
+		this.action_listener = lis;
 	}
 
-
 	private void createVariable() {
-		Object[][] mod = new Object[this.data.length+1][table.getColumnCount()];
-		if(this.data.length>0){
-			for(int i = 0; i < this.data.length; i++){
+		Object[][] mod = new Object[this.data.length + 1][table.getColumnCount()];
+		if (this.data.length > 0) {
+			for (int i = 0; i < this.data.length; i++) {
 				mod[i] = this.data[i];
 			}
 		}
@@ -244,7 +268,7 @@ public class OptimizationTab extends JPanel {
 		row[4] = variable_restricted_field.getText();
 		row[5] = false;
 
-		mod[mod.length-1] = row;
+		mod[mod.length - 1] = row;
 
 		this.data = mod;
 
@@ -254,19 +278,18 @@ public class OptimizationTab extends JPanel {
 	}
 
 	private void disableAll() {
-		for(int i = 0; i < this.data.length; i++){
-			this.data[i][table.getColumnCount()-1] = false;
+		for (int i = 0; i < this.data.length; i++) {
+			this.data[i][table.getColumnCount() - 1] = false;
 		}
 		DefaultTableModel model = tableModel();
 		table.setModel(model);
 		table.repaint();
 
-
 	}
 
 	private void enableAll() {
-		for(int i = 0; i < this.data.length; i++){
-			this.data[i][table.getColumnCount()-1] = true;
+		for (int i = 0; i < this.data.length; i++) {
+			this.data[i][table.getColumnCount() - 1] = true;
 		}
 		DefaultTableModel model = tableModel();
 		table.setModel(model);
@@ -274,11 +297,11 @@ public class OptimizationTab extends JPanel {
 	}
 
 	private void removeVariable() {
-		if(this.data.length != 0 && table.getSelectedRow() >= 0){
-			Object[][] mod = new Object[this.data.length-1][this.table.getColumnCount()];
+		if (this.data.length != 0 && table.getSelectedRow() >= 0) {
+			Object[][] mod = new Object[this.data.length - 1][this.table.getColumnCount()];
 			int k = 0;
-			for(int i = 0; i < this.data.length; i++){
-				if(i != table.getSelectedRow()){
+			for (int i = 0; i < this.data.length; i++) {
+				if (i != table.getSelectedRow()) {
 					mod[k] = this.data[i];
 					k++;
 				}
@@ -290,8 +313,7 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
-
-	private void sendMailAdmin(){
+	private void sendMailAdmin() {
 		User u = new User("default", "group45.dummy.user.1@gmail.com");
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -311,6 +333,13 @@ public class OptimizationTab extends JPanel {
 					+ "e também quando o processo tiver terminado, "
 					+ "com sucesso ou devido à ocorrência de erros.", 
 					""); //no attachment YET, it needs to be an XML
+			
+			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc to admin
+								 "Otimização em curso: " + // need to say what it is
+								 problem_name_field.getText() + // get the problem's name
+								 " " + dateFormat.format(date), // and the current date:time
+								 thankyou_message,
+								 ""); // no attachment YET, it needs to be an XML
 		} catch (EmailException e1) {
 			e1.printStackTrace();
 		} catch (Throwable e1) {
@@ -318,7 +347,19 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
-
+//	/**
+//	 * JOptionPane returns 0 if "Yes", 1 if "No"
+//	 */
+//	private void createUser() {
+//		int n = JOptionPane.showConfirmDialog(user_panel, legal_message,
+//				"Legal Message", JOptionPane.YES_NO_OPTION);
+//		if (n == 0) { //if yes
+//			
+//		} else { //if no
+//			
+//		}
+//	}
+	
 	private void tools_panel() {
 		tools_panel.setBorder(tools_area_border);
 		tools_panel.setBounds(590, 10, tools_border_width, tools_border_height);
@@ -330,7 +371,7 @@ public class OptimizationTab extends JPanel {
 		tools_export_button.setBounds(15, 25, 95, 30);
 		tools_run_button.setBounds(15, 105, 200, 30);
 
-		tools_run_button.addActionListener(listener);
+		tools_run_button.addActionListener(action_listener);
 
 		tools_panel.add(tools_run_button);
 		tools_panel.add(tools_reset_button);
@@ -341,15 +382,15 @@ public class OptimizationTab extends JPanel {
 
 	private void algorithm_panel() {
 		algo_panel.setBorder(algo_area_border);
-		algo_panel.setBounds(590,170, algo_border_width, algo_border_height);
+		algo_panel.setBounds(590, 170, algo_border_width, algo_border_height);
 		algo_panel.setOpaque(false);
 		algo_panel.setLayout(null);
-		
+
 		String[] algorithms = new String[ConfigXML.config.getAlgorithms().size()];
-		for(String s : ConfigXML.config.getAlgorithms()){
+		for (String s : ConfigXML.config.getAlgorithms()) {
 			algorithms[ConfigXML.config.getAlgorithms().indexOf(s)] = s;
 		}
-		
+
 		this.algo_name_field = new JComboBox<String>(algorithms);
 
 		algo_name_field.setBounds(17, 25, 195, 25);
@@ -367,7 +408,7 @@ public class OptimizationTab extends JPanel {
 		problem_name_label.setBounds(15, 25, 100, 20);
 		problem_name_field.setBounds(15, 45, 200, 25);
 		create_problem_button.setBounds(220, 45, 45, 25);
-		create_problem_button.addActionListener(listener);
+		create_problem_button.addActionListener(action_listener);
 
 		problem_description_label.setBounds(15, 80, 100, 20);
 		problem_description_area.setBounds(15, 100, 250, 115);
@@ -387,39 +428,45 @@ public class OptimizationTab extends JPanel {
 		variables_panel.setLayout(null);
 
 		variable_name_label.setBounds(10, 20, 50, 20);
-		variable_type_label.setBounds(175, 20, 50, 20);
-		variable_minval_label.setBounds(318, 20, 50, 20);
-		variable_maxval_label.setBounds(435, 20, 50, 20);
-		variable_restricted_label.setBounds(555, 20, 90, 20);
+		variable_type_label.setBounds(130, 20, 50, 20);
+		variable_binary_label.setBounds(240, 20, 50, 20);
+		variable_minval_label.setBounds(350, 20, 50, 20);
+		variable_maxval_label.setBounds(460, 20, 50, 20);
+		variable_restricted_label.setBounds(570, 20, 90, 20);
 
-		variable_name_field.setBounds(10, 40, 150, 25);
-		variable_type_field.setBounds(175, 40, 125, 25);
-		variable_minval_field.setBounds(318, 40, 100, 25);
-		variable_maxval_field.setBounds(435, 40, 100, 25);
-		variable_restricted_field.setBounds(555, 40, 125, 25);
+		variable_name_field.setBounds(10, 40, 100, 25);
+		variable_name_field.addFocusListener(focus_listener);
+		variable_type_field.setBounds(130, 40, 90, 25);
+		variable_binary_field.setBounds(240, 40, 90, 25);
+		variable_binary_field.addFocusListener(focus_listener);
+		variable_minval_field.setBounds(350, 40, 90, 25);
+		variable_minval_field.addFocusListener(focus_listener);
+		variable_maxval_field.setBounds(460, 40, 90, 25);
+		variable_maxval_field.addFocusListener(focus_listener);
+		variable_restricted_field.setBounds(570, 40, 90, 25);
+		variable_restricted_field.addFocusListener(focus_listener);
 
 		variable_add_button.setBounds(690, 40, 105, 25);
-		variable_add_button.addActionListener(listener);
+		variable_add_button.addActionListener(action_listener);
 		variable_remove_button.setBounds(10, 315, 180, 25);
-		variable_remove_button.addActionListener(listener);
+		variable_remove_button.addActionListener(action_listener);
 
 		variable_selectAll_button.setBounds(510, 315, 130, 25);
-		variable_selectAll_button.addActionListener(listener);
+		variable_selectAll_button.addActionListener(action_listener);
 		variable_deselectAll_button.setBounds(650, 315, 130, 25);
-		variable_deselectAll_button.addActionListener(listener);
+		variable_deselectAll_button.addActionListener(action_listener);
 
-		DefaultTableModel model =  tableModel();
+		DefaultTableModel model = tableModel();
 		this.table = new JTable(model);
 
 		this.table.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JTable table = (JTable)e.getSource();
-
+				JTable table = (JTable) e.getSource();
 				int rowAtPoint = table.rowAtPoint(e.getPoint());
 				int columnAtPoint = table.columnAtPoint(e.getPoint());
-				if(columnAtPoint == table.getColumnCount()-1){
+				if (columnAtPoint == table.getColumnCount() - 1) {
 					data[rowAtPoint][columnAtPoint] = table.getValueAt(rowAtPoint, columnAtPoint);
 				}
 			}
@@ -431,7 +478,6 @@ public class OptimizationTab extends JPanel {
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 
-
 		JTableHeader th = this.table.getTableHeader();
 		th.setBackground(Color.darkGray);
 		th.setForeground(Color.white);
@@ -442,11 +488,13 @@ public class OptimizationTab extends JPanel {
 		variables_panel.add(sp);
 		variables_panel.add(variable_name_field);
 		variables_panel.add(variable_type_field);
+		variables_panel.add(variable_binary_field);
 		variables_panel.add(variable_minval_field);
 		variables_panel.add(variable_maxval_field);
 		variables_panel.add(variable_restricted_field);
 		variables_panel.add(variable_name_label);
 		variables_panel.add(variable_type_label);
+		variables_panel.add(variable_binary_label);
 		variables_panel.add(variable_minval_label);
 		variables_panel.add(variable_maxval_label);
 		variables_panel.add(variable_restricted_label);
@@ -457,53 +505,355 @@ public class OptimizationTab extends JPanel {
 		add(variables_panel);
 	}
 
-	private DefaultTableModel tableModel(){
-		DefaultTableModel model =  new DefaultTableModel(data,column_names) {
+	private DefaultTableModel tableModel() {
+		DefaultTableModel model = new DefaultTableModel(data, column_names) {
 			private static final long serialVersionUID = 1L;
-			@Override 
+
+			@Override
 			public Class<?> getColumnClass(int column) {
 				return getValueAt(0, column).getClass();
 			}
+
 			@Override
-			public boolean isCellEditable(int row, int column){  
-				if(column == table.getColumnCount()-1){
+			public boolean isCellEditable(int row, int column) {
+				if (column == table.getColumnCount() - 1) {
 					return true;
 				}
-				return false;  
-			} 
+				return false;
+			}
 		};
-
 
 		return model;
 	}
-	
-	private void loadProblem(){
+
+	private void loadProblem() {
 		Object[][] vars = new Object[ProblemXML.problem.getVariables().size()][6];
-		for(Variable var : ProblemXML.problem.getVariables()){
+		for (Variable var : ProblemXML.problem.getVariables()) {
 			vars[ProblemXML.problem.getVariables().indexOf(var)][0] = var.getVariable_name();
 			vars[ProblemXML.problem.getVariables().indexOf(var)][1] = var.getVariable_type();
 			vars[ProblemXML.problem.getVariables().indexOf(var)][2] = var.getVariable_min_val();
 			vars[ProblemXML.problem.getVariables().indexOf(var)][3] = var.getVariable_max_val();
 			vars[ProblemXML.problem.getVariables().indexOf(var)][4] = var.getVariable_restricted();
-			if(var.isVariable_used().contains("true")){
+			if (var.isVariable_used().contains("true")) {
 				vars[ProblemXML.problem.getVariables().indexOf(var)][5] = new Boolean(true);
-			}else{
+			} else {
 				vars[ProblemXML.problem.getVariables().indexOf(var)][5] = new Boolean(false);
 			}
 		}
 		this.data = vars;
 		this.table.setModel(tableModel());
-		
+
 		this.problem_name_field.setText(ProblemXML.problem.getProblem_name());
-		//TODO make text NOT overflow (begin new line)
+		// TODO make text NOT overflow (begin new line)
 		this.problem_description_area.setText(ProblemXML.problem.getProblem_description());
-		
+
 		for (int i = 0; i < this.algo_name_field.getItemCount(); i++) {
-			if(ProblemXML.problem.getAlgorithm().contains(this.algo_name_field.getItemAt(i))){
+			if (ProblemXML.problem.getAlgorithm().contains(this.algo_name_field.getItemAt(i))) {
 				this.algo_name_field.setSelectedIndex(i);
 			}
 		}
-		
+
+	}
+
+	private void createFocusListener() {
+		FocusListener lis = new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				blockTextFields();
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (e.getSource() == variable_name_field) {
+					analyzierName();
+				}
+				if (e.getSource() == variable_binary_field) {
+					analyzierType();
+				}
+				if (e.getSource() == variable_minval_field) {
+					analyzierType();
+				}
+				if (e.getSource() == variable_maxval_field) {
+					analyzierType();
+				}
+				if (e.getSource() == variable_restricted_field) {
+					analyzierType();
+				}
+			}
+		};
+		this.focus_listener = lis;
+	}
+
+	private void blockTextFields() {
+		String type_name = String.valueOf(variable_type_field.getSelectedItem());
+		if (type_name != "Binary") {
+			variable_binary_field.setEditable(false);
+			variable_minval_field.setEditable(true);
+			variable_maxval_field.setEditable(true);
+			variable_restricted_field.setEditable(true);
+			variable_binary_field.setText("");
+		} else {
+			variable_binary_field.setEditable(true);
+			variable_minval_field.setEditable(false);
+			variable_maxval_field.setEditable(false);
+			variable_restricted_field.setEditable(false);
+			variable_minval_field.setText("");
+			variable_maxval_field.setText("");
+			variable_restricted_field.setText("");
+		}
+	}
+
+	private void analyzierName() {
+		if (!(variable_name_field.getText().matches("[a-zA-Z0-9_]*"))) {
+			variable_name_field.setText("");
+			String try_again = "<html><font color=RED > Please try again... </font></html>";
+			String message = "<html><font color=RED > The variable name can only have letters and/or numbers! </font></html>";
+			JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+			variable_name_field.requestFocus();
+		}
+	}
+
+	private void analyzierType() {
+		String type_name = String.valueOf(variable_type_field.getSelectedItem());
+		switch (type_name) {
+
+		case "Double":
+			minvalDoubleRestriction();
+			maxvalDoubleRestriction();
+			restrictedDoubleRestriction();
+			compareDoubleValues();
+			break;
+
+		case "Integer":
+			minvalIntegerRestriction();
+			maxvalIntegerRestriction();
+			restrictedIntegerRestriction();
+			compareIntegerValues();
+			break;
+
+		case "Binary":
+			analyzierBinary();
+			break;
+		}
+	}
+
+	private boolean isDouble(String str) {
+		try {
+			Double.parseDouble(str);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private void minvalDoubleRestriction() {
+		if (!variable_minval_field.getText().isEmpty()) {
+			if (variable_minval_field.getText().contains(",")) {
+				variable_minval_field.setText(variable_minval_field.getText().replaceAll(",", "."));
+			}
+			if (isInteger(variable_minval_field.getText())) {
+				int number_inserted = Integer.parseInt(variable_minval_field.getText());
+				double minval_suggestion = (double) number_inserted;
+				variable_minval_field.setText(Double.toString(minval_suggestion));
+			}
+			if (!(isDouble(variable_minval_field.getText()) && variable_minval_field.getText().contains("."))) {
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The minium value can only have decimal numbers! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_minval_field.setText("");
+				variable_minval_field.requestFocus();
+			}
+		}
+	}
+
+	private void maxvalDoubleRestriction() {
+		if (!variable_maxval_field.getText().isEmpty()) {
+			if (variable_maxval_field.getText().contains(",")) {
+				variable_maxval_field.setText(variable_maxval_field.getText().replaceAll(",", "."));
+			}
+			if (isInteger(variable_maxval_field.getText())) {
+				int number_inserted = Integer.parseInt(variable_maxval_field.getText());
+				double minval_suggestion = (double) number_inserted;
+				variable_maxval_field.setText(Double.toString(minval_suggestion));
+			}
+			if (!(isDouble(variable_maxval_field.getText()) && variable_maxval_field.getText().contains("."))) {
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The maximum value can only have decimal numbers! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_maxval_field.setText("");
+				variable_maxval_field.requestFocus();
+			}
+		}
+	}
+
+	private void restrictedDoubleRestriction() {
+		if (!variable_restricted_field.getText().isEmpty()) {
+			if (variable_restricted_field.getText().contains(",")) {
+				variable_restricted_field.setText(variable_restricted_field.getText().replaceAll(",", "."));
+			}
+			if (isInteger(variable_restricted_field.getText())) {
+				int number_inserted = Integer.parseInt(variable_restricted_field.getText());
+				double minval_suggestion = (double) number_inserted;
+				variable_restricted_field.setText(Double.toString(minval_suggestion));
+			}
+			if (!(isDouble(variable_restricted_field.getText()) && variable_restricted_field.getText().contains("."))) {
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The restricted value can only have decimal numbers! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_restricted_field.setText("");
+				variable_restricted_field.requestFocus();
+			}
+		}
+	}
+
+	private void compareDoubleValues() {
+		try {
+			double minval = Double.parseDouble(variable_minval_field.getText());
+			double maxval = Double.parseDouble(variable_maxval_field.getText());
+			double maxval_suggestion = minval + 0.1;
+			Random random = new Random();
+			double restricted_suggestion;
+			DecimalFormat df = new DecimalFormat("0.#");
+			if (minval > maxval) {
+				variable_maxval_field.setText(df.format(maxval_suggestion));
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_maxval_field.requestFocus();
+			}
+			if (minval == maxval) {
+				variable_maxval_field.setText(df.format(maxval_suggestion));
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The values can not be equals! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_maxval_field.requestFocus();
+			}
+			double restricted = Double.parseDouble(variable_restricted_field.getText());
+			if (minval > restricted || maxval < restricted || minval == restricted || maxval == restricted) {
+				restricted_suggestion = minval + (maxval - minval) * random.nextDouble();
+				variable_restricted_field.setText(df.format(restricted_suggestion));
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (NumberFormatException e) {
+		}
+	}
+
+	private boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private void minvalIntegerRestriction() {
+		if (!variable_minval_field.getText().isEmpty()) {
+			if (variable_minval_field.getText().contains(",")) {
+				variable_minval_field.setText(variable_minval_field.getText().replaceAll(",", "."));
+			}
+			if (isDouble(variable_minval_field.getText())) {
+				int number_inserted = (int) Math.round(Double.parseDouble(variable_minval_field.getText()));
+				variable_minval_field.setText(Integer.toString(number_inserted));
+			}
+			if (!(isInteger(variable_minval_field.getText()))) {
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The minium value can only have integer numbers! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_minval_field.setText("");
+				variable_minval_field.requestFocus();
+			}
+		}
+	}
+
+	private void maxvalIntegerRestriction() {
+		if (!variable_maxval_field.getText().isEmpty()) {
+			if (variable_maxval_field.getText().contains(",")) {
+				variable_maxval_field.setText(variable_maxval_field.getText().replaceAll(",", "."));
+			}
+			if (isDouble(variable_maxval_field.getText())) {
+				int number_inserted = (int) Math.round(Double.parseDouble(variable_maxval_field.getText()));
+				variable_maxval_field.setText(Integer.toString(number_inserted));
+			}
+			if (!(isInteger(variable_maxval_field.getText()))) {
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The maximum value can only have integer numbers! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+				variable_maxval_field.setText("");
+				variable_maxval_field.requestFocus();
+			}
+		}
+	}
+
+	private void restrictedIntegerRestriction() {
+		if (!variable_restricted_field.getText().isEmpty()) {
+			if (variable_restricted_field.getText().contains(",")) {
+				variable_restricted_field.setText(variable_restricted_field.getText().replaceAll(",", "."));
+			}
+			if (isDouble(variable_restricted_field.getText())) {
+				int number_inserted = (int) Math.round(Double.parseDouble(variable_restricted_field.getText()));
+				variable_restricted_field.setText(Integer.toString(number_inserted));
+			}
+			if (!(isInteger(variable_restricted_field.getText()))) {
+				String try_again = "<html><font color=RED > Please try again... </font></html>";
+				String message = "<html><font color=RED > The restricted value can only have integer numbers! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_restricted_field.setText("");
+				variable_restricted_field.requestFocus();
+			}
+		}
+	}
+
+	private void compareIntegerValues() {
+		try {
+			int minval = Integer.parseInt(variable_minval_field.getText());
+			int maxval = Integer.parseInt(variable_maxval_field.getText());
+			int restricted = Integer.parseInt(variable_restricted_field.getText());
+			int maxval_suggestion;
+			String message;
+			String try_again = "<html><font color=RED > Please try again... </font></html>";
+			if (minval > maxval) {
+				maxval_suggestion = minval + 1;
+				variable_maxval_field.setText(Integer.toString(maxval_suggestion));
+				message = "<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_maxval_field.requestFocus();
+			}
+			if (minval == maxval) {
+				maxval_suggestion = minval + 1;
+				variable_maxval_field.setText(Integer.toString(maxval_suggestion));
+				message = "<html><font color=RED > The values can not be equals! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_maxval_field.requestFocus();
+			}
+			if (minval > restricted || maxval < restricted || minval == restricted || maxval == restricted) {
+				int compare_values = maxval - minval;
+				if (compare_values == 1) {
+					maxval_suggestion = minval + 2;
+					variable_maxval_field.setText(Integer.toString(maxval_suggestion));
+				}
+				variable_restricted_field.setText("");
+				message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
+				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				variable_restricted_field.requestFocus();
+			}
+		} catch (NumberFormatException e) {
+		}
+	}
+
+	private void analyzierBinary() {
+		if (!(variable_binary_field.getText().matches("[0-1]*"))) {
+			String new_binary = variable_binary_field.getText().replaceAll("[a-zA-Z2-9]*", "");
+			variable_binary_field.setText(new_binary);
+			String try_again = "<html><font color=RED > Please try again... </font></html>";
+			String message = "<html><font color=RED > The variable binary can only have 0 or 1! </font></html>";
+			JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+			variable_binary_field.requestFocus();
+		}
 	}
 
 }

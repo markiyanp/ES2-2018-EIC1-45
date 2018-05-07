@@ -1,42 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Config>
-<Admin>
-<name>Tiago Almeida</name>
-<mail>tiago.almeida@gmail.com</mail>
-</Admin>
-<User>
-<name>Tiago Almeida</name>
-<mail>tiago.almeida@gmail.com</mail>
-</User>
-<User>
-<name>Markiyan Pyekh</name>
-<mail>markiyan.pyekh@gmail.com</mail>
-</User>
-<Path>
-<name>problemXMLfolder</name>
-<url>C:/Users/Admin/Desktop/testXML/</url>
-</Path>
-<Path>
-<name>documents</name>
-<url>C:/Users/Admin/</url>
-</Path>
-<Path>
-<name>desktop</name>
-<url>C:/Users/Admin/Desktop/</url>
-</Path>
-<Algorithm>
-<algo>SPEA2</algo>
-</Algorithm>
-<Algorithm>
-<algo>SMPSO</algo>
-</Algorithm>
-<Algorithm>
-<algo>PAES</algo>
-</Algorithm>
-<Algorithm>
-<algo>IBEA</algo>
-</Algorithm>
-<Algorithm>
-<algo>NSGAII</algo>
-</Algorithm>
+	<Admin>
+		<name>Tiago Almeida</name>
+		<mail>tiago.almeida@gmail.com</mail>
+	</Admin>
+	<User>
+		<name>Tiago Almeida</name>
+		<mail>tiago.almeida@gmail.com</mail>
+	</User>
+	<User>
+		<name>Markiyan Pyekh</name>
+		<mail>markiyan.pyekh@gmail.com</mail>
+	</User>
+	<Path>
+		<name>problemXMLfolder</name>
+		<url>C:/Users/Admin/Desktop/testXML/</url>
+	</Path>
+	<Path>
+		<name>documents</name>
+		<url>C:/Users/Admin/</url>
+	</Path>
+	<Path>
+		<name>desktop</name>
+		<url>C:/Users/Admin/Desktop/</url>
+	</Path>
+	<Algorithm>
+		<algo>SPEA2</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>SMPSO</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>PAES</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>IBEA</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>NSGAII</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>SMSEMOA</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>GDE3</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>MOCell</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>MOEAD</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>RandomSearch</algo>
+	</Algorithm>
+	<Algorithm>
+		<algo>MOCH</algo>
+	</Algorithm>
 </Config>
