@@ -44,6 +44,23 @@ public class EMail_Tools {
 		throw new IllegalArgumentException("WARNING: Invalid e-mail detected! Failed to parse provider!");
 	}
 	
+	
+	public static boolean checkAuth(String userAddr, String userPw, String reason) {
+		
+		if (reason.isEmpty()) {
+			throw new IllegalArgumentException("You must provide a reason to check authentication.");
+		}
+		
+		try {
+			System.out.println("Attempting to send warning e-mail");
+			sendMail(userAddr, userPw, userAddr, null, "[OPTIMIZATION PROGRAM] User activity detected", reason, null);
+			return true;
+		} catch (EmailException e) {
+			return false;
+		}
+		
+	}
+	
 	/**Sends an e-mail.
 	 * 
 	 * @param userAddr

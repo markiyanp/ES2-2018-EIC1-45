@@ -22,6 +22,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import core.User;
+import email.EMail_Tools;
 import xml.ConfigXML;
 
 public class LauncherPanel extends JPanel {
@@ -112,6 +113,11 @@ public class LauncherPanel extends JPanel {
 		add(user_panel);
 	}
 
+	private String getCurrentEmail() {
+		
+		return null;
+	}
+	
 	private void init_user_panel() {
 		user_panel = new JPanel();
 		user_panel.setBorder(user_area_border);
@@ -297,23 +303,28 @@ public class LauncherPanel extends JPanel {
 					add(user_panel);
 					repaint();
 				} else if (e.getSource() == modify_user_back_button) {
-					//TODO check password
 					removeAll();
 					add(user_panel);
 					repaint();
+
 				} else if (e.getSource() == user_modify_button) {
-					//TODO check password
-					if(user_list_field.getSelectedItem().toString().contains("[ADMIN]")){
-						try {
-							java.awt.Desktop.getDesktop().edit(file);
-						} catch (IOException e1) {
-							e1.printStackTrace();
+					String passwd = String.valueOf(user_passwd_field.getPassword());
+					boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, "Modifying the user");
+
+					if (check) {
+						if (user_list_field.getSelectedItem().toString().contains("[ADMIN]")) {
+							try {
+								java.awt.Desktop.getDesktop().edit(file);
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						} else {
+							removeAll();
+							add(modify_user_panel);
 						}
-					}else{
-				    removeAll();
-					add(modify_user_panel);
-					}
-					repaint();
+						repaint();
+					} else
+						System.out.println("WARNING: Incorrect credentials!");
 				} else if (e.getSource() == user_delete_button) {
 					//TODO check password
 //					ConfigXML.config.setUsers(users);
