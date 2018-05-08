@@ -1,9 +1,12 @@
 package jMetal.binaryProblems;
 
+import org.apache.commons.mail.EmailException;
 import org.uma.jmetal.problem.impl.AbstractBinaryProblem;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.impl.DefaultBinarySolution;
 import org.uma.jmetal.util.JMetalException;
+
+import email.EMail_Tools;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,6 +20,10 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	
 	private int bits;
 	private boolean useJar = false;
+	private boolean email25 = false;
+	private boolean email50 = false;
+	private boolean email75 = false;
+	private int testNumber = 0;
 
 	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar) {
 		this.useJar = isJar;
@@ -70,6 +77,40 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
 				solution.setObjective(i, Double.parseDouble(individualEvaluationCriteria[i]));
 			}
+		}
+		testNumber++;
+		checkProgress(testNumber);
+	}
+
+	/**
+	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to user
+	 * @param testNumber
+	 */
+	public void checkProgress(int testNumber) {
+		double numberTests;
+		if (useJar)
+			numberTests = 500;
+		else
+			numberTests = 2500;
+		double progress = testNumber/numberTests;
+		try {
+			if (progress >= 0.25 && !email25) {
+				EMail_Tools.sendProgressMail(25);
+				email25 = true;
+			}
+			if (progress >= 0.5 && !email50) {
+				EMail_Tools.sendProgressMail(50);
+				email50 = true;
+			}
+			if (progress >= 0.75 && !email75) {
+				EMail_Tools.sendProgressMail(75);
+				email75 = true;
+			}
+			if (progress == 1) {
+				EMail_Tools.sendProgressMail(100);
+			} 
+		} catch (EmailException e) {
+			e.printStackTrace();
 		}
 	}
 
