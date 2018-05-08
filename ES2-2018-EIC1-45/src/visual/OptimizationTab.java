@@ -35,7 +35,6 @@ import org.apache.commons.mail.EmailException;
 import core.User;
 import core.Variable;
 import email.EMail_Tools;
-import jMetal.ConsoleOutputCapturer;
 import jMetal.OptimizationProcess;
 import xml.ConfigXML;
 import xml.ProblemXML;
@@ -258,10 +257,7 @@ public class OptimizationTab extends JPanel {
 					//TODO:
 					//runOptimization should be handled by a seperate thread
 					//there should be a button to select a Jar file if needed
-					Thread thread = new ConsoleOutputCapturer();
-					thread.start();
 					OptimizationProcess.runOptimization(data, (String) algo_name_field.getSelectedItem(), false);
-					thread.interrupt();
 				} else if (e.getSource() == user_create_button) {
 					createUser();
 				}
