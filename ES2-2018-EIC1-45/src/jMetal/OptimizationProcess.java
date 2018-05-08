@@ -7,7 +7,7 @@ import jMetal.binaryProblems.ExperimentsBinary;
 import jMetal.doubleProblems.ExperimentsDouble;
 import jMetal.integerProblems.ExperimentsInteger;
 
-public class OptimizationProcess {
+public class OptimizationProcess extends Thread{
 
 	private static String[] AlgorithmsForDoubleProblemType = new String[] { "NSGAII", "SMSEMOA", "GDE3", "IBEA",
 			"MOCell", "MOEAD", "PAES", "RandomSearch" };
@@ -17,6 +17,10 @@ public class OptimizationProcess {
 			"PAES", "RandomSearch", "SPEA2" };
 	private static int variable_count = 0;
 
+	private static Object[][] data;
+	private static String algorithm;
+	private static boolean isJar;
+	
 	/**
 	 * Executes a problem depending on the data fed from the GUI's table, the chosen
 	 * algorithm, and whether a jar is used or not.
@@ -26,6 +30,12 @@ public class OptimizationProcess {
 	 * @param isJar
 	 * @author pvmpa-iscteiulpt
 	 */
+	
+	@Override
+	public void run() {
+		runOptimization(data, algorithm, isJar);
+	}
+	
 	public static void runOptimization(Object[][] data, String algorithm, boolean isJar) {
 		try {
 			variable_count = 0;
@@ -209,6 +219,30 @@ public class OptimizationProcess {
 		}
 		System.out.println("True Data length: " +true_data.length);
 		System.out.println("============================================================");
+	}
+	
+	public static Object[][] getData() {
+		return data;
+	}
+
+	public static void setData(Object[][] data) {
+		OptimizationProcess.data = data;
+	}
+
+	public static String getAlgorithm() {
+		return algorithm;
+	}
+
+	public static void setAlgorithm(String algorithm) {
+		OptimizationProcess.algorithm = algorithm;
+	}
+
+	public static boolean isJar() {
+		return isJar;
+	}
+
+	public static void setJar(boolean isJar) {
+		OptimizationProcess.isJar = isJar;
 	}
 
 }

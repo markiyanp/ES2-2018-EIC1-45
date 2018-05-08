@@ -173,11 +173,14 @@ public class OptimizationTab extends JPanel {
 				} else if (e.getSource() == variable_remove_button) {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
-					sendMailAdmin();
+					//sendMailAdmin();
 					//TODO:
 					//runOptimization should be handled by a seperate thread
 					//there should be a button to select a Jar file if needed
-					OptimizationProcess.runOptimization(data, (String) algo_name_field.getSelectedItem(), false);
+					OptimizationProcess.setData(data);
+					OptimizationProcess.setAlgorithm((String) algo_name_field.getSelectedItem());
+					OptimizationProcess.setJar(false);
+					new OptimizationProcess().start();
 				}
 			}
 		};
