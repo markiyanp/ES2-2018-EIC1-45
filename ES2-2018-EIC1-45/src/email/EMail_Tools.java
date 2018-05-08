@@ -18,7 +18,9 @@ public class EMail_Tools {
 	
 	//temporary!!! The admin_email will be imported from a XML file...
 	private static final String ADMIN_EMAIL = "AGrupo45@gmail.com";
-
+	
+	private final static String progressEmailBody = "Do not worry! Everything is going okay! Your optimization progress is currently at ";
+	private final static String completedProgressEmailBody = "Just reminding you that your optimization is now complete!";
 	//This class should never be instatiated!
 	private EMail_Tools(){
 		
@@ -145,6 +147,13 @@ public class EMail_Tools {
 			email.send();
 		}
 		
+	}
+	
+	public static void sendProgressMail(int progress) throws EmailException {
+		if (progress != 100)
+			sendMail("group45.optimization.bot@gmail.com", "eD92=aSC", "group45.dummy.user.1@gmail.com", null, "Your Optimization is currently at " + progress, progressEmailBody + progress, null);
+		else
+			sendMail("group45.optimization.bot@gmail.com", "eD92=aSC", "group45.dummy.user.1@gmail.com", null, "Your Optimization is completed!", completedProgressEmailBody, null);
 	}
 	
 	public static String getAdminEmail() {

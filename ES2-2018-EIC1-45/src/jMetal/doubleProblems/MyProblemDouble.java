@@ -5,8 +5,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.mail.EmailException;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
+
+import email.EMail_Tools;
 
 public class MyProblemDouble extends AbstractDoubleProblem {
 
@@ -16,6 +19,11 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	private static final long serialVersionUID = 5661793940199968579L;
 
 	private boolean useJar = false;
+	private boolean email25 = false;
+	private boolean email50 = false;
+	private boolean email75 = false;
+
+	private int testNumber = 0;
 
 	public MyProblemDouble(double[][] limits, boolean isJar) {
 		this.useJar = isJar;
@@ -71,6 +79,41 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
 				solution.setObjective(i, Double.parseDouble(individualEvaluationCriteria[i]));
 			}
+		}
+		testNumber++;
+		checkProgress(testNumber);
+		
+	}
+
+	/**
+	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to user
+	 * @param testNumber
+	 */
+	public void checkProgress(int testNumber) {
+		double numberTests;
+		if (useJar)
+			numberTests = 500;
+		else
+			numberTests = 2500;
+		double progress = testNumber/numberTests;
+		try {
+			if (progress >= 0.25 && !email25) {
+				EMail_Tools.sendProgressMail(25);
+				email25 = true;
+			}
+			if (progress >= 0.5 && !email50) {
+				EMail_Tools.sendProgressMail(50);
+				email50 = true;
+			}
+			if (progress >= 0.75 && !email75) {
+				EMail_Tools.sendProgressMail(75);
+				email75 = true;
+			}
+			if (progress == 1) {
+				EMail_Tools.sendProgressMail(100);
+			} 
+		} catch (EmailException e) {
+			e.printStackTrace();
 		}
 	}
 
