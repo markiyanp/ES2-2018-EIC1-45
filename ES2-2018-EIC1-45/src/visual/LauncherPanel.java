@@ -66,7 +66,7 @@ public class LauncherPanel extends JPanel {
 	private JButton user_login_button = new JButton("  Login");
 	private JButton user_signup_button = new JButton("  Create User");
 	private JButton user_delete_button = new JButton("  Delete User");
-	private JButton user_modify_button = new JButton("  Edit User");
+	private JButton user_modify_button = new JButton("  Modify");
 	// ***************************USER_FIELDS************************************************
 
 	// *************************CREATE_USER_FIELDS*************************************

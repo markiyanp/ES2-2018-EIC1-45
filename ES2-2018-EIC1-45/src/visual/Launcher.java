@@ -1,6 +1,7 @@
 package visual;
 
 import java.io.File;
+import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,11 +20,12 @@ public class Launcher extends JFrame{
 
 	//**********************************INSTANCES**************************************
 	private JPanel main;
-	private ClassLoader classLoader = getClass().getClassLoader();
-	private File file = new File(classLoader.getResource("config.xml").getFile());
+	private File file;
 	//**********************************INSTANCES**************************************
 	
-	public Launcher() {
+	public Launcher(){
+		ClassLoader classLoader = getClass().getClassLoader();
+		file = new File(classLoader.getResource("config.xml").getFile());
 		ConfigXML.readXML(file);
 		setTitle(TITLE);
 		main = new LauncherPanel(file);
@@ -67,5 +69,31 @@ public class Launcher extends JFrame{
 		
 		
 		new Launcher();
+	}
+	
+	public URL getResource(String resource){
+
+	    URL url ;
+
+	    //Try with the Thread Context Loader. 
+	    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+	    if(classLoader != null){
+	        url = classLoader.getResource(resource);
+	        if(url != null){
+	            return url;
+	        }
+	    }
+
+	    //Let's now try with the classloader that loaded this class.
+	    classLoader = this.getClass().getClassLoader();
+	    if(classLoader != null){
+	        url = classLoader.getResource(resource);
+	        if(url != null){
+	            return url;
+	        }
+	    }
+
+	    //Last ditch attempt. Get the resource from the classpath.
+	    return ClassLoader.getSystemResource(resource);
 	}
 }
