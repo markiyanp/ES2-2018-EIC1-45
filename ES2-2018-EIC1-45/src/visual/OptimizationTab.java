@@ -34,7 +34,6 @@ import org.apache.commons.mail.EmailException;
 import core.User;
 import core.Variable;
 import email.EMail_Tools;
-import jMetal.ConsoleOutputCapturer;
 import jMetal.OptimizationProcess;
 import xml.ConfigXML;
 import xml.ProblemXML;
@@ -175,13 +174,10 @@ public class OptimizationTab extends JPanel {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
 					sendMailAdmin();
-					// TODO:
-					// runOptimization should be handled by a seperate thread
-					// there should be a button to select a Jar file if needed
-					Thread thread = new ConsoleOutputCapturer();
-					thread.start();
+					//TODO:
+					//runOptimization should be handled by a seperate thread
+					//there should be a button to select a Jar file if needed
 					OptimizationProcess.runOptimization(data, (String) algo_name_field.getSelectedItem(), false);
-					thread.interrupt();
 				}
 			}
 		};

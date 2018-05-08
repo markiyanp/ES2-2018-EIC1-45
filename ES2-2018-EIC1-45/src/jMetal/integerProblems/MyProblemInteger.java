@@ -17,6 +17,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	private static final long serialVersionUID = 5053442100790906706L;
 
 	private boolean useJar = false;
+	private static int test = 0;
 	
 	
 	public MyProblemInteger(int[][] limits, boolean isJar) throws JMetalException {
@@ -39,6 +40,8 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	}
 
 	public void evaluate(IntegerSolution solution) {
+		test++;
+		System.out.println("hello" + test);
 		if (!useJar) {
 			double[] fx = new double[getNumberOfObjectives()];
 			int[] x = new int[getNumberOfVariables()];
