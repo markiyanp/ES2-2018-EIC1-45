@@ -24,9 +24,7 @@ public class Launcher extends JFrame{
 	//**********************************INSTANCES**************************************
 	
 	public Launcher(){
-		//TOkdflm,
-		ClassLoader classLoader = getClass().getClassLoader();
-		file = new File(classLoader.getResource("config.xml").getFile());
+		file = new File("Resources/config.xml");
 		ConfigXML.readXML(file);
 		setTitle(TITLE);
 		main = new LauncherPanel(file);
