@@ -18,9 +18,6 @@ public class EMail_Tools {
 	
 	//temporary!!! The admin_email will be imported from a XML file...
 	private static final String ADMIN_EMAIL = "AGrupo45@gmail.com";
-	
-	private final static String progressEmailBody = "Do not worry! Everything is going okay! Your optimization progress is currently at ";
-	private final static String completedProgressEmailBody = "Just reminding you that your optimization is now complete!";
 	//This class should never be instatiated!
 	private EMail_Tools(){
 		

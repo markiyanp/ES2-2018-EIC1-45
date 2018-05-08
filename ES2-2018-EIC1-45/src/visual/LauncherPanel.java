@@ -26,6 +26,12 @@ import email.EMail_Tools;
 import xml.ConfigXML;
 
 public class LauncherPanel extends JPanel {
+	
+	private static final String USER_LOGGED_MSG = "Your user has logged in!";
+	private static final String USER_REGISTERED_MSG = "An user has been registered in your name!";
+	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
+	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
+	
 	private static final long serialVersionUID = 1L;
 	
 	private Image background = Toolkit.getDefaultToolkit()
@@ -114,8 +120,8 @@ public class LauncherPanel extends JPanel {
 	}
 
 	private String getCurrentEmail() {
-		
-		return null;
+		String s = (String) user_list_field.getSelectedItem();
+		return s.substring(s.indexOf("[") + 1, s.indexOf("]"));
 	}
 	
 	private void init_user_panel() {
@@ -306,29 +312,81 @@ public class LauncherPanel extends JPanel {
 					removeAll();
 					add(user_panel);
 					repaint();
-
 				} else if (e.getSource() == user_modify_button) {
-					String passwd = String.valueOf(user_passwd_field.getPassword());
-					boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, "Modifying the user");
-
-					if (check) {
-						if (user_list_field.getSelectedItem().toString().contains("[ADMIN]")) {
-							try {
-								java.awt.Desktop.getDesktop().edit(file);
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
-						} else {
-							removeAll();
-							add(modify_user_panel);
+					if (user_list_field.getSelectedItem().toString().contains("[ADMIN]")) {
+						try {
+							java.awt.Desktop.getDesktop().edit(file);
+						} catch (IOException e1) {
+							e1.printStackTrace();
 						}
-						repaint();
-					} else
-						System.out.println("WARNING: Incorrect credentials!");
+					} else {
+						removeAll();
+						add(modify_user_panel);
+					}
+					repaint();
 				} else if (e.getSource() == user_delete_button) {
-					//TODO check password
-//					ConfigXML.config.setUsers(users);
-				} 
+					deleteUser();
+				} else if (e.getSource() == modify_user_save_button) {
+					modifyUser();
+				} else if (e.getSource() == create_user_create_button) {
+					createUser();
+				} else if (e.getSource() == user_login_button) {
+					loginUser();
+				}
+			}
+
+			private void loginUser() {
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
+				
+				if (check) {
+					//TODO: Handle the login
+				}
+				else {
+					//TODO: Fail
+					System.out.println("WARNING: Incorrect credentials!");
+				}
+			}
+
+			private void createUser() {
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_REGISTERED_MSG);
+				
+				if (check) {
+					//TODO: Create the user
+					//be careful if you're creating an admin?
+				}
+				else {
+					//TODO: Fail
+					System.out.println("WARNING: Incorrect credentials!");
+				}
+			}
+
+			private void modifyUser() {
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
+				
+				if (check) {
+					//TODO: Modify the user
+				}
+				else {
+					//TODO: Fail
+					System.out.println("WARNING: Incorrect credentials!");
+				}
+			}
+
+			private void deleteUser() {
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_DELETED_MSG);
+				
+				if(check) {
+					//TODO: Delete the user
+				}
+				else {
+					//TODO: Fail
+					System.out.println("WARNING: Incorrect credentials!");
+				}
+//					ConfigXML.config.setUsers(users); TODO what's this?
 			}
 		};
 	}

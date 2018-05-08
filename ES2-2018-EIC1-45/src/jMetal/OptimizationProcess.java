@@ -195,6 +195,7 @@ public class OptimizationProcess extends Thread{
 
 	}
 	
+	@SuppressWarnings("unused")
 	private static void debugSysout_Start(Object[][] data, String algorithm, boolean isJar) {
 		System.out.println("============================================================");
 		System.out.println("BEGINNING runOptimization WITH THE FOLLOWING PARAMETERS:");
@@ -208,6 +209,7 @@ public class OptimizationProcess extends Thread{
 		System.out.println("Use jar: " + isJar);
 	}
 	
+	@SuppressWarnings("unused")
 	private static void debugSysout_Parser(Object[][] true_data) {
 		System.out.println("============================================================");
 		System.out.println("PARSING SELECTED PARAMETERS:");
