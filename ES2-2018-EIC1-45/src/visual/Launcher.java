@@ -27,7 +27,7 @@ public class Launcher extends JFrame{
 		file = new File("Resources/config.xml");
 		ConfigXML.readXML(file);
 		setTitle(TITLE);
-		main = new LauncherPanel(file);
+		main = new LauncherPanel(this,file);
 		add(main);
 		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(null);

@@ -36,7 +36,7 @@ public class ExperimentsDouble {
 			maxEvaluations = 250;
 		}
 		else { 
-			INDEPENDENT_RUNS = 5;
+			INDEPENDENT_RUNS = 50;
 			maxEvaluations = 500;
 		}
 		

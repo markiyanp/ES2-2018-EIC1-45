@@ -18,7 +18,6 @@ public class EMail_Tools {
 	
 	//temporary!!! The admin_email will be imported from a XML file...
 	private static final String ADMIN_EMAIL = "AGrupo45@gmail.com";
-
 	//This class should never be instatiated!
 	private EMail_Tools(){
 		
@@ -40,6 +39,23 @@ public class EMail_Tools {
 		}
 		
 		throw new IllegalArgumentException("WARNING: Invalid e-mail detected! Failed to parse provider!");
+	}
+	
+	
+	public static boolean checkAuth(String userAddr, String userPw, String reason) {
+		
+		if (reason.isEmpty()) {
+			throw new IllegalArgumentException("You must provide a reason to check authentication.");
+		}
+		
+		try {
+			System.out.println("Attempting to send warning e-mail");
+			sendMail(userAddr, userPw, userAddr, null, "[OPTIMIZATION PROGRAM] User activity detected", reason, null);
+			return true;
+		} catch (EmailException e) {
+			return false;
+		}
+		
 	}
 	
 	/**Sends an e-mail.
@@ -145,6 +161,13 @@ public class EMail_Tools {
 			email.send();
 		}
 		
+	}
+	
+	public static void sendProgressMail(int progress) throws EmailException {
+//		if (progress != 100)
+//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null, "Your Optimization is currently at " + progress, progressEmailBody + progress, null);
+//		else
+//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null, "Your Optimization is completed!", completedProgressEmailBody, null);
 	}
 	
 	public static String getAdminEmail() {
