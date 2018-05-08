@@ -44,6 +44,7 @@ public class LauncherPanel extends JPanel {
 			.createImage(LauncherPanel.class.getResource("/icons/reply.png"));
 
 	private Window window;
+	private Launcher launch;
 	
 	private File file;
 	
@@ -99,7 +100,8 @@ public class LauncherPanel extends JPanel {
 
 	// *************************CREATE_USER_FIELDS*************************************
 
-	public LauncherPanel(File file) {
+	public LauncherPanel(Launcher launch, File file) {
+		this.launch = launch;
 		this.file = file;
 		new_action_listener();
 		setLayout(null);
@@ -312,7 +314,10 @@ public class LauncherPanel extends JPanel {
 					add(modify_user_panel);
 					}
 					repaint();
-				}
+				} else if (e.getSource() == user_delete_button) {
+					//TODO check password
+//					ConfigXML.config.setUsers(users);
+				} 
 			}
 		};
 	}
