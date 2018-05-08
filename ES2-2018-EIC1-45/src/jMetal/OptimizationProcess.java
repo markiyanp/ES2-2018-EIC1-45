@@ -29,7 +29,7 @@ public class OptimizationProcess {
 	public static void runOptimization(Object[][] data, String algorithm, boolean isJar) {
 		try {
 			variable_count = 0;
-			debugSysout_Start(data, algorithm, isJar);
+			//debugSysout_Start(data, algorithm, isJar);
 
 			boolean integerProblem = false, doubleProblem = false, binaryProblem = false;
 
@@ -80,7 +80,7 @@ public class OptimizationProcess {
 				true_data_iterator++;
 			}
 		}
-		debugSysout_Parser(true_data);
+		//debugSysout_Parser(true_data);
 		return true_data;
 	}
 
@@ -207,6 +207,7 @@ public class OptimizationProcess {
 					+ true_data[i][4] + " " + true_data[i][5]);
 
 		}
+		System.out.println("True Data length: " +true_data.length);
 		System.out.println("============================================================");
 	}
 
