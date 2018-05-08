@@ -349,7 +349,16 @@ public class LauncherPanel extends JPanel {
 			}
 
 			private void createUser() {
-				String passwd = String.valueOf(user_passwd_field.getPassword());
+				String passwd = String.valueOf(create_user_passwd_field.getPassword());
+				String repeat = String.valueOf(create_user_retypePass_field.getPassword());
+				
+				if (!passwd.equals(repeat)) {
+					//TODO: a screaming window that tells the user they messed up
+					System.out.println("Passwords don't match.");
+					return;
+				}
+				
+				
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_REGISTERED_MSG);
 				
 				if (check) {
