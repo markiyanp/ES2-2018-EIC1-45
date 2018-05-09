@@ -30,10 +30,15 @@ public class EMail_Tools {
 				email = email.substring(i+1);
 			}
 		}
-		
-		switch (email){
+		String[] smtp_and_port = new String[2];
+		switch (email) {
 		case "gmail.com":
-			String[] smtp_and_port = {"smtp.gmail.com", "465"};
+			smtp_and_port[1] = "smtp.gmail.com";
+			smtp_and_port[2] = "465";
+			return smtp_and_port;
+		case "mail.com":
+			smtp_and_port[1] = "smtp.mail.com";
+			smtp_and_port[2] = "587";
 			return smtp_and_port;
 
 		}
@@ -53,6 +58,7 @@ public class EMail_Tools {
 			sendMail(userAddr, userPw, userAddr, null, "[OPTIMIZATION PROGRAM] User activity detected", reason, null);
 			return true;
 		} catch (EmailException e) {
+			e.printStackTrace();
 			return false;
 		}
 		
