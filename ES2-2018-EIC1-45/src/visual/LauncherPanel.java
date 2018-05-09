@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -65,7 +66,7 @@ public class LauncherPanel extends JPanel {
 	private TitledBorder user_create_border = BorderFactory.createTitledBorder(blackline, "Create User");
 	private TitledBorder user_modification_border = BorderFactory.createTitledBorder(blackline, "Modify User");
 
-	// ***************************USEE_FIELDS************************************************
+	// ***************************USER_FIELDS************************************************
 	private JPanel user_panel;
 	private JLabel user_users_label = new JLabel("Users");
 	private JComboBox<String> user_list_field;
@@ -96,12 +97,10 @@ public class LauncherPanel extends JPanel {
 	private JPanel modify_user_panel;
 	private JLabel modify_user_collection_label = new JLabel("Users");
 	private JLabel modify_user_name_label = new JLabel("Username");
-	private JLabel modify_user_password_label = new JLabel("Old password");
-	private JLabel modify_user_retypePass_label = new JLabel("New password");
+	private JLabel modify_user_email_label = new JLabel("Email");
 	private JComboBox<String> modify_user_field;
+	private JTextField modify_user_name_field = new JTextField();
 	private JTextField modify_user_email_field = new JTextField();
-	private JPasswordField modify_user_passwd_field = new JPasswordField();
-	private JPasswordField modify_user_retypePass_field = new JPasswordField();
 	private JButton modify_user_save_button = new JButton("  Save");
 	private JButton modify_user_back_button = new JButton("  Back");
 
@@ -124,13 +123,7 @@ public class LauncherPanel extends JPanel {
 		return s.substring(s.indexOf("[") + 1, s.indexOf("]"));
 	}
 	
-	private void init_user_panel() {
-		user_panel = new JPanel();
-		user_panel.setBorder(user_area_border);
-		user_panel.setBounds(36, 147, border_width, border_height);
-		user_panel.setOpaque(false);
-		user_panel.setLayout(null);
-
+	private void loadUsers() {
 		ArrayList<User> users = ConfigXML.config.getUsers();
 		String[] items = new String[users.size() + 1];
 		for (User u : users) {
@@ -151,7 +144,17 @@ public class LauncherPanel extends JPanel {
 		admin_string += " [ADMIN]";
 		items[items.length - 1] = admin_string;
 		user_list_field = new JComboBox<String>(items);
+	}
+	
+	private void init_user_panel() {
+		user_panel = new JPanel();
+		user_panel.setBorder(user_area_border);
+		user_panel.setBounds(36, 147, border_width, border_height);
+		user_panel.setOpaque(false);
+		user_panel.setLayout(null);
 
+		loadUsers();
+		
 		user_users_label.setBounds(15, 20, 50, 25);
 		user_list_field.setBounds(15, 45, 290, 28);
 		user_passwd_label.setBounds(15, 75, 220, 25);
@@ -160,7 +163,7 @@ public class LauncherPanel extends JPanel {
 		user_login_button.setBounds(15, 150, 290, 28);
 		user_delete_button.setBounds(15, 270, 290, 28);
 		user_modify_button.setBounds(15, 230, 290, 28);
-
+		
 		user_login_button.setIcon(new ImageIcon(key_icon));
 		user_signup_button.setIcon(new ImageIcon(register_icon));
 		user_modify_button.setIcon(new ImageIcon(settings_icon));
@@ -249,7 +252,10 @@ public class LauncherPanel extends JPanel {
 
 		for (User u : ConfigXML.config.getUsers()) {
 			if (modify_user_field.getSelectedItem().toString().contains(u.getUsername())) {
-				modify_user_email_field.setText(u.getUsername());
+				modify_user_name_field.setText(u.getUsername());
+			}
+			if (modify_user_field.getSelectedItem().toString().contains(u.getEmailAddr())) {
+				modify_user_email_field.setText(u.getEmailAddr());
 			}
 		}
 
@@ -257,7 +263,10 @@ public class LauncherPanel extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				for (User u : ConfigXML.config.getUsers()) {
 					if (modify_user_field.getSelectedItem().toString().contains(u.getUsername())) {
-						modify_user_email_field.setText(u.getUsername());
+						modify_user_name_field.setText(u.getUsername());
+					}
+					if (modify_user_field.getSelectedItem().toString().contains(u.getEmailAddr())) {
+						modify_user_email_field.setText(u.getEmailAddr());
 					}
 				}
 			}
@@ -265,13 +274,11 @@ public class LauncherPanel extends JPanel {
 
 		modify_user_collection_label.setBounds(15, 20, 50, 25);
 		modify_user_name_label.setBounds(15, 75, 290, 25);
-		modify_user_password_label.setBounds(15, 130, 220, 25);
-		modify_user_retypePass_label.setBounds(15, 185, 290, 25);
+		modify_user_email_label.setBounds(15, 130, 220, 25);
 
 		modify_user_field.setBounds(15, 45, 290, 28);
-		modify_user_email_field.setBounds(15, 100, 290, 28);
-		modify_user_passwd_field.setBounds(15, 155, 290, 28);
-		modify_user_retypePass_field.setBounds(15, 210, 290, 28);
+		modify_user_name_field.setBounds(15, 100, 290, 28);
+		modify_user_email_field.setBounds(15, 155, 290, 28);
 
 		modify_user_save_button.setBounds(170, 270, 135, 28);
 		modify_user_back_button.setBounds(15, 270, 135, 28);
@@ -284,16 +291,14 @@ public class LauncherPanel extends JPanel {
 
 		modify_user_panel.add(modify_user_collection_label);
 		modify_user_panel.add(modify_user_name_label);
-		modify_user_panel.add(modify_user_password_label);
-		modify_user_panel.add(modify_user_retypePass_label);
+		modify_user_panel.add(modify_user_email_label);
 		modify_user_panel.add(modify_user_field);
+		modify_user_panel.add(modify_user_name_field);
 		modify_user_panel.add(modify_user_email_field);
-		modify_user_panel.add(modify_user_passwd_field);
-		modify_user_panel.add(modify_user_retypePass_field);
 		modify_user_panel.add(modify_user_save_button);
 		modify_user_panel.add(modify_user_back_button);
 	}
-
+	
 	private void new_action_listener() {
 		listener = new ActionListener() {
 
@@ -336,16 +341,17 @@ public class LauncherPanel extends JPanel {
 			}
 
 			private void loginUser() {
-				String passwd = String.valueOf(user_passwd_field.getPassword());
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
+//				String passwd = String.valueOf(user_passwd_field.getPassword());
+//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
 				
-				if (check) {
-					//TODO: Handle the login
-				}
-				else {
+//				if (check) {
+					launch.setVisible(false);
+					new Window();
+//				}
+//				else {
 					//TODO: Fail
-					System.out.println("WARNING: Incorrect credentials!");
-				}
+//					System.out.println("WARNING: Incorrect credentials!");
+//				}
 			}
 
 			private void createUser() {
@@ -354,34 +360,62 @@ public class LauncherPanel extends JPanel {
 				
 				if (!passwd.equals(repeat)) {
 					//TODO: a screaming window that tells the user they messed up
+					String try_again = "<html><font color=RED > Please try again... </font></html>";
+					String message = "<html><font color=RED > The retype password is wrong!! </font></html>";
+					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Passwords don't match.");
 					return;
 				}
 				
 				
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_REGISTERED_MSG);
+//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_REGISTERED_MSG);
 				
-				if (check) {
-					//TODO: Create the user
-					//be careful if you're creating an admin?
+//				if (check) {
+				ArrayList<User> users = ConfigXML.config.getUsers();
+				ArrayList<User> new_users = new ArrayList<User>();
+				User new_user = new User(create_user_name_field.getText(),create_user_email_field.getText());
+				int i = 0;
+				for(User u : users) {
+					new_users.add(i, u);
+					i++;
 				}
-				else {
+				new_users.add(i, new_user);
+				ConfigXML.config.getUsers().clear();
+				ConfigXML.config.setUsers(new_users);
+				ConfigXML.writeXML(ConfigXML.config, file);
+				String new_item = "";
+				new_item += new_user.getUsername();
+				new_item += "  [";
+				new_item += new_user.getEmailAddr();
+				new_item += "]";
+				user_list_field.addItem(new_item);
+//				}
+//				else {
 					//TODO: Fail
-					System.out.println("WARNING: Incorrect credentials!");
-				}
+//					System.out.println("WARNING: Incorrect credentials!");
+//				}
 			}
 
 			private void modifyUser() {
-				String passwd = String.valueOf(user_passwd_field.getPassword());
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
+//				String passwd = String.valueOf(user_passwd_field.getPassword());
+//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
 				
-				if (check) {
-					//TODO: Modify the user
+//				if (check) {
+				
+				ArrayList<User> users = ConfigXML.config.getUsers();
+				for(User u : users) {
+					if(user_list_field.getSelectedItem() == u) {
+						u.setUsername(modify_user_name_field.getText());
+						u.setEmailAddr(modify_user_email_field.getText());
+					}
+					
 				}
-				else {
+				
+//				}
+//				else {
 					//TODO: Fail
-					System.out.println("WARNING: Incorrect credentials!");
-				}
+//					System.out.println("WARNING: Incorrect credentials!");
+//				}
 			}
 
 			private void deleteUser() {
@@ -389,13 +423,25 @@ public class LauncherPanel extends JPanel {
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_DELETED_MSG);
 				
 				if(check) {
-					//TODO: Delete the user
+				file = new File("Resources/config.xml");
+				ArrayList<User> users = ConfigXML.config.getUsers();
+				ArrayList<User> new_users = new ArrayList<User>();
+				for(User u : users) {
+					if(!u.getEmailAddr().equals(getCurrentEmail())) {
+						new_users.add(u);
+					}
 				}
+				ConfigXML.config.getUsers().clear();
+				ConfigXML.config.setUsers(new_users);
+				ConfigXML.writeXML(ConfigXML.config, file);
+				user_list_field.removeItem(user_list_field.getSelectedItem());
+					}
+				
 				else {
 					//TODO: Fail
 					System.out.println("WARNING: Incorrect credentials!");
 				}
-//					ConfigXML.config.setUsers(users); TODO what's this?
+					
 			}
 		};
 	}
