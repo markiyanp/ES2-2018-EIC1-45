@@ -173,10 +173,10 @@ public class OptimizationTab extends JPanel {
 				} else if (e.getSource() == variable_remove_button) {
 					removeVariable();
 				} else if (e.getSource() == tools_run_button) {
-					//sendMailAdmin();
-					//TODO:
-					//runOptimization should be handled by a seperate thread
-					//there should be a button to select a Jar file if needed
+					// sendMailAdmin();
+					// TODO:
+					// runOptimization should be handled by a seperate thread
+					// there should be a button to select a Jar file if needed
 					OptimizationProcess.setData(data);
 					OptimizationProcess.setAlgorithm((String) algo_name_field.getSelectedItem());
 					OptimizationProcess.setJar(false);
@@ -495,8 +495,8 @@ public class OptimizationTab extends JPanel {
 				if (e.getSource() == variable_restricted_field) {
 					show_message++;
 					if (show_message == 1) {
-						String message = "<html><font color=GREEN > If you want an array you will have to use , </font></html>";
-						JOptionPane.showMessageDialog(null, message, "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+						messageDialog(
+								"<html><font color=GREEN > If you want an array you will have to use , </font></html>");
 						variable_minval_field.requestFocus();
 					}
 				}
@@ -517,9 +517,8 @@ public class OptimizationTab extends JPanel {
 	private void analyzierName() {
 		if (!(variable_name_field.getText().matches("[a-zA-Z0-9_]*"))) {
 			variable_name_field.setText("");
-			String try_again = "<html><font color=RED > Please try again... </font></html>";
-			String message = "<html><font color=RED > The variable name can only have letters and/or numbers! </font></html>";
-			JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+			messageDialog(
+					"<html><font color=RED > The variable name can only have letters and/or numbers! </font></html>");
 			variable_name_field.requestFocus();
 		}
 	}
@@ -555,8 +554,6 @@ public class OptimizationTab extends JPanel {
 	}
 
 	private void DoubleRestriction(FocusEvent value) {
-		String try_again = "<html><font color=RED > Please try again... </font></html>";
-		String message = null;
 		int show_message = 0;
 		JTextField aux = ((JTextField) value.getComponent());
 		String[] array = variable_restricted_field.getText().split(",");
@@ -571,13 +568,13 @@ public class OptimizationTab extends JPanel {
 			}
 			if (!isDouble(aux.getText())) {
 				if (value.getSource() == variable_minval_field) {
-					message = "<html><font color=RED > The minium value can only have decimal numbers! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The minium value can only have decimal numbers! </font></html>");
 					variable_minval_field.setText("");
 					variable_minval_field.requestFocus();
 				} else if (value.getSource() == variable_maxval_field) {
-					message = "<html><font color=RED > The maximum value can only have decimal numbers! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The maximum value can only have decimal numbers! </font></html>");
 					variable_maxval_field.setText("");
 					variable_maxval_field.requestFocus();
 				}
@@ -587,9 +584,8 @@ public class OptimizationTab extends JPanel {
 					if (!isDouble(str) || isInteger(str)) {
 						show_message++;
 						if (show_message == 1) {
-							message = "<html><font color=RED > The restricted value can only have decimal numbers! </font></html>";
-							JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
-									JOptionPane.ERROR_MESSAGE);
+							messageDialog(
+									"<html><font color=RED > The restricted value can only have decimal numbers! </font></html>");
 							variable_restricted_field.setText("");
 							variable_restricted_field.requestFocus();
 						}
@@ -610,16 +606,13 @@ public class OptimizationTab extends JPanel {
 			DecimalFormat df = new DecimalFormat("0.#");
 			if (minval > maxval) {
 				variable_maxval_field.setText(df.format(maxval_suggestion));
-				String try_again = "<html><font color=RED > Please try again... </font></html>";
-				String message = "<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>";
-				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				messageDialog(
+						"<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>");
 				variable_maxval_field.requestFocus();
 			}
 			if (minval == maxval) {
 				variable_maxval_field.setText(df.format(maxval_suggestion));
-				String try_again = "<html><font color=RED > Please try again... </font></html>";
-				String message = "<html><font color=RED > The values can not be equals! </font></html>";
-				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				messageDialog("<html><font color=RED > The values can not be equals! </font></html>");
 				variable_maxval_field.requestFocus();
 			}
 			for (String str : array) {
@@ -628,9 +621,8 @@ public class OptimizationTab extends JPanel {
 					show_message++;
 				}
 				if (show_message == 1) {
-					String try_again = "<html><font color=RED > Please try again... </font></html>";
-					String message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>");
 					variable_restricted_field.setText("");
 					variable_restricted_field.requestFocus();
 				}
@@ -650,21 +642,19 @@ public class OptimizationTab extends JPanel {
 	}
 
 	private void IntegerRestriction(FocusEvent value) {
-		String try_again = "<html><font color=RED > Please try again... </font></html>";
-		String message;
 		int show_message = 0;
 		JTextField aux = ((JTextField) value.getComponent());
 		String[] array = variable_restricted_field.getText().split(",");
 		if (!aux.getText().isEmpty()) {
 			if (!isInteger(aux.getText())) {
 				if (value.getSource() == variable_minval_field) {
-					message = "<html><font color=RED > The minium value can only have integer numbers! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The minium value can only have integer numbers! </font></html>");
 					variable_minval_field.setText("");
 					variable_minval_field.requestFocus();
 				} else if (value.getSource() == variable_maxval_field) {
-					message = "<html><font color=RED > The maximum value can only have integer numbers! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The maximum value can only have integer numbers! </font></html>");
 					variable_maxval_field.setText("");
 					variable_maxval_field.requestFocus();
 				}
@@ -674,9 +664,8 @@ public class OptimizationTab extends JPanel {
 					if (!isInteger(str)) {
 						show_message++;
 						if (show_message == 1) {
-							message = "<html><font color=RED > The restricted value can only have integer numbers! </font></html>";
-							JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
-									JOptionPane.ERROR_MESSAGE);
+							messageDialog(
+									"<html><font color=RED > The restricted value can only have integer numbers! </font></html>");
 							variable_restricted_field.setText("");
 							variable_restricted_field.requestFocus();
 						}
@@ -694,20 +683,17 @@ public class OptimizationTab extends JPanel {
 			int show_message = 0;
 			String[] array = variable_restricted_field.getText().split(",");
 			int restricted;
-			String message;
-			String try_again = "<html><font color=RED > Please try again... </font></html>";
 			if (minval > maxval) {
 				maxval_suggestion = minval + 1;
 				variable_maxval_field.setText(Integer.toString(maxval_suggestion));
-				message = "<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>";
-				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				messageDialog(
+						"<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>");
 				variable_maxval_field.requestFocus();
 			}
 			if (minval == maxval) {
 				maxval_suggestion = minval + 1;
 				variable_maxval_field.setText(Integer.toString(maxval_suggestion));
-				message = "<html><font color=RED > The values can not be equals! </font></html>";
-				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				messageDialog("<html><font color=RED > The values can not be equals! </font></html>");
 				variable_maxval_field.requestFocus();
 			}
 			for (String str : array) {
@@ -720,9 +706,8 @@ public class OptimizationTab extends JPanel {
 						variable_maxval_field.setText(Integer.toString(maxval_suggestion));
 					}
 					if (show_message == 1) {
-						message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
-						JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
-								JOptionPane.ERROR_MESSAGE);
+						messageDialog(
+								"<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>");
 						variable_restricted_field.requestFocus();
 						variable_restricted_field.setText("");
 					}
@@ -752,25 +737,23 @@ public class OptimizationTab extends JPanel {
 	}
 
 	private void binaryRestriction(FocusEvent value) {
-		String try_again = "<html><font color=RED > Please try again... </font></html>";
-		String message;
 		JTextField aux = ((JTextField) value.getComponent());
 		String[] array = variable_restricted_field.getText().split(",");
 		if (!aux.getText().isEmpty()) {
 			if (!(isBinary(aux.getText()) || isArrayBinary(array))) {
 				if (value.getSource() == variable_minval_field) {
-					message = "<html><font color=RED > The minium value can only have binary numbers! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The minium value can only have binary numbers! </font></html>");
 					variable_minval_field.setText("");
 					variable_minval_field.requestFocus();
 				} else if (value.getSource() == variable_maxval_field) {
-					message = "<html><font color=RED > The maximum value can only have binary numbers! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The maximum value can only have binary numbers! </font></html>");
 					variable_maxval_field.setText("");
 					variable_maxval_field.requestFocus();
 				} else if (value.getSource() == variable_restricted_field) {
-					message = "<html><font color=RED > The restricted value can only have binary numbers! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The restricted value can only have binary numbers! </font></html>");
 					variable_restricted_field.setText("");
 					variable_restricted_field.requestFocus();
 				}
@@ -794,16 +777,14 @@ public class OptimizationTab extends JPanel {
 		int show_message = 0;
 		String[] array = variable_restricted_field.getText().split(",");
 		int aux;
-		String message;
-		String try_again = "<html><font color=RED > Please try again... </font></html>";
 		if (!variable_minval_field.getText().isEmpty() && !variable_maxval_field.getText().isEmpty()) {
 			minval = binaryToInteger(variable_minval_field.getText());
 			maxval = binaryToInteger(variable_maxval_field.getText());
 			if (minval >= maxval && isBinary(variable_minval_field.getText())
 					&& isBinary(variable_maxval_field.getText()) && isBinary(variable_restricted_field.getText())) {
 				variable_maxval_field.setText("");
-				message = "<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>";
-				JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+				messageDialog(
+						"<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>");
 				variable_maxval_field.requestFocus();
 			}
 			if (!variable_restricted_field.getText().isEmpty()) {
@@ -812,8 +793,8 @@ public class OptimizationTab extends JPanel {
 						&& isBinary(variable_minval_field.getText()) && isBinary(variable_maxval_field.getText())
 						&& isBinary(variable_restricted_field.getText())))) {
 					variable_restricted_field.setText("");
-					message = "<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>";
-					JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
+					messageDialog(
+							"<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>");
 					variable_restricted_field.requestFocus();
 				}
 				if (isArrayBinary(array)) {
@@ -823,16 +804,19 @@ public class OptimizationTab extends JPanel {
 							show_message++;
 							if (show_message == 1) {
 								variable_restricted_field.setText("");
-								try_again = "<html><font color=RED > Please try again... </font></html>";
-								message = "<html><font color=RED > The array of restricted value must be between the minium value and the maximum value! </font></html>";
-								JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR",
-										JOptionPane.ERROR_MESSAGE);
+								messageDialog(
+										"<html><font color=RED > The array of restricted value must be between the minium value and the maximum value! </font></html>");
 							}
 						}
 					}
 				}
 			}
 		}
+	}
+
+	private void messageDialog(String message) {
+		String try_again = "<html><font color=RED > Please try again... </font></html>";
+		JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 }
