@@ -7,7 +7,7 @@ import jMetal.binaryProblems.ExperimentsBinary;
 import jMetal.doubleProblems.ExperimentsDouble;
 import jMetal.integerProblems.ExperimentsInteger;
 
-public class OptimizationProcess extends Thread{
+public class OptimizationProcess extends Thread {
 
 	private static String[] AlgorithmsForDoubleProblemType = new String[] { "NSGAII", "SMSEMOA", "GDE3", "IBEA",
 			"MOCell", "MOEAD", "PAES", "RandomSearch" };
@@ -246,5 +246,6 @@ public class OptimizationProcess extends Thread{
 	public static void setJar(boolean isJar) {
 		OptimizationProcess.isJar = isJar;
 	}
-
+	
+	
 }

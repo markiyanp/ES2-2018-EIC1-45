@@ -19,30 +19,33 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	*/
 	private static final long serialVersionUID = 5053442100790906706L;
 
+	private final static long startingTime = System.currentTimeMillis();
+
 	private boolean useJar = false;
 	private boolean email25 = false;
 	private boolean email50 = false;
 	private boolean email75 = false;
-	
+
 	private int testNumber = 0;
-	
+
 	public MyProblemInteger(int[][] limits, boolean isJar) throws JMetalException {
-		this.useJar = isJar;
-		setNumberOfVariables(limits.length);
-		setNumberOfObjectives(2);
-		setName("MyProblemInteger");
+		if (System.currentTimeMillis() - startingTime >= 2000) {
+			this.useJar = isJar;
+			setNumberOfVariables(limits.length);
+			setNumberOfObjectives(2);
+			setName("MyProblemInteger");
 
-		List<Integer> lowerLimit = new ArrayList<>(getNumberOfVariables());
-		List<Integer> upperLimit = new ArrayList<>(getNumberOfVariables());
+			List<Integer> lowerLimit = new ArrayList<>(getNumberOfVariables());
+			List<Integer> upperLimit = new ArrayList<>(getNumberOfVariables());
 
-		for (int i = 0; i < getNumberOfVariables(); i++) {
-			lowerLimit.add(limits[i][0]);
-			upperLimit.add(limits[i][1]);
+			for (int i = 0; i < getNumberOfVariables(); i++) {
+				lowerLimit.add(limits[i][0]);
+				upperLimit.add(limits[i][1]);
+			}
+
+			setLowerLimit(lowerLimit);
+			setUpperLimit(upperLimit);
 		}
-
-		setLowerLimit(lowerLimit);
-		setUpperLimit(upperLimit);
-
 	}
 
 	public void evaluate(IntegerSolution solution) {
@@ -55,8 +58,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 			double[] solutionObjectives = NMMin.NMMinSolution(fx, x);
 			solution.setObjective(0, solutionObjectives[0]);
 			solution.setObjective(1, solutionObjectives[1]);
-		}
-		else {
+		} else {
 			String solutionString = "";
 			String evaluationResultString = "";
 			for (int i = 0; i < solution.getNumberOfVariables(); i++) {
@@ -84,11 +86,13 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 		}
 		testNumber++;
 		checkProgress(testNumber);
-		
+
 	}
 
 	/**
-	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to user
+	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to
+	 * user
+	 * 
 	 * @param testNumber
 	 */
 	public void checkProgress(int testNumber) {
@@ -97,7 +101,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 			numberTests = 500;
 		else
 			numberTests = 2500;
-		double progress = testNumber/numberTests;
+		double progress = testNumber / numberTests;
 		try {
 			if (progress >= 0.25 && !email25) {
 				EMail_Tools.sendProgressMail(25);
@@ -113,7 +117,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 			}
 			if (progress == 1) {
 				EMail_Tools.sendProgressMail(100);
-			} 
+			}
 		} catch (EmailException e) {
 			e.printStackTrace();
 		}

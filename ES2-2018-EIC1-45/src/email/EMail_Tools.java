@@ -23,19 +23,25 @@ public class EMail_Tools {
 		
 	}
 	
-	protected static String[] mailProviderToSMTP(String email){
+	protected static Object[] mailProviderToSMTP(String email){
 		int i;
 		for (i = 0; i < email.length(); i++){
 			if (email.charAt(i) == '@'){
 				email = email.substring(i+1);
 			}
 		}
-		
-		switch (email){
+		Object[] smtp_and_port = new Object[3];
+		switch (email) {
 		case "gmail.com":
-			String[] smtp_and_port = {"smtp.gmail.com", "465"};
+			smtp_and_port[0] = "smtp.gmail.com";
+			smtp_and_port[1] = "465";
+			smtp_and_port[2] = Boolean.TRUE;
 			return smtp_and_port;
-
+		case "mail.com":
+			smtp_and_port[0] = "smtp.mail.com";
+			smtp_and_port[1] = "587";
+			smtp_and_port[2] = Boolean.FALSE;
+			return smtp_and_port;
 		}
 		
 		throw new IllegalArgumentException("WARNING: Invalid e-mail detected! Failed to parse provider!");
@@ -53,6 +59,7 @@ public class EMail_Tools {
 			sendMail(userAddr, userPw, userAddr, null, "[OPTIMIZATION PROGRAM] User activity detected", reason, null);
 			return true;
 		} catch (EmailException e) {
+			e.printStackTrace();
 			return false;
 		}
 		
@@ -80,7 +87,7 @@ public class EMail_Tools {
 			String attachmentPath) throws EmailException{
 		
 		//Get the appropriate SMTP server. If this fails, the entire sequence is aborted.
-		String[] smtp_and_port = mailProviderToSMTP(userAddr);
+		Object[] smtp_and_port = mailProviderToSMTP(userAddr);
 		
 		boolean validAttachment = false;
 		boolean validCc = false;
@@ -112,12 +119,13 @@ public class EMail_Tools {
 			attachment.setName(file.getName());
 			
 			MultiPartEmail email = new MultiPartEmail();
-			email.setHostName(smtp_and_port[0]);
-			email.setSmtpPort(Integer.parseInt(smtp_and_port[1]));
-			
+			email.setHostName((String) smtp_and_port[0]);
+			email.setSmtpPort(Integer.parseInt((String) smtp_and_port[1]));
+			email.setSslSmtpPort((String) smtp_and_port[1]);
 			
 			email.setAuthenticator(new DefaultAuthenticator(userAddr, userPw));
-			email.setSSLOnConnect(true);
+			
+			email.setSSLOnConnect((Boolean)smtp_and_port[2]);
 			
 			email.setFrom(userAddr);
 			email.addTo(destinationAddr);
@@ -139,12 +147,12 @@ public class EMail_Tools {
 		else{
 			Email email = new SimpleEmail();
 			
-			email.setHostName(smtp_and_port[0]);
-			email.setSmtpPort(Integer.parseInt(smtp_and_port[1]));
-			
+			email.setHostName((String) smtp_and_port[0]);
+			email.setSmtpPort(Integer.parseInt((String) smtp_and_port[1]));
+			email.setSslSmtpPort((String) smtp_and_port[1]);
 			
 			email.setAuthenticator(new DefaultAuthenticator(userAddr, userPw));
-			email.setSSLOnConnect(true);
+			email.setSSLOnConnect((Boolean)smtp_and_port[2]);
 			
 			email.setFrom(userAddr);
 			email.addTo(destinationAddr);

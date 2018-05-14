@@ -5,20 +5,20 @@
 <mail>mphna@gmail.com</mail>
 </Admin>
 <User>
-<name>Tiago Almeida</name>
-<mail>tiago@gmail.com</mail>
-</User>
-<User>
-<name>Paulo Pina</name>
-<mail>paulo@gmail.com</mail>
-</User>
-<User>
 <name>Andre Godinho</name>
 <mail>andre@gmail.com</mail>
 </User>
 <User>
-<name>Dummy User</name>
-<mail>group45.dummy.user.1@gmail.com</mail>
+<name>Bruno </name>
+<mail>bruno@gmail.com</mail>
+</User>
+<User>
+<name>Nuno</name>
+<mail>nuno@gmail.com</mail>
+</User>
+<User>
+<name>Daniela Antunes</name>
+<mail>daniela@gmail.com</mail>
 </User>
 <Path>
 <name>ProblemsPath</name>

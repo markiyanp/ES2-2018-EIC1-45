@@ -17,7 +17,9 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	* 
 	*/
 	private static final long serialVersionUID = 1720856094158596822L;
-	
+
+	private final static long startingTime = System.currentTimeMillis();
+
 	private int bits;
 	private boolean useJar = false;
 	private boolean email25 = false;
@@ -48,42 +50,45 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	@Override
 	public void evaluate(BinarySolution solution) {
-		if (!useJar) {
-		double[] solutionObjectives = OneZeroMax.OneZeroMaxSolution(solution);
-		// OneZeroMax is a maximization problem: multiply by -1 to minimize
-		solution.setObjective(0, solutionObjectives[0]);
-		solution.setObjective(1, solutionObjectives[1]);
-		}
-		else {
-			String solutionString = "";
-			String evaluationResultString = "";
-			BitSet bitset = solution.getVariableValue(0);
-			solutionString = bitset.toString();
-			try {
-				String line;
-				Process p = Runtime.getRuntime().exec("java -jar c:\\OneZeroMax.jar" + " " + solutionString);
-				BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-				while ((line = brinput.readLine()) != null) {
-					evaluationResultString += line;
+		if (System.currentTimeMillis() - startingTime >= 2000) {
+			if (!useJar) {
+				double[] solutionObjectives = OneZeroMax.OneZeroMaxSolution(solution);
+				// OneZeroMax is a maximization problem: multiply by -1 to minimize
+				solution.setObjective(0, solutionObjectives[0]);
+				solution.setObjective(1, solutionObjectives[1]);
+			} else {
+				String solutionString = "";
+				String evaluationResultString = "";
+				BitSet bitset = solution.getVariableValue(0);
+				solutionString = bitset.toString();
+				try {
+					String line;
+					Process p = Runtime.getRuntime().exec("java -jar c:\\OneZeroMax.jar" + " " + solutionString);
+					BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+					while ((line = brinput.readLine()) != null) {
+						evaluationResultString += line;
+					}
+					brinput.close();
+					p.waitFor();
+				} catch (Exception err) {
+					err.printStackTrace();
 				}
-				brinput.close();
-				p.waitFor();
-			} catch (Exception err) {
-				err.printStackTrace();
+				String[] individualEvaluationCriteria = evaluationResultString.split("\\s+");
+				// It is assumed that all evaluated criteria are returned in the same result
+				// string
+				for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
+					solution.setObjective(i, Double.parseDouble(individualEvaluationCriteria[i]));
+				}
 			}
-			String[] individualEvaluationCriteria = evaluationResultString.split("\\s+");
-			// It is assumed that all evaluated criteria are returned in the same result
-			// string
-			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
-				solution.setObjective(i, Double.parseDouble(individualEvaluationCriteria[i]));
-			}
+			testNumber++;
+			checkProgress(testNumber);
 		}
-		testNumber++;
-		checkProgress(testNumber);
 	}
 
 	/**
-	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to user
+	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to
+	 * user
+	 * 
 	 * @param testNumber
 	 */
 	public void checkProgress(int testNumber) {
@@ -92,7 +97,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 			numberTests = 500;
 		else
 			numberTests = 2500;
-		double progress = testNumber/numberTests;
+		double progress = testNumber / numberTests;
 		try {
 			if (progress >= 0.25 && !email25) {
 				EMail_Tools.sendProgressMail(25);
@@ -108,7 +113,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 			}
 			if (progress == 1) {
 				EMail_Tools.sendProgressMail(100);
-			} 
+			}
 		} catch (EmailException e) {
 			e.printStackTrace();
 		}
