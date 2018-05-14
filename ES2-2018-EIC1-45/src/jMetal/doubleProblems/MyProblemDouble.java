@@ -18,6 +18,8 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	*/
 	private static final long serialVersionUID = 5661793940199968579L;
 
+	private final static long startingTime = System.currentTimeMillis();
+	//private final static long timeLimit = Window.getTimeLimit();
 	private boolean useJar = false;
 	private boolean email25 = false;
 	private boolean email50 = false;
@@ -45,6 +47,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	}
 
 	public void evaluate(DoubleSolution solution) {
+		if (System.currentTimeMillis() - startingTime >= 2000) {
 		if (!useJar) {
 			double[] fx = new double[getNumberOfObjectives()];
 			double[] x = new double[getNumberOfVariables()];
@@ -82,7 +85,8 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 		}
 		testNumber++;
 		checkProgress(testNumber);
-		
+		checkTimeLimit();
+		}
 	}
 
 	/**
@@ -115,6 +119,10 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 		} catch (EmailException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void checkTimeLimit() {
+		
 	}
 
 }
