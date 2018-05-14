@@ -372,7 +372,7 @@ public class LauncherPanel extends JPanel {
 			}
 
 			private void modifyUser() {
-				String passwd = String.valueOf(user_passwd_field.getPassword());
+				String passwd = String.valueOf(modify_user_retypePass_field.getPassword());
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
 				
 				if (check) {
