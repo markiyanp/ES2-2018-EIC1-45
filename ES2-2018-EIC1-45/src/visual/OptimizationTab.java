@@ -486,6 +486,9 @@ public class OptimizationTab extends JPanel {
 
 	// ***************************RESTRICTIONS_VARIABLES********************************************
 
+	/**
+	 * The focus listener 
+	 */
 	private void createFocusListener() {
 		FocusListener lis = new FocusListener() {
 			int show_message = 0;
@@ -514,6 +517,9 @@ public class OptimizationTab extends JPanel {
 		this.focus_listener = lis;
 	}
 
+	/**
+	 * The restriciton to the name
+	 */
 	private void analyzierName() {
 		if (!(variable_name_field.getText().matches("[a-zA-Z0-9_]*"))) {
 			variable_name_field.setText("");
@@ -523,6 +529,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Main method with type restrictions
+	 */
 	private void analyzierType(FocusEvent event) {
 		String type_name = String.valueOf(variable_type_field.getSelectedItem());
 		switch (type_name) {
@@ -544,6 +553,11 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Verify if it's double
+	 * @param str
+	 * @return
+	 */
 	private boolean isDouble(String str) {
 		try {
 			Double.parseDouble(str);
@@ -553,6 +567,10 @@ public class OptimizationTab extends JPanel {
 		return true;
 	}
 
+	/**
+	 * Method with double restrictions
+	 * @param value
+	 */
 	private void DoubleRestriction(FocusEvent value) {
 		int show_message = 0;
 		JTextField aux = ((JTextField) value.getComponent());
@@ -595,6 +613,10 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	
+	/**
+	 * Restrictions and comparation the minium double with the maximum double 
+	 */
 	private void compareDoubleValues() {
 		try {
 			int show_message = 0;
@@ -632,6 +654,11 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Verify if it's integer
+	 * @param str
+	 * @return
+	 */
 	private boolean isInteger(String str) {
 		try {
 			Integer.parseInt(str);
@@ -641,6 +668,10 @@ public class OptimizationTab extends JPanel {
 		return true;
 	}
 
+	/**
+	 * Method with integer restrictions
+	 * @param value
+	 */
 	private void IntegerRestriction(FocusEvent value) {
 		int show_message = 0;
 		JTextField aux = ((JTextField) value.getComponent());
@@ -675,6 +706,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Restrictions and comparation the minium integer with the maximum integer 
+	 */
 	private void compareIntegerValues() {
 		try {
 			int minval = Integer.parseInt(variable_minval_field.getText());
@@ -717,6 +751,11 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Verify if it's binary
+	 * @param str
+	 * @return
+	 */
 	private boolean isBinary(String str) {
 		if (str.matches("[0-1]*")) {
 			return true;
@@ -725,6 +764,11 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Verify if it's a array binary
+	 * @param array
+	 * @return
+	 */
 	private boolean isArrayBinary(String[] array) {
 		for (int i = 1; i < array.length; i++) {
 			if (isBinary(array[i])) {
@@ -736,6 +780,10 @@ public class OptimizationTab extends JPanel {
 		return false;
 	}
 
+	/**
+	 * Method with binary restrictions
+	 * @param value
+	 */
 	private void binaryRestriction(FocusEvent value) {
 		JTextField aux = ((JTextField) value.getComponent());
 		String[] array = variable_restricted_field.getText().split(",");
@@ -761,6 +809,11 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Converts a binary to integer
+	 * @param binary
+	 * @return
+	 */
 	public int binaryToInteger(String binary) {
 		char[] numbers = binary.toCharArray();
 		int result = 0;
@@ -770,6 +823,9 @@ public class OptimizationTab extends JPanel {
 		return result;
 	}
 
+	/**
+	 * Restrictions and comparation the minium binary with the maximum binary
+	 */
 	private void compareBinaryValues() {
 		int minval = 0;
 		int maxval = 0;
@@ -814,6 +870,10 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Method with message error
+	 * @param message
+	 */
 	private void messageDialog(String message) {
 		String try_again = "<html><font color=RED > Please try again... </font></html>";
 		JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);

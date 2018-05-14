@@ -26,6 +26,11 @@ import core.User;
 import email.EMail_Tools;
 import xml.ConfigXML;
 
+/**
+ * The launcher of this program with some methods to manage the users.
+ * @author Tiago Almeida, Markiyan Pyekh
+ */
+
 public class LauncherPanel extends JPanel {
 
 	private static final String USER_LOGGED_MSG = "Your user has logged in!";
@@ -124,6 +129,9 @@ public class LauncherPanel extends JPanel {
 		return s.substring(s.indexOf("[") + 1, s.indexOf("]"));
 	}
 
+	/**
+	 * Load users into the users combobox
+	 */
 	private void loadUsers() {
 		ArrayList<User> users = ConfigXML.config.getUsers();
 		String[] items = new String[users.size() + 1];
@@ -147,6 +155,9 @@ public class LauncherPanel extends JPanel {
 		user_list_field = new JComboBox<String>(items);
 	}
 
+	/**
+	 * The main panel
+	 */
 	private void init_user_panel() {
 		user_panel = new JPanel();
 		user_panel.setBorder(user_area_border);
@@ -186,6 +197,9 @@ public class LauncherPanel extends JPanel {
 
 	}
 
+	/**
+	 * The user creation panel
+	 */
 	private void init_register_panel() {
 		create_user_panel = new JPanel();
 		create_user_panel.setBorder(user_create_border);
@@ -224,6 +238,9 @@ public class LauncherPanel extends JPanel {
 		create_user_panel.add(create_user_back_button);
 	}
 
+	/**
+	 * The user modification panel
+	 */
 	private void init_modify_panel() {
 		modify_user_panel = new JPanel();
 		modify_user_panel.setBorder(user_modification_border);
@@ -255,6 +272,9 @@ public class LauncherPanel extends JPanel {
 		modify_user_panel.add(modify_user_back_button);
 	}
 
+	/**
+	 * The listener
+	 */
 	private void new_action_listener() {
 		listener = new ActionListener() {
 
@@ -296,6 +316,9 @@ public class LauncherPanel extends JPanel {
 				}
 			}
 
+			/**
+			 * Verify authentication
+			 */
 			private void loginUser() {
 				String passwd = String.valueOf(user_passwd_field.getPassword());
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
@@ -309,6 +332,9 @@ public class LauncherPanel extends JPanel {
 				}
 			}
 
+			/**
+			 * Method for creating users
+			 */
 			private void createUser() {
 				String passwd = String.valueOf(create_user_passwd_field.getPassword());
 				String repeat = String.valueOf(create_user_retypePass_field.getPassword());
@@ -319,43 +345,44 @@ public class LauncherPanel extends JPanel {
 					return;
 				}
 
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_REGISTERED_MSG);
-				//
-				// if (check) {
-				String[] array = create_user_name_field.getText().split(" ");
-				if (!(array.length == 2)) {
-					messageDialog(
-							"<html><font color=RED > The field name must have first and last name! </font></html>");
-				} else {
-					User new_user = new User(create_user_name_field.getText(), create_user_email_field.getText());
-					ArrayList<User> users = ConfigXML.config.getUsers();
-					ArrayList<User> new_users = new ArrayList<User>();
-					int i = 0;
-					for (User u : users) {
-						new_users.add(i, u);
-						i++;
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_REGISTERED_MSG);
+
+				if (check) {
+					String[] array = create_user_name_field.getText().split(" ");
+					if (!(array.length == 2)) {
+						messageDialog(
+								"<html><font color=RED > The field name must have first and last name! </font></html>");
+					} else {
+						User new_user = new User(create_user_name_field.getText(), create_user_email_field.getText());
+						ArrayList<User> users = ConfigXML.config.getUsers();
+						ArrayList<User> new_users = new ArrayList<User>();
+						int i = 0;
+						for (User u : users) {
+							new_users.add(i, u);
+							i++;
+						}
+						new_users.add(i, new_user);
+
+						ConfigXML.config.getUsers().clear();
+						ConfigXML.config.setUsers(new_users);
+						ConfigXML.writeXML(ConfigXML.config, file);
+
+						String new_item = "";
+						new_item += new_user.getUsername();
+						new_item += "  [";
+						new_item += new_user.getEmailAddr();
+						new_item += "]";
+						user_list_field.addItem(new_item);
 					}
-					new_users.add(i, new_user);
-
-					ConfigXML.config.getUsers().clear();
-					ConfigXML.config.setUsers(new_users);
-					ConfigXML.writeXML(ConfigXML.config, file);
-
-					String new_item = "";
-					new_item += new_user.getUsername();
-					new_item += "  [";
-					new_item += new_user.getEmailAddr();
-					new_item += "]";
-					user_list_field.addItem(new_item);
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
 				}
-				// } else {
-				// messageDialog("<html><font color=RED > The credentials are wrong!
-				// </font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
 			}
 
+			/**
+			 * Verify authentication to modify users
+			 */
 			private void loginModifyUser() {
 				String passwd = String.valueOf(user_passwd_field.getPassword());
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_PERMISSION_TO_MODIFY_MSG);
@@ -384,72 +411,85 @@ public class LauncherPanel extends JPanel {
 				}
 			}
 
+			/**
+			 * Method to modify users
+			 */
 			private void modifyUser() {
-				// String passwd = String.valueOf(user_passwd_field.getPassword());
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_HAS_BEEN_MODIFIED_MSG);
-				//
-				// if (check) {
-				User modify_user = null;
-				ArrayList<User> users = ConfigXML.config.getUsers();
-				ArrayList<User> new_users = new ArrayList<User>();
-				int i = 0;
-				for (User u : users) {
-					if (user_list_field.getSelectedItem() == u) {
-						users.remove(i);
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
+
+				if (check) {
+					User modify_user = null;
+					ArrayList<User> users = ConfigXML.config.getUsers();
+					ArrayList<User> new_users = new ArrayList<User>();
+					int i = 0;
+					for (User u : users) {
+						if (user_list_field.getSelectedItem() == u) {
+							users.remove(i);
+						}
+						new_users.add(i, u);
+						i++;
 					}
-					new_users.add(i, u);
-					i++;
+					modify_user = new User(modify_user_name_field.getText(), modify_user_email_field.getText());
+					new_users.add(i, modify_user);
+
+					ConfigXML.config.getUsers().clear();
+					ConfigXML.config.setUsers(new_users);
+					ConfigXML.writeXML(ConfigXML.config, file);
+
+					user_list_field.removeItem(user_list_field.getSelectedItem());
+
+					String new_item = "";
+					new_item += modify_user.getUsername();
+					new_item += "  [";
+					new_item += modify_user.getEmailAddr();
+					new_item += "]";
+					user_list_field.addItem(new_item);
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
 				}
-				modify_user = new User(modify_user_name_field.getText(), modify_user_email_field.getText());
-				new_users.add(i, modify_user);
-
-				ConfigXML.config.getUsers().clear();
-				ConfigXML.config.setUsers(new_users);
-				ConfigXML.writeXML(ConfigXML.config, file);
-
-				user_list_field.removeItem(user_list_field.getSelectedItem());
-
-				String new_item = "";
-				new_item += modify_user.getUsername();
-				new_item += "  [";
-				new_item += modify_user.getEmailAddr();
-				new_item += "]";
-				user_list_field.addItem(new_item);
-				// } else {
-				// messageDialog("<html><font color=RED > The credentials are wrong!
-				// </font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
 			}
 
+			/**
+			 * Method to delete users
+			 */
 			private void deleteUser() {
-				// String passwd = String.valueOf(user_passwd_field.getPassword());
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_HAS_BEEN_DELETED_MSG);
-				//
-				// if (check) {
-				file = new File("Resources/config.xml");
-				ArrayList<User> users = ConfigXML.config.getUsers();
-				ArrayList<User> new_users = new ArrayList<User>();
-				for (User u : users) {
-					if (!u.getEmailAddr().equals(getCurrentEmail())) {
-						new_users.add(u);
-					}
-				}
-				ConfigXML.config.getUsers().clear();
-				ConfigXML.config.setUsers(new_users);
-				ConfigXML.writeXML(ConfigXML.config, file);
+				
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_DELETED_MSG);
 
-				user_list_field.removeItem(user_list_field.getSelectedItem());
-				// } else {
-				// messageDialog("<html><font color=RED > The credentials are wrong!
-				// </font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
+				if (check) {
+					file = new File("Resources/config.xml");
+					ArrayList<User> users = ConfigXML.config.getUsers();
+					ArrayList<User> new_users = new ArrayList<User>();
+					for (User u : users) {
+						if (!u.getEmailAddr().equals(getCurrentEmail())) {
+							new_users.add(u);
+						}
+					}
+					ConfigXML.config.getUsers().clear();
+					ConfigXML.config.setUsers(new_users);
+					ConfigXML.writeXML(ConfigXML.config, file);
+
+					user_list_field.removeItem(user_list_field.getSelectedItem());
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
+				}
 
 			}
 		};
+	}
+
+	
+	/**
+	 * Method with message error
+	 * @param message
+	 */
+	private void messageDialog(String message) {
+		String try_again = "<html><font color=RED > Please try again... </font></html>";
+		JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private void clean_create_users_fields() {
@@ -459,6 +499,10 @@ public class LauncherPanel extends JPanel {
 		create_user_retypePass_field.setText("");
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	public void paintComponent(Graphics page) {
 		super.paintComponent(page);
 		int h = background.getHeight(null);
@@ -477,11 +521,6 @@ public class LauncherPanel extends JPanel {
 
 		page.drawImage(background, x, y, null);
 		repaint();
-	}
-
-	private void messageDialog(String message) {
-		String try_again = "<html><font color=RED > Please try again... </font></html>";
-		JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public Window getWindow() {
