@@ -20,6 +20,7 @@ public class OptimizationProcess extends Thread {
 	private static Object[][] data;
 	private static String algorithm;
 	private static boolean isJar;
+	private static String jarPath;
 	
 	/**
 	 * Executes a problem depending on the data fed from the GUI's table, the chosen
@@ -33,10 +34,10 @@ public class OptimizationProcess extends Thread {
 	
 	@Override
 	public void run() {
-		runOptimization(data, algorithm, isJar);
+		runOptimization(data, algorithm, isJar, jarPath);
 	}
 	
-	public static void runOptimization(Object[][] data, String algorithm, boolean isJar) {
+	public static void runOptimization(Object[][] data, String algorithm, boolean isJar, String jarPath) {
 		try {
 			variable_count = 0;
 			//debugSysout_Start(data, algorithm, isJar);
@@ -167,7 +168,7 @@ public class OptimizationProcess extends Thread {
 					limits[i][1] = 100;
 				}
 			}
-			ExperimentsInteger.execute(limits, algorithm, isJar);
+			ExperimentsInteger.execute(limits, algorithm, isJar, jarPath);
 		}
 		
 		//is a double Problem
@@ -183,13 +184,13 @@ public class OptimizationProcess extends Thread {
 					limits[i][1] = 100;
 				}
 			}
-			ExperimentsDouble.execute(limits, algorithm, isJar);
+			ExperimentsDouble.execute(limits, algorithm, isJar, jarPath);
 		} 
 		
 		//is a binary Problem
 		else if (binaryProblem && !integerProblem && !doubleProblem) {
 			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
-			ExperimentsBinary.execute(8, algorithm, data.length, isJar);
+			ExperimentsBinary.execute(8, algorithm, data.length, isJar, jarPath);
 		} else
 			throw new IllegalStateException("How in the world did this happen???");
 

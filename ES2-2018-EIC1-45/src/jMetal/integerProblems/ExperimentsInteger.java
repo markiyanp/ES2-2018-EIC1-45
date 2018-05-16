@@ -25,19 +25,20 @@ public class ExperimentsInteger {
 	private static int INDEPENDENT_RUNS = 5;
 	private static int maxEvaluations = 500;
 
-	public static void execute(int[][] limits, String algorithm, boolean isJar) throws IOException {
+	public static void execute(int[][] limits, String algorithm, boolean isJar, String jarPath) throws IOException {
+		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
 		if (isJar) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(limits, isJar, jarPath)));
 		}
 		else { 
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(limits, isJar, null)));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
-		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
-		problemList.add(new ExperimentProblem<>(new MyProblemInteger(limits, isJar)));
 		
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithmList = configureAlgorithmList(
 				problemList, algorithm);

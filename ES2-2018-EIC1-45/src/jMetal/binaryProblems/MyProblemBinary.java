@@ -25,10 +25,14 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	private boolean email25 = false;
 	private boolean email50 = false;
 	private boolean email75 = false;
+	
+	private String jarPath;
+	
 	private int testNumber = 0;
 
-	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar) {
+	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar, String jarPath) {
 		this.useJar = isJar;
+		this.jarPath = jarPath;
 		setNumberOfVariables(number_of_variables);
 		setNumberOfObjectives(2);
 		setName("MyProblemBinary");
@@ -63,7 +67,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 				solutionString = bitset.toString();
 				try {
 					String line;
-					Process p = Runtime.getRuntime().exec("java -jar c:\\OneZeroMax.jar" + " " + solutionString);
+					Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString);
 					BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 					while ((line = brinput.readLine()) != null) {
 						evaluationResultString += line;
