@@ -44,13 +44,14 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			lowerLimit.add(limits[i][0]);
 			upperLimit.add(limits[i][1]);
 		}
-		
+		System.out.println(lowerLimit);
+		System.out.println(upperLimit);
 		setLowerLimit(lowerLimit);
 		setUpperLimit(upperLimit);
 	}
 
 	public void evaluate(DoubleSolution solution) {
-		if (System.currentTimeMillis() - startingTime >= 2000) {
+		if (System.currentTimeMillis() - startingTime <= 2000) {
 		if (!useJar) {
 			double[] fx = new double[getNumberOfObjectives()];
 			double[] x = new double[getNumberOfVariables()];

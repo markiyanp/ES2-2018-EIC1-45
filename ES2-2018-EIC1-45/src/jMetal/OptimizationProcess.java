@@ -162,6 +162,7 @@ public class OptimizationProcess extends Thread {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Integer.parseInt((String) data[i][2]);
 					limits[i][1] = Integer.parseInt((String) data[i][3]);
+					//debug_Sysoutlimits_INT(limits, i);
 				} else {
 					System.out.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
 					limits[i][0] = -100;
@@ -178,6 +179,7 @@ public class OptimizationProcess extends Thread {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Double.parseDouble((String) data[i][2]);
 					limits[i][1] = Double.parseDouble((String) data[i][3]);
+					//debug_Sysoutlimits_DOUBLE(limits, i);
 				} else {
 					System.out.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
 					limits[i][0] = -100;
@@ -194,6 +196,18 @@ public class OptimizationProcess extends Thread {
 		} else
 			throw new IllegalStateException("How in the world did this happen???");
 
+	}
+
+	@SuppressWarnings("unused")
+	private static void debug_Sysoutlimits_DOUBLE(double[][] limits, int i) {
+		System.out.println(limits[i][0]);
+		System.out.println(limits[i][1]);
+	}
+
+	@SuppressWarnings("unused")
+	private static void debug_Sysoutlimits_INT(int[][] limits, int i) {
+		System.out.println(limits[i][0]);
+		System.out.println(limits[i][1]);
 	}
 	
 	@SuppressWarnings("unused")
