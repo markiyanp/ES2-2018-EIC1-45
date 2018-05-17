@@ -44,9 +44,7 @@ public class LeftPanel extends JPanel {
 		selector1.setBounds(289, 0, 6, 55);
 
 		progressBar();
-		// TODO Remove this when the algorithm will be able to set the progress
-		// status himself. (sorry my English)
-		setProgress(40);
+		setProgress(0);
 		setOpaque(false);
 		add(selector);
 		add(selector1);

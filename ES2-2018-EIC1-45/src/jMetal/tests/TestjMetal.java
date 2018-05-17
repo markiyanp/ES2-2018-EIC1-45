@@ -14,7 +14,7 @@ public class TestjMetal {
 				   {"test2-should-appear", "Integer", "-2", "5", null, true},
 				   {"test3-should-appear", "Integer", "-10", "10", null, true},
 				   {"test4-should-not-appear", "Integer", "-10", "10", null, false}};
-		OptimizationProcess.runOptimization(testI, "SMSEMOA", false, null);
+		OptimizationProcess.runOptimization(testI, "NSGAII", false, null);
 		//SMSEMOA
 		
 //		Object[][] test1 = {{"test1-singular-variable", "Double", "-1.1", "2.2", null, true }};
