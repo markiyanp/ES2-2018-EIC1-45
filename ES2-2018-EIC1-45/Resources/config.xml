@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Config>
 <Admin>
-<name>Markiyan Pyekh</name>
+<name>Markiyan</name>
 <mail>mphna@gmail.com</mail>
 </Admin>
 <User>
+<name>Tiago Almeida</name>
+<mail>tiago@gmail.com</mail>
+<algorithms>SPEA2,SMPSO,PAES,IBEA</algorithms>
+<createVars>no</createVars>
+<uploadJars>yes</uploadJars>
+<maxVar>yes</maxVar>
+<maxObj>yes</maxObj>
+</User>
+<User>
+<name>Paulo Pina</name>
+<mail>paulo@gmail.com</mail>
+<algorithms>SPEA2</algorithms>
+<createVars>yes</createVars>
+<uploadJars>yes</uploadJars>
+<maxVar>yes</maxVar>
+<maxObj>yes</maxObj>
+</User>
+<User>
 <name>Andre Godinho</name>
 <mail>andre@gmail.com</mail>
-</User>
-<User>
-<name>Bruno </name>
-<mail>bruno@gmail.com</mail>
-</User>
-<User>
-<name>Nuno</name>
-<mail>nuno@gmail.com</mail>
-</User>
-<User>
-<name>Daniela Antunes</name>
-<mail>daniela@gmail.com</mail>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3</algorithms>
+<createVars>no</createVars>
+<uploadJars>yes</uploadJars>
+<maxVar>yes</maxVar>
+<maxObj>yes</maxObj>
 </User>
 <Path>
 <name>ProblemsPath</name>
 <url>C:/</url>
 </Path>
-<Algorithm>
-<algo>NSGAII</algo>
-</Algorithm>
+<TimeOut>
+<time>5</time>
+</TimeOut>
 </Config>

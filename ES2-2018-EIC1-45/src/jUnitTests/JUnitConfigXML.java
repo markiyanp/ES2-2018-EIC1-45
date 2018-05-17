@@ -3,6 +3,7 @@ package jUnitTests;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
@@ -52,15 +53,11 @@ public class JUnitConfigXML {
 			problemRootElement.appendChild(putAdmin(doc, config.getAdmin_name(), config.getAdmin_mail()));
 
 			for (User user : config.getUsers()) {
-				problemRootElement.appendChild(putUser(doc, user.getUsername(), user.getEmailAddr()));
+				problemRootElement.appendChild(putUser(doc, user.getName(), user.getEmailAddr(), user.getAlgorithms()));
 			}
 
 			for (Path path : config.getPaths()) {
 				problemRootElement.appendChild(putPath(doc, path.getName(), path.getUrl()));
-			}
-
-			for (String s : config.getAlgorithms()) {
-				problemRootElement.appendChild(putAlgorithm(doc, s));
 			}
 
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -113,15 +110,6 @@ public class JUnitConfigXML {
 						config2.setAdmin_mail(eElement.getElementsByTagName("mail").item(0).getTextContent());
 					}
 				}
-				
-				NodeList algorithms = doc.getElementsByTagName("Algorithm");
-				for (int temp = 0; temp < algorithms.getLength(); temp++) {
-					Node nNode = algorithms.item(temp);
-					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element eElement = (Element) nNode;
-						config2.getAlgorithms().add(eElement.getElementsByTagName("algo").item(0).getTextContent());
-					}
-				}
 
 
 				NodeList aboutUser = doc.getElementsByTagName("User");
@@ -130,8 +118,14 @@ public class JUnitConfigXML {
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element eElement = (Element) nNode;
 						User u = new User();
-						u.setUsername(eElement.getElementsByTagName("name").item(0).getTextContent());
+						u.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
 						u.setEmailAddr(eElement.getElementsByTagName("mail").item(0).getTextContent());
+						String[] algorithms = eElement.getElementsByTagName("algorithms").item(0).getTextContent().split(",");
+						ArrayList<String> array = new ArrayList<String>();
+						for(String algo : algorithms) {
+							array.add(algo);
+						}
+						u.setAlgorithms(array);
 						config2.getUsers().add(u);
 					}
 				}
@@ -147,7 +141,6 @@ public class JUnitConfigXML {
 		}
 		assertEquals(config2.getUsers(),ConfigXML.config.getUsers());
 		assertEquals(config2.getPaths(),ConfigXML.config.getPaths());
-		assertEquals(config2.getAlgorithms(),ConfigXML.config.getAlgorithms());
 		assertEquals(config2.getAdmin_name(),ConfigXML.config.getAdmin_name());
 		assertEquals(config2.getAdmin_mail(),ConfigXML.config.getAdmin_mail());
 	}
@@ -173,9 +166,20 @@ public class JUnitConfigXML {
 		return variable;
 	}
 
-	private static Node putAlgorithm(Document doc, String name) {
-		Element variable = doc.createElement("Algorithm");
-		variable.appendChild(putNodeElements(doc, variable, "algo", name));
+	private static Node putUser(Document doc, String name, String mail, ArrayList<String> algorithms) {
+		Element variable = doc.createElement("User");
+		variable.appendChild(putNodeElements(doc, variable, "name", name));
+		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
+		String algo = "";
+		for(int i = 0; i < algorithms.size(); i++) {
+			if(i != algorithms.size() - 1) {
+				algo += algorithms.get(i);
+				algo += ",";
+			} else {
+				algo += algorithms.get(i);
+			}
+		}
+		variable.appendChild(putNodeElements(doc, variable, "algorithms", algo));
 		return variable;
 	}
 

@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import core.Config;
+import core.Path;
 import core.User;
 import email.EMail_Tools;
 import xml.ConfigXML;
@@ -109,9 +111,7 @@ public class LauncherPanel extends JPanel {
 	private JButton modify_user_back_button = new JButton("  Back");
 
 	// *************************CREATE_USER_FIELDS*************************************
-
-	private String[] array;
-
+	
 	public LauncherPanel(Launcher launch, File file) {
 		this.launch = launch;
 		this.file = file;
@@ -137,7 +137,7 @@ public class LauncherPanel extends JPanel {
 		String[] items = new String[users.size() + 1];
 		for (User u : users) {
 			String ret = "";
-			ret += u.getUsername();
+			ret += u.getName();
 			ret += "  [";
 			ret += u.getEmailAddr();
 			ret += "]";
@@ -146,7 +146,7 @@ public class LauncherPanel extends JPanel {
 
 		User admin_instance = ConfigXML.config.getAdmin();
 		String admin_string = "";
-		admin_string += admin_instance.getUsername();
+		admin_string += admin_instance.getName();
 		admin_string += "  [";
 		admin_string += admin_instance.getEmailAddr();
 		admin_string += "]";
@@ -236,6 +236,8 @@ public class LauncherPanel extends JPanel {
 		create_user_panel.add(create_user_retypePass_field);
 		create_user_panel.add(create_user_create_button);
 		create_user_panel.add(create_user_back_button);
+		
+//		getUserLogged();
 	}
 
 	/**
@@ -320,16 +322,16 @@ public class LauncherPanel extends JPanel {
 			 * Verify authentication
 			 */
 			private void loginUser() {
-				String passwd = String.valueOf(user_passwd_field.getPassword());
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
-
-				if (check) {
+//				String passwd = String.valueOf(user_passwd_field.getPassword());
+//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
+//
+//				if (check) {
 					launch.setVisible(false);
-					new Window();
-				} else {
-					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
-					System.out.println("WARNING: Incorrect credentials!");
-				}
+					new Window(getUserLogged());
+//				} else {
+//					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
+//					System.out.println("WARNING: Incorrect credentials!");
+//				}
 			}
 
 			/**
@@ -338,7 +340,7 @@ public class LauncherPanel extends JPanel {
 			private void createUser() {
 				String passwd = String.valueOf(create_user_passwd_field.getPassword());
 				String repeat = String.valueOf(create_user_retypePass_field.getPassword());
-
+				
 				if (!passwd.equals(repeat)) {
 					messageDialog("<html><font color=RED > The retype password is wrong! </font></html>");
 					System.out.println("Passwords don't match.");
@@ -368,7 +370,7 @@ public class LauncherPanel extends JPanel {
 						ConfigXML.writeXML(ConfigXML.config, file);
 
 						String new_item = "";
-						new_item += new_user.getUsername();
+						new_item += new_user.getName();
 						new_item += "  [";
 						new_item += new_user.getEmailAddr();
 						new_item += "]";
@@ -388,7 +390,7 @@ public class LauncherPanel extends JPanel {
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_PERMISSION_TO_MODIFY_MSG);
 
 				if (check) {
-					array = user_list_field.getSelectedItem().toString().split(" ");
+					String [] array = user_list_field.getSelectedItem().toString().split(" ");
 
 					String name_user = "";
 					name_user += array[0];
@@ -440,7 +442,7 @@ public class LauncherPanel extends JPanel {
 					user_list_field.removeItem(user_list_field.getSelectedItem());
 
 					String new_item = "";
-					new_item += modify_user.getUsername();
+					new_item += modify_user.getName();
 					new_item += "  [";
 					new_item += modify_user.getEmailAddr();
 					new_item += "]";
@@ -530,4 +532,91 @@ public class LauncherPanel extends JPanel {
 	public void setWindow(Window window) {
 		this.window = window;
 	}
+	
+	public void test( ) {
+		Config cfg = new Config();
+		cfg.setAdmin_mail("mphna@gmail.com");
+		cfg.setAdmin_name("Markiyan");
+		
+		ArrayList<String> algorithms = new ArrayList<String>();
+		algorithms.add("SPEA2");
+		algorithms.add("SMPSO");
+		algorithms.add("PAES");
+		algorithms.add("IBEA");
+		algorithms.add("NSGAII");
+		algorithms.add("SMSEMOA");
+		algorithms.add("GDE3");
+		algorithms.add("MOCell");
+		algorithms.add("MOEAD");
+		algorithms.add("RandomSearch");
+		algorithms.add("MOCH");
+		
+		String create_var = "yes";
+		String create_jars = "yes";
+		String max_var = "2";
+		String max_obj = "3";
+		
+		User u = new User("Tiago Almeida", "tiago@gmail.com", algorithms, create_var, create_jars, max_var, max_obj);
+		User u1 = new User("Paulo Pina", "paulo@gmail.com", algorithms, create_var, create_jars, max_var, max_obj);
+		User u2 = new User("Andre Godinho", "andre@gmail.com", algorithms, create_var, create_jars, max_var, max_obj);
+		
+		ArrayList<User> users = new ArrayList<>();
+		users.add(u);
+		users.add(u1);
+		users.add(u2);
+	
+		Path p = new Path("ProblemsPath", "C:/");
+		
+		ArrayList<Path> paths = new ArrayList<>();
+		paths.add(p);
+		
+		cfg.setTime("5");
+		cfg.setUsers(users);
+		cfg.setPaths(paths);
+		
+		ConfigXML.writeXML(cfg, new File("Resources/config.xml"));
+	}
+
+	public User getUserLogged() {
+		
+		ArrayList<User> users = ConfigXML.config.getUsers();
+		String[] array = user_list_field.getSelectedItem().toString().split(" ");
+		String create_var = "";
+		String create_jars = "";
+		String max_var = "";
+		String max_obj = "";
+
+		String name_user = "";
+		name_user += array[0];
+		name_user += " ";
+		name_user += array[1];
+		
+		String email_user = "";
+		email_user += array[3];
+		email_user = email_user.replace("[", "");
+		email_user = email_user.replace("]", "");
+		
+		String algo = "";
+		for(User user : users) {
+			if(user.getName().equals(name_user) && user.getEmailAddr().equals(email_user)) {
+				algo += user.getAlgorithms();
+				create_var = user.getCreate_var();
+				create_jars = user.getUpload_jars();
+				max_var = user.getMax_var();
+				max_obj = user.getMax_obj();
+			}
+		}
+		algo = algo.replace("[", "");
+		algo = algo.replace("]", "");
+
+		String[] algorithms = algo.split(",");
+		ArrayList<String> array_algo = new ArrayList<String>();
+		for(String s : algorithms) {
+			array_algo.add(s);
+		}
+		
+		User user_logged = new User(name_user, email_user, array_algo, create_var, create_jars, max_var, max_obj);
+		return user_logged;
+	}
+	
 }

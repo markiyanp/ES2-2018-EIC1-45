@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import core.User;
+
 public class Window extends JFrame{
 	
 	private static final long serialVersionUID = -1172067089622609226L;
@@ -25,15 +27,15 @@ public class Window extends JFrame{
 	private RightPanel right_panel;
 	private Bott_Panel bott_panel;
 	private MainPanel main_panel;
+	private static User user;
 	//**********************************INSTANCES**************************************
 	
 	//**********************************CONFIG*****************************************
 	//**********************************CONFIG*****************************************
-
 	
-	public Window() {
-		
+	public Window(User user) {
 		//INITIALIZE
+		this.user = user;
 		this.top_panel = new TopPanel(this, TOP_PANEL_HEIGHT);
 		this.bott_panel = new Bott_Panel(this,BOTT_PANEL_HEIGHT);
 		this.right_panel = new RightPanel(this);
@@ -42,7 +44,7 @@ public class Window extends JFrame{
 		
 		//FRAME CONFIG
 		add(main_panel, BorderLayout.CENTER);
-		setTitle(TITLE);
+		setTitle(TITLE + " - " + user.getName());
 		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -74,10 +76,14 @@ public class Window extends JFrame{
 	public JPanel getBott_panel() {
 		return bott_panel;
 	}
-	
-	public static void main(String[] args) {
-		new Window();
-		
+
+	public static User getUser() {
+		return user;
+	}
+
+
+	public static void setUser(User user) {
+		Window.user = user;
 	}
 
 }

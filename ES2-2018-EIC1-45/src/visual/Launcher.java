@@ -6,6 +6,7 @@ import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import core.User;
 import xml.ConfigXML;
 
 public class Launcher extends JFrame{
@@ -37,35 +38,6 @@ public class Launcher extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		
-//		Config cfg = new Config();
-//		cfg.setAdmin_mail("mphna@gmail.com");
-//		cfg.setAdmin_name("Markiyan");
-//		
-//		User u = new User("Tiago", "tiago@gmail.com");
-//		User u1 = new User("Paulo", "paulo@gmail.com");
-//		User u2 = new User("Andre", "andre@gmail.com");
-//		
-//		ArrayList<User> users = new ArrayList<>();
-//		users.add(u);
-//		users.add(u1);
-//		users.add(u2);
-//	
-//		Path p = new Path("ProblemsPath", "C:/");
-//		
-//		ArrayList<Path> paths = new ArrayList<>();
-//		paths.add(p);
-//		
-//		ArrayList<String> algorithms = new ArrayList<>();
-//		algorithms.add("NSGAII");
-//		
-//		
-//		cfg.setUsers(users);
-//		cfg.setPaths(paths);
-//		cfg.setAlgorithms(algorithms);
-//		
-//		ConfigXML.writeXML(cfg, new File("Resources/config.xml"));
-		
 		
 		new Launcher();
 	}
