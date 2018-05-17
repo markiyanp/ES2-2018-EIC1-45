@@ -1,7 +1,6 @@
 package jMetal;
 
 import java.io.IOException;
-import java.lang.Boolean;
 
 import jMetal.binaryProblems.ExperimentsBinary;
 import jMetal.doubleProblems.ExperimentsDouble;
@@ -26,7 +25,7 @@ public class OptimizationProcess extends Thread {
 	
 	@Override
 	public void run() {
-		runOptimization(data, algorithm, isJar, jarPath);
+		runOptimization(data, algorithm, isJar);
 	}
 	
 	/**
@@ -39,7 +38,7 @@ public class OptimizationProcess extends Thread {
 	 * @param jarPath
 	 * @author pvmpa-iscteiulpt
 	 */
-	public static void runOptimization(Object[][] data, String algorithm, boolean isJar, String jarPath) {
+	public static void runOptimization(Object[][] data, String algorithm, boolean isJar) {
 		try {
 			variable_count = 0;
 			//debugSysout_Start(data, algorithm, isJar);
@@ -282,6 +281,10 @@ public class OptimizationProcess extends Thread {
 
 	public static void setJar(boolean isJar) {
 		OptimizationProcess.isJar = isJar;
+	}
+	
+	public static void setJarPath(String path) {
+		jarPath = path;
 	}
 	
 	

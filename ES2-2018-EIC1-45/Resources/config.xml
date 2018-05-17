@@ -23,8 +23,8 @@
 <createVars>yes</createVars>
 </User>
 <Path>
-<name>ProblemsPath</name>
-<url>C:/</url>
+<name>lastJarPath</name>
+<url>C:\Users\Admin\Desktop</url>
 </Path>
 <TimeOut>
 <time>5</time>
