@@ -24,11 +24,14 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	private boolean email25 = false;
 	private boolean email50 = false;
 	private boolean email75 = false;
+	
+	private String jarPath;
 
 	private int testNumber = 0;
 
-	public MyProblemDouble(double[][] limits, boolean isJar) {
+	public MyProblemDouble(double[][] limits, boolean isJar, String jarPath) {
 		this.useJar = isJar;
+		this.jarPath = jarPath;
 		setNumberOfVariables(limits.length);
 		System.out.println("Number of variables: " + limits.length);
 		setNumberOfObjectives(2);
@@ -41,13 +44,14 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			lowerLimit.add(limits[i][0]);
 			upperLimit.add(limits[i][1]);
 		}
-		
+		System.out.println(lowerLimit);
+		System.out.println(upperLimit);
 		setLowerLimit(lowerLimit);
 		setUpperLimit(upperLimit);
 	}
 
 	public void evaluate(DoubleSolution solution) {
-		if (System.currentTimeMillis() - startingTime >= 2000) {
+		if (System.currentTimeMillis() - startingTime <= 2000) {
 		if (!useJar) {
 			double[] fx = new double[getNumberOfObjectives()];
 			double[] x = new double[getNumberOfVariables()];
@@ -66,7 +70,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			}
 			try {
 				String line;
-				Process p = Runtime.getRuntime().exec("java -jar c:\\Kursawe.jar" + " " + solutionString);
+				Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString);
 				BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				while ((line = brinput.readLine()) != null) {
 					evaluationResultString += line;

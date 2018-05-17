@@ -30,20 +30,20 @@ public class ExperimentsDouble {
 	private static int INDEPENDENT_RUNS = 5;
 	private static int maxEvaluations = 500;
 
-	public static void execute(double[][] limits, String algorithm, boolean isJar) throws IOException {
+	public static void execute(double[][] limits, String algorithm, boolean isJar, String jarPath) throws IOException {
+		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 		if (isJar) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
+			problemList.add(new ExperimentProblem<>(new MyProblemDouble(limits, isJar, jarPath)));
 		}
 		else { 
 			INDEPENDENT_RUNS = 50;
 			maxEvaluations = 500;
+			problemList.add(new ExperimentProblem<>(new MyProblemDouble(limits, isJar, null)));
 		}
 		
 		String experimentBaseDirectory = "experimentBaseDirectory";
-
-		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-		problemList.add(new ExperimentProblem<>(new MyProblemDouble(limits, isJar)));
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureAlgorithmList(
 				problemList, algorithm);
