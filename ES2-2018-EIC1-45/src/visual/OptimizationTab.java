@@ -18,6 +18,7 @@ import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -430,6 +431,12 @@ public class OptimizationTab extends JPanel {
 		add(objectives_panel);
 	}
 	
+	private JCheckBox restrictions_jarcheck = new JCheckBox();
+	private JLabel restrictions_useexternaljar_label = new JLabel("Use external JAR file?");
+	private JLabel restrictions_externaljarpath_label = new JLabel("JAR Path:");
+	private JTextField restrictions_externaljarpath_field = new JTextField();
+	private JButton restrictions_choosejarpath_button = new JButton("...");
+	
 	private void settings_panel() {
 		restrictions_panel.setBorder(restrictions_area_border);
 		restrictions_panel.setBounds(190, 10, 230, 230);
@@ -454,7 +461,19 @@ public class OptimizationTab extends JPanel {
 		settings_time_spinner.setBounds(17, 100, 100, 25);
 		settings_max_time_label.setBounds(17, 75, 100, 25);
 		settings_time_combobox.setBounds(125, 100, 85, 25);
-
+		
+		restrictions_useexternaljar_label.setBounds(17, 140, 180, 20);
+		restrictions_jarcheck.setBounds(150, 140, 20, 20);
+		restrictions_jarcheck.setOpaque(false);
+		restrictions_externaljarpath_label.setBounds(17, 163, 180, 20);
+		restrictions_externaljarpath_field.setBounds(17, 185, 170, 25);
+		restrictions_choosejarpath_button.setBounds(190, 185, 20, 25);
+		
+		restrictions_panel.add(restrictions_jarcheck);
+		restrictions_panel.add(restrictions_useexternaljar_label);
+		restrictions_panel.add(restrictions_externaljarpath_label);
+		restrictions_panel.add(restrictions_externaljarpath_field);
+		restrictions_panel.add(restrictions_choosejarpath_button);
 		restrictions_panel.add(settings_time_spinner);
 		restrictions_panel.add(settings_time_combobox);
 		restrictions_panel.add(settings_max_time_label);
@@ -606,6 +625,7 @@ public class OptimizationTab extends JPanel {
 		return model;
 	}
 
+	//TODO 
 	private void loadProblem() {
 		Object[][] vars = new Object[ProblemXML.problem.getVariables().size()][6];
 		for (Variable var : ProblemXML.problem.getVariables()) {
