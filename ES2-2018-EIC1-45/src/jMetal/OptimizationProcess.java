@@ -22,21 +22,23 @@ public class OptimizationProcess extends Thread {
 	private static boolean isJar;
 	private static String jarPath;
 	
-	/**
-	 * Executes a problem depending on the data fed from the GUI's table, the chosen
-	 * algorithm, and whether a jar is used or not.
-	 * 
-	 * @param data
-	 * @param algorithm
-	 * @param isJar
-	 * @author pvmpa-iscteiulpt
-	 */
+
 	
 	@Override
 	public void run() {
 		runOptimization(data, algorithm, isJar, jarPath);
 	}
 	
+	/**
+	 * Executes a problem depending on the data fed from the GUI's table, the chosen
+	 * algorithm, and whether a jar is used or not along with its path.
+	 * 
+	 * @param data
+	 * @param algorithm
+	 * @param isJar
+	 * @param jarPath
+	 * @author pvmpa-iscteiulpt
+	 */
 	public static void runOptimization(Object[][] data, String algorithm, boolean isJar, String jarPath) {
 		try {
 			variable_count = 0;
@@ -97,7 +99,7 @@ public class OptimizationProcess extends Thread {
 
 	/**
 	 * Verifies whether a valid algorithm was chosen or not. Also verifies if there
-	 * are any datatypes mixed together.
+	 * are any datatypes mixed together, and throws an exception if that is true.
 	 * 
 	 * @param algorithm
 	 * @param integerProblem
@@ -198,18 +200,34 @@ public class OptimizationProcess extends Thread {
 
 	}
 
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param limits
+	 * @param i
+	 */
 	@SuppressWarnings("unused")
 	private static void debug_Sysoutlimits_DOUBLE(double[][] limits, int i) {
 		System.out.println(limits[i][0]);
 		System.out.println(limits[i][1]);
 	}
 
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param limits
+	 * @param i
+	 */
 	@SuppressWarnings("unused")
 	private static void debug_Sysoutlimits_INT(int[][] limits, int i) {
 		System.out.println(limits[i][0]);
 		System.out.println(limits[i][1]);
 	}
 	
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param data
+	 * @param algorithm
+	 * @param isJar
+	 */
 	@SuppressWarnings("unused")
 	private static void debugSysout_Start(Object[][] data, String algorithm, boolean isJar) {
 		System.out.println("============================================================");
@@ -224,6 +242,10 @@ public class OptimizationProcess extends Thread {
 		System.out.println("Use jar: " + isJar);
 	}
 	
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param true_data
+	 */
 	@SuppressWarnings("unused")
 	private static void debugSysout_Parser(Object[][] true_data) {
 		System.out.println("============================================================");
