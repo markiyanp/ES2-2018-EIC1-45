@@ -19,8 +19,23 @@ public class Problem {
 	//********VARIABLES*************
 	ArrayList<Variable> variables; 
 	//********VARIABLES*************
+	
+	//********VARIABLES*************
+	ArrayList<Objective> objectives;
+	//********VARIABLES*************
 
 	public Problem() {
+	}
+	
+	public ArrayList<Objective> getObjectives() {
+		if(objectives == null){
+			this.variables = new ArrayList<>();
+		}
+		return objectives;
+	}
+
+	public void setObjectives(ArrayList<Objective> objectives) {
+		this.objectives = objectives;
 	}
 
 	public String getProblem_name() {

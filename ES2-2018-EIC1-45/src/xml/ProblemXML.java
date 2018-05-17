@@ -18,23 +18,25 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import core.Objective;
 import core.Problem;
 import core.Variable;
 
 public class ProblemXML {
-	
+
 	public static Problem problem;
 
 	private static ProblemXML instance;
 
 	/**
 	 * Writes in XML file all info about user's problem
+	 * 
 	 * @param problem
 	 * @param file
 	 */
-	public static void writeXML(Problem problem, File file){
+	public static void writeXML(Problem problem, File file) {
 		String fileName = null;
-		if(file==null){
+		if (file == null) {
 			String extension = ".xml";
 			DateTimeFormatter timeStamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
 			String time = timeStamp.format(java.time.LocalDateTime.now());
@@ -49,32 +51,30 @@ public class ProblemXML {
 			Element problemRootElement = doc.createElement("Problem");
 			doc.appendChild(problemRootElement);
 
-			problemRootElement.appendChild(putAbout(doc, problem.getProblem_name(), 
-					problem.getProblem_description(),
-					problem.getAlgorithm()));
+			problemRootElement.appendChild(
+					putAbout(doc, problem.getProblem_name(), problem.getProblem_description(), problem.getAlgorithm()));
 
-			problemRootElement.appendChild(putUser(doc, problem.getUser_name(),
-					problem.getUser_email()));
+			problemRootElement.appendChild(putUser(doc, problem.getUser_name(), problem.getUser_email()));
 
-			for(Variable var : problem.getVariables()){
-				problemRootElement.appendChild(putVariable(doc, var.getVariable_name(),
-						var.getVariable_type(),
-						var.getVariable_min_val(),
-						var.getVariable_max_val(),
-						var.getVariable_restricted(),
-						var.isVariable_used()));
+			for (Variable var : problem.getVariables()) {
+				problemRootElement.appendChild(
+						putVariable(doc, var.getVariable_name(), var.getVariable_type(), var.getVariable_min_val(),
+								var.getVariable_max_val(), var.getVariable_restricted(), var.isVariable_used()));
+			}
+			
+			for(Objective obj : problem.getObjectives()){
+				problemRootElement.appendChild(putObjective(doc, obj.getName(), obj.getType(), obj.isUsed()));
 			}
 
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource source = new DOMSource(doc);
-			//TODO dont leave this like that!!!!!!!!
-			if(file == null){
-				System.out.println(fileName);
+			//TODO CORRECT THIS!
+			if (file == null) {
 				File f = new File("C:/Users/Admin/Desktop/testXML/" + fileName);
 				Result output = new StreamResult(f);
 				transformer.transform(source, output);
-			}else{
+			} else {
 				Result output = new StreamResult(file);
 				transformer.transform(source, output);
 			}
@@ -85,18 +85,18 @@ public class ProblemXML {
 
 	/**
 	 * Reads XML file and saves it into "Problem" object
+	 * 
 	 * @param file
 	 */
-	public static void readXML(File file){
+	public static void readXML(File file) {
 		Problem result = new Problem();
-		if(file.getFreeSpace() != 0){
+		if (file.getFreeSpace() != 0) {
 			try {
 
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 				Document doc = dBuilder.parse(file);
 				doc.getDocumentElement().normalize();
-
 
 				NodeList variableList = doc.getElementsByTagName("Variable");
 
@@ -110,9 +110,25 @@ public class ProblemXML {
 						variable.setVariable_type(eElement.getElementsByTagName("type").item(0).getTextContent());
 						variable.setVariable_min_val(eElement.getElementsByTagName("min_val").item(0).getTextContent());
 						variable.setVariable_max_val(eElement.getElementsByTagName("max_val").item(0).getTextContent());
-						variable.setVariable_restricted(eElement.getElementsByTagName("restricted").item(0).getTextContent());
+						variable.setVariable_restricted(
+								eElement.getElementsByTagName("restricted").item(0).getTextContent());
 						variable.setVariable_used(eElement.getElementsByTagName("used").item(0).getTextContent());
 						result.getVariables().add(variable);
+					}
+				}
+				
+				NodeList objectiveList = doc.getElementsByTagName("Objective");
+
+				for (int temp = 0; temp < objectiveList.getLength(); temp++) {
+					Node nNode = objectiveList.item(temp);
+					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+						Objective objective = new Objective();
+						Element eElement = (Element) nNode;
+
+						objective.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
+						objective.setType(eElement.getElementsByTagName("type").item(0).getTextContent());
+						objective.setUsed(eElement.getElementsByTagName("used").item(0).getTextContent());
+						result.getObjectives().add(objective);
 					}
 				}
 
@@ -123,11 +139,11 @@ public class ProblemXML {
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element eElement = (Element) nNode;
 						result.setProblem_name(eElement.getElementsByTagName("name").item(0).getTextContent());
-						result.setProblem_description(eElement.getElementsByTagName("description").item(0).getTextContent());
+						result.setProblem_description(
+								eElement.getElementsByTagName("description").item(0).getTextContent());
 						result.setAlgorithm(eElement.getElementsByTagName("algorythm").item(0).getTextContent());
 					}
 				}
-
 
 				NodeList aboutUser = doc.getElementsByTagName("User");
 
@@ -143,16 +159,15 @@ public class ProblemXML {
 
 				e.printStackTrace();
 			}
-		}else{
-			JOptionPane.showMessageDialog(null,
-					"File no longer exists! \nConfig has not been saved!",
-					"File error",
+		} else {
+			JOptionPane.showMessageDialog(null, "File no longer exists! \nConfig has not been saved!", "File error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		problem = result;
 	}
 
-	private static Node putVariable(Document doc, String name, String type, String min_val, String max_val, String restricted, String used) {
+	private static Node putVariable(Document doc, String name, String type, String min_val, String max_val,
+			String restricted, String used) {
 		Element variable = doc.createElement("Variable");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "type", type));
@@ -177,13 +192,20 @@ public class ProblemXML {
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
 		return variable;
 	}
+	
+	private static Node putObjective(Document doc, String name, String type, String used) {
+		Element variable = doc.createElement("Variable");
+		variable.appendChild(putNodeElements(doc, variable, "name", name));
+		variable.appendChild(putNodeElements(doc, variable, "type", type));
+		variable.appendChild(putNodeElements(doc, variable, "used", used));
+		return variable;
+	}
 
 	private static Node putNodeElements(Document doc, Element element, String name, String value) {
 		Element node = doc.createElement(name);
 		node.appendChild(doc.createTextNode(value));
 		return node;
 	}
-
 
 	public static synchronized ProblemXML getInstance() {
 		if (instance == null) {

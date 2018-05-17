@@ -50,9 +50,9 @@ public class ConfigXML {
 						user.getEmailAddr(), user.getAlgorithms(), user.getCreate_var()));
 			}
 
-			for(Path path : config.getPaths()){
-				problemRootElement.appendChild(putPath(doc, path.getName(),
-						path.getUrl()));
+			for(String path_name : config.getPaths().keySet()){
+				problemRootElement.appendChild(putPath(doc, path_name,
+						config.getPaths().get(path_name).getUrl()));
 			}
 			
 			problemRootElement.appendChild(putLimitTime(doc, config.getTime()));
@@ -89,7 +89,7 @@ public class ConfigXML {
 						Element eElement = (Element) nNode;
 						variable.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
 						variable.setUrl(eElement.getElementsByTagName("url").item(0).getTextContent());
-						config.getPaths().add(variable);
+						config.getPaths().put(eElement.getElementsByTagName("name").item(0).getTextContent(), variable);
 					}
 				}
 

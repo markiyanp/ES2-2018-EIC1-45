@@ -22,26 +22,27 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import core.Config;
-import core.Path;
 import core.User;
 import email.EMail_Tools;
 import xml.ConfigXML;
 
 /**
  * The launcher of this program with some methods to manage the users.
- * @author Tiago Almeida, Markiyan Pyekh
+ * 
+ * @authors Tiago Almeida, Markiyan Pyekh
  */
 
 public class LauncherPanel extends JPanel {
 
-	private static final String USER_LOGGED_MSG = "Your user has logged in!";
+//	private static final String USER_LOGGED_MSG = "Your user has logged in!";
 	private static final String USER_PERMISSION_TO_MODIFY_MSG = "Permission to modify accept!";
 	private static final String USER_REGISTERED_MSG = "An user has been registered in your name!";
 	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
 	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
 
 	private static final long serialVersionUID = 1L;
+	
+	private final Color general_color = new Color(255, 242, 211);
 
 	private Image background = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/launcher_bg.jpg"));
@@ -111,7 +112,7 @@ public class LauncherPanel extends JPanel {
 	private JButton modify_user_back_button = new JButton("  Back");
 
 	// *************************CREATE_USER_FIELDS*************************************
-	
+
 	public LauncherPanel(Launcher launch, File file) {
 		this.launch = launch;
 		this.file = file;
@@ -185,6 +186,11 @@ public class LauncherPanel extends JPanel {
 		user_signup_button.addActionListener(listener);
 		user_modify_button.addActionListener(listener);
 		user_delete_button.addActionListener(listener);
+		
+		user_login_button.setBackground(general_color);
+		user_delete_button.setBackground(general_color);
+		user_modify_button.setBackground(general_color);
+		user_signup_button.setBackground(general_color);
 
 		user_panel.add(user_login_button);
 		user_panel.add(user_delete_button);
@@ -225,6 +231,9 @@ public class LauncherPanel extends JPanel {
 
 		create_user_create_button.addActionListener(listener);
 		create_user_back_button.addActionListener(listener);
+		
+		create_user_create_button.setBackground(general_color);
+		create_user_back_button.setBackground(general_color);
 
 		create_user_panel.add(create_user_name_label);
 		create_user_panel.add(create_user_email_label);
@@ -236,8 +245,8 @@ public class LauncherPanel extends JPanel {
 		create_user_panel.add(create_user_retypePass_field);
 		create_user_panel.add(create_user_create_button);
 		create_user_panel.add(create_user_back_button);
-		
-//		getUserLogged();
+
+		// getUserLogged();
 	}
 
 	/**
@@ -264,6 +273,9 @@ public class LauncherPanel extends JPanel {
 
 		modify_user_save_button.addActionListener(listener);
 		modify_user_back_button.addActionListener(listener);
+		
+		modify_user_save_button.setBackground(general_color);
+		modify_user_back_button.setBackground(general_color);
 
 		modify_user_panel.add(modify_user_collection_label);
 		modify_user_panel.add(modify_user_name_label);
@@ -322,16 +334,19 @@ public class LauncherPanel extends JPanel {
 			 * Verify authentication
 			 */
 			private void loginUser() {
-//				String passwd = String.valueOf(user_passwd_field.getPassword());
-//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
-//
-//				if (check) {
-					launch.setVisible(false);
-					new Window(getUserLogged());
-//				} else {
-//					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
-//					System.out.println("WARNING: Incorrect credentials!");
-//				}
+				// String passwd =
+				// String.valueOf(user_passwd_field.getPassword());
+				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(),
+				// passwd, USER_LOGGED_MSG);
+				//
+				// if (check) {
+				launch.setVisible(false);
+				new Window(getUserLogged());
+				// } else {
+				// messageDialog("<html><font color=RED > The credentials are
+				// wrong! </font></html>");
+				// System.out.println("WARNING: Incorrect credentials!");
+				// }
 			}
 
 			/**
@@ -340,7 +355,7 @@ public class LauncherPanel extends JPanel {
 			private void createUser() {
 				String passwd = String.valueOf(create_user_passwd_field.getPassword());
 				String repeat = String.valueOf(create_user_retypePass_field.getPassword());
-				
+
 				if (!passwd.equals(repeat)) {
 					messageDialog("<html><font color=RED > The retype password is wrong! </font></html>");
 					System.out.println("Passwords don't match.");
@@ -390,7 +405,7 @@ public class LauncherPanel extends JPanel {
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_PERMISSION_TO_MODIFY_MSG);
 
 				if (check) {
-					String [] array = user_list_field.getSelectedItem().toString().split(" ");
+					String[] array = user_list_field.getSelectedItem().toString().split(" ");
 
 					String name_user = "";
 					name_user += array[0];
@@ -457,7 +472,7 @@ public class LauncherPanel extends JPanel {
 			 * Method to delete users
 			 */
 			private void deleteUser() {
-				
+
 				String passwd = String.valueOf(user_passwd_field.getPassword());
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_DELETED_MSG);
 
@@ -484,9 +499,9 @@ public class LauncherPanel extends JPanel {
 		};
 	}
 
-	
 	/**
 	 * Method with message error
+	 * 
 	 * @param message
 	 */
 	private void messageDialog(String message) {
@@ -501,8 +516,9 @@ public class LauncherPanel extends JPanel {
 		create_user_retypePass_field.setText("");
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	public void paintComponent(Graphics page) {
@@ -532,12 +548,12 @@ public class LauncherPanel extends JPanel {
 	public void setWindow(Window window) {
 		this.window = window;
 	}
-	
-	public void test( ) {
+
+	/*public void test() {
 		Config cfg = new Config();
 		cfg.setAdmin_mail("mphna@gmail.com");
 		cfg.setAdmin_name("Markiyan");
-		
+
 		ArrayList<String> algorithms = new ArrayList<String>();
 		algorithms.add("SPEA2");
 		algorithms.add("SMPSO");
@@ -550,52 +566,49 @@ public class LauncherPanel extends JPanel {
 		algorithms.add("MOEAD");
 		algorithms.add("RandomSearch");
 		algorithms.add("MOCH");
-		
+
 		String create_var = "yes";
-		
+
 		User u = new User("Tiago Almeida", "tiago@gmail.com", algorithms, create_var);
 		User u1 = new User("Paulo Pina", "paulo@gmail.com", algorithms, create_var);
 		User u2 = new User("Andre Godinho", "andre@gmail.com", algorithms, create_var);
-		
+
 		ArrayList<User> users = new ArrayList<>();
 		users.add(u);
 		users.add(u1);
 		users.add(u2);
-	
+
 		Path p = new Path("ProblemsPath", "C:/");
-		
+
 		ArrayList<Path> paths = new ArrayList<>();
 		paths.add(p);
-		
+
 		cfg.setTime("5");
 		cfg.setUsers(users);
-		cfg.setPaths(paths);
-		
+		// cfg.setPaths(paths);
+
 		ConfigXML.writeXML(cfg, new File("Resources/config.xml"));
-	}
+	}*/
 
 	public User getUserLogged() {
-		
+
 		ArrayList<User> users = ConfigXML.config.getUsers();
 		String[] array = user_list_field.getSelectedItem().toString().split(" ");
+		
 		String create_var = "";
-		String create_jars = "";
-		String max_var = "";
-		String max_obj = "";
-
 		String name_user = "";
 		name_user += array[0];
 		name_user += " ";
 		name_user += array[1];
-		
+
 		String email_user = "";
 		email_user += array[3];
 		email_user = email_user.replace("[", "");
 		email_user = email_user.replace("]", "");
-		
+
 		String algo = "";
-		for(User user : users) {
-			if(user.getName().equals(name_user) && user.getEmailAddr().equals(email_user)) {
+		for (User user : users) {
+			if (user.getName().equals(name_user) && user.getEmailAddr().equals(email_user)) {
 				algo += user.getAlgorithms();
 				create_var = user.getCreate_var();
 			}
@@ -605,12 +618,12 @@ public class LauncherPanel extends JPanel {
 
 		String[] algorithms = algo.split(",");
 		ArrayList<String> array_algo = new ArrayList<String>();
-		for(String s : algorithms) {
+		for (String s : algorithms) {
 			array_algo.add(s);
 		}
-		
+
 		User user_logged = new User(name_user, email_user, array_algo, create_var);
 		return user_logged;
 	}
-	
+
 }

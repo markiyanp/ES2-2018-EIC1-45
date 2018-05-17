@@ -1,13 +1,14 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Config {
 	
 	private String admin_name;
 	private String admin_mail;
 	private ArrayList<User> users;
-	private ArrayList<Path> paths;
+	private HashMap<String, Path> paths;
 	private String time;
 	
 	
@@ -44,14 +45,14 @@ public class Config {
 		this.users = users;
 	}
 
-	public ArrayList<Path> getPaths() {
+	public HashMap<String, Path> getPaths() {
 		if(paths == null){
-			this.paths =  new ArrayList<Path>();
+			this.paths =  new  HashMap<String, Path>();
 		}
 		return paths;
 	}
 
-	public void setPaths(ArrayList<Path> paths) {
+	public void setPaths( HashMap<String, Path> paths) {
 		this.paths = paths;
 	}
 
