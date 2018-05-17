@@ -41,7 +41,7 @@ public class Window extends JFrame{
 		this.right_panel = new RightPanel(this);
 		this.left_panel = new LeftPanel(this,LEFT_PANEL_WIDTH);
 		this.main_panel = new MainPanel(this);
-		this.setUser(user);
+		this.user = user;
 		
 		//FRAME CONFIG
 		add(main_panel, BorderLayout.CENTER);
