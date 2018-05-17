@@ -46,7 +46,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	}
 
 	public void evaluate(IntegerSolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 2000) {
+		if (System.currentTimeMillis() - startingTime <= 10000) {
 			if (!useJar) {
 				double[] fx = new double[getNumberOfObjectives()];
 				int[] x = new int[getNumberOfVariables()];
