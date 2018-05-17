@@ -183,15 +183,13 @@ public class OptimizationTab extends JPanel {
 		//loadProblem();
 	}
 
-	
-	
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == variable_add_button) {
-					createVariable();
+					restrictionToCreateVar();
 				} else if (e.getSource() == variable_selectAll_button) {
 					enableAll();
 				} else if (e.getSource() == variable_deselectAll_button) {
@@ -384,8 +382,8 @@ public class OptimizationTab extends JPanel {
 	// TODO-----------------------------------------------------------------------------------------------------------------------------------
 	private JLabel objectives_evaluate_label = new JLabel("Evaluate method");
 	private JTable objectives_table;
-	private String[] objectives_column_names = { "Name", "Method"};
-	private Object[][] objectives_data= {};
+	private String[] objectives_column_names = { "Name", "Method" };
+	private Object[][] objectives_data = {};
 
 	private void objectives_panel() {
 		objectives_panel.setBorder(objectives_area_border);
@@ -394,13 +392,13 @@ public class OptimizationTab extends JPanel {
 		objectives_panel.setLayout(null);
 
 		objectives_evaluate_label.setBounds(15, 15, 100, 20);
-//TODO Make ev method selection
-		
+		// TODO Make ev method selection
+
 		DefaultTableModel model = tableModel(this.objectives_data, this.objectives_column_names);
 		this.objectives_table = new JTable(model);
 
 		this.objectives_table.addMouseListener(new MouseAdapter() {
-//TODO CHECK THIS
+			// TODO CHECK THIS
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
@@ -424,12 +422,12 @@ public class OptimizationTab extends JPanel {
 
 		JScrollPane sp = new JScrollPane(this.objectives_table);
 		sp.setBounds(16, 80, 352, 130);
-		
+
 		objectives_panel.add(sp);
 		objectives_panel.add(objectives_evaluate_label);
 		add(objectives_panel);
 	}
-	
+
 	private void settings_panel() {
 		restrictions_panel.setBorder(restrictions_area_border);
 		restrictions_panel.setBounds(190, 10, 230, 230);
@@ -443,7 +441,8 @@ public class OptimizationTab extends JPanel {
 		}
 		this.algo_name_field = new JComboBox<String>(algorithms);
 
-		String[] values = { TimeMultiplier.SECOND.getName(), TimeMultiplier.MINUTE.getName(), TimeMultiplier.HOUR.getName()};
+		String[] values = { TimeMultiplier.SECOND.getName(), TimeMultiplier.MINUTE.getName(),
+				TimeMultiplier.HOUR.getName() };
 		this.settings_time_combobox = new JComboBox<String>(values);
 
 		SpinnerModel model = new SpinnerNumberModel(10, 0, 60, 1);
@@ -462,7 +461,7 @@ public class OptimizationTab extends JPanel {
 		restrictions_panel.add(settings_algo_label);
 		add(restrictions_panel);
 	}
-	
+
 	private void tools_panel() {
 		tools_panel.setBorder(tools_area_border);
 		tools_panel.setBounds(15, 10, tools_border_width, tools_border_height);
@@ -635,17 +634,16 @@ public class OptimizationTab extends JPanel {
 
 	}
 
-	///RETURNS MAX WAIT TIME IN SECONDS!!!
-	private int getMaxRunTime(){
+	/// RETURNS MAX WAIT TIME IN SECONDS!!!
+	private int getMaxRunTime() {
 		int value = (Integer) settings_time_spinner.getValue();
 		String multiplier = (String) settings_time_combobox.getSelectedItem();
-		if(multiplier.equals( TimeMultiplier.MINUTE.getName())){
-			
+		if (multiplier.equals(TimeMultiplier.MINUTE.getName())) {
+
 		}
 		return 0;
 	}
-	
-	
+
 	// ***************************RESTRICTIONS_VARIABLES********************************************
 
 	private void permissionsToCreateVar() {
@@ -660,12 +658,12 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
-	private void permissionsToSelectVar() {
-		User user_logged = launcher.getUserLogged();
-		int max_var = Integer.parseInt(user_logged.getMax_var());
-		int table_size = table.getModel().getRowCount();
-		if(max_var == table_size) {
-			
+	private void restrictionToCreateVar() {
+		if (variable_name_field.getText().isEmpty() || variable_minval_field.getText().isEmpty()
+				|| variable_maxval_field.getText().isEmpty() || variable_restricted_field.getText().isEmpty()) {
+			messageDialog("<html><font color=RED > Exist empty fields! </font></html>");
+		} else {
+			createVariable();
 		}
 	}
 
@@ -678,6 +676,11 @@ public class OptimizationTab extends JPanel {
 
 			@Override
 			public void focusGained(FocusEvent e) {
+				if (e.getSource() == variable_name_field) {
+					analyzierName(e);
+				} else {
+					analyzierType(e);
+				}
 				if (e.getSource() == variable_restricted_field) {
 					show_message++;
 					if (show_message == 1) {
@@ -691,7 +694,7 @@ public class OptimizationTab extends JPanel {
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (e.getSource() == variable_name_field) {
-					analyzierName();
+					analyzierName(e);
 				} else {
 					analyzierType(e);
 				}
@@ -703,7 +706,7 @@ public class OptimizationTab extends JPanel {
 	/**
 	 * The restriciton to the name
 	 */
-	private void analyzierName() {
+	private void analyzierName(FocusEvent event) {
 		if (!(variable_name_field.getText().matches("[a-zA-Z0-9_]*"))) {
 			variable_name_field.setText("");
 			messageDialog(
@@ -720,19 +723,23 @@ public class OptimizationTab extends JPanel {
 		switch (type_name) {
 
 		case "Double":
+			variable_minval_field.setEnabled(true);
+			variable_restricted_field.setEnabled(true);
 			DoubleRestriction(event);
 			compareDoubleValues();
 			break;
 
 		case "Integer":
+			variable_minval_field.setEnabled(true);
+			variable_restricted_field.setEnabled(true);
 			IntegerRestriction(event);
 			compareIntegerValues();
 			break;
 
 		case "Binary":
-			binaryRestriction(event);
-			compareBinaryValues();
 			variable_minval_field.setEnabled(false);
+			variable_restricted_field.setEnabled(false);
+			BinaryRestriction(event);
 			break;
 		}
 	}
@@ -938,128 +945,157 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
-	/**
-	 * Verify if it's binary
-	 * 
-	 * @param str
-	 * @return
-	 */
-	private boolean isBinary(String str) {
-		if (str.matches("[0-1]*")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Verify if it's a array binary
-	 * 
-	 * @param array
-	 * @return
-	 */
-	private boolean isArrayBinary(String[] array) {
-		for (int i = 1; i < array.length; i++) {
-			if (isBinary(array[i])) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Method with binary restrictions
-	 * 
-	 * @param value
-	 */
-	private void binaryRestriction(FocusEvent value) {
+	private void BinaryRestriction(FocusEvent value) {
 		JTextField aux = ((JTextField) value.getComponent());
-		String[] array = variable_restricted_field.getText().split(",");
 		if (!aux.getText().isEmpty()) {
-			if (!(isBinary(aux.getText()) || isArrayBinary(array))) {
-				if (value.getSource() == variable_minval_field) {
-					messageDialog(
-							"<html><font color=RED > The minium value can only have binary numbers! </font></html>");
-					variable_minval_field.setText("");
-					variable_minval_field.requestFocus();
-				} else if (value.getSource() == variable_maxval_field) {
-					messageDialog(
-							"<html><font color=RED > The maximum value can only have binary numbers! </font></html>");
-					variable_maxval_field.setText("");
-					variable_maxval_field.requestFocus();
-				} else if (value.getSource() == variable_restricted_field) {
-					messageDialog(
-							"<html><font color=RED > The restricted value can only have binary numbers! </font></html>");
-					variable_restricted_field.setText("");
-					variable_restricted_field.requestFocus();
-				}
+			if (aux.getText().contains(",")) {
+				aux.setText(aux.getText().replaceAll(",", "."));
 			}
-		}
-	}
-
-	/**
-	 * Converts a binary to integer
-	 * 
-	 * @param binary
-	 * @return
-	 */
-	private int binaryToInteger(String binary) {
-		char[] numbers = binary.toCharArray();
-		int result = 0;
-		for (int i = numbers.length - 1; i >= 0; i--)
-			if (numbers[i] == '1')
-				result += Math.pow(2, (numbers.length - i - 1));
-		return result;
-	}
-
-	/**
-	 * Restrictions and comparation the minium binary with the maximum binary
-	 */
-	private void compareBinaryValues() {
-		int minval = 0;
-		int maxval = 0;
-		int restricted = 0;
-		int show_message = 0;
-		String[] array = variable_restricted_field.getText().split(",");
-		int aux;
-		if (!variable_minval_field.getText().isEmpty() && !variable_maxval_field.getText().isEmpty()) {
-			minval = binaryToInteger(variable_minval_field.getText());
-			maxval = binaryToInteger(variable_maxval_field.getText());
-			if (minval >= maxval && isBinary(variable_minval_field.getText())
-					&& isBinary(variable_maxval_field.getText()) && isBinary(variable_restricted_field.getText())) {
-				variable_maxval_field.setText("");
+			if (isDouble(aux.getText())) {
+				double d = Double.parseDouble(aux.getText());
+				int round = (int) Math.round(d);
+				aux.setText(Integer.toString(round));
+			}
+			if (!isDouble(aux.getText())) {
 				messageDialog(
-						"<html><font color=RED > The minimum value can not be bigger than the maximum value! </font></html>");
-				variable_maxval_field.requestFocus();
-			}
-			if (!variable_restricted_field.getText().isEmpty()) {
-				restricted = binaryToInteger(variable_restricted_field.getText());
-				if (((minval >= restricted || maxval <= restricted) && (!isArrayBinary(array)
-						&& isBinary(variable_minval_field.getText()) && isBinary(variable_maxval_field.getText())
-						&& isBinary(variable_restricted_field.getText())))) {
-					variable_restricted_field.setText("");
-					messageDialog(
-							"<html><font color=RED > The restricted value must be between the minium value and the maximum value! </font></html>");
-					variable_restricted_field.requestFocus();
-				}
-				if (isArrayBinary(array)) {
-					for (int i = 0; i < array.length; i++) {
-						aux = binaryToInteger(array[i]);
-						if (minval >= aux || maxval <= aux) {
-							show_message++;
-							if (show_message == 1) {
-								variable_restricted_field.setText("");
-								messageDialog(
-										"<html><font color=RED > The array of restricted value must be between the minium value and the maximum value! </font></html>");
-							}
-						}
-					}
-				}
+						"<html><font color=RED > The maximum value can only have integer numbers! </font></html>");
+				aux.setText("");
+				aux.requestFocus();
 			}
 		}
 	}
+
+	// /**
+	// * Verify if it's binary
+	// *
+	// * @param str
+	// * @return
+	// */
+	// private boolean isBinary(String str) {
+	// if (str.matches("[0-1]*")) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
+
+	// /**
+	// * Verify if it's a array binary
+	// *
+	// * @param array
+	// * @return
+	// */
+	// private boolean isArrayBinary(String[] array) {
+	// for (int i = 1; i < array.length; i++) {
+	// if (isBinary(array[i])) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
+	// return false;
+	// }
+
+	// /**
+	// * Method with binary restrictions
+	// *
+	// * @param value
+	// */
+	// private void binaryRestriction(FocusEvent value) {
+	// JTextField aux = ((JTextField) value.getComponent());
+	// String[] array = variable_restricted_field.getText().split(",");
+	// if (!aux.getText().isEmpty()) {
+	// if (!(isBinary(aux.getText()) || isArrayBinary(array))) {
+	// if (value.getSource() == variable_minval_field) {
+	// messageDialog(
+	// "<html><font color=RED > The minium value can only have binary numbers!
+	// </font></html>");
+	// variable_minval_field.setText("");
+	// variable_minval_field.requestFocus();
+	// } else if (value.getSource() == variable_maxval_field) {
+	// messageDialog(
+	// "<html><font color=RED > The maximum value can only have binary numbers!
+	// </font></html>");
+	// variable_maxval_field.setText("");
+	// variable_maxval_field.requestFocus();
+	// } else if (value.getSource() == variable_restricted_field) {
+	// messageDialog(
+	// "<html><font color=RED > The restricted value can only have binary numbers!
+	// </font></html>");
+	// variable_restricted_field.setText("");
+	// variable_restricted_field.requestFocus();
+	// }
+	// }
+	// }
+	// }
+
+	// /**
+	// * Converts a binary to integer
+	// *
+	// * @param binary
+	// * @return
+	// */
+	// private int binaryToInteger(String binary) {
+	// char[] numbers = binary.toCharArray();
+	// int result = 0;
+	// for (int i = numbers.length - 1; i >= 0; i--)
+	// if (numbers[i] == '1')
+	// result += Math.pow(2, (numbers.length - i - 1));
+	// return result;
+	// }
+
+	// /**
+	// * Restrictions and comparation the minium binary with the maximum binary
+	// */
+	// private void compareBinaryValues() {
+	// int minval = 0;
+	// int maxval = 0;
+	// int restricted = 0;
+	// int show_message = 0;
+	// String[] array = variable_restricted_field.getText().split(",");
+	// int aux;
+	// if (!variable_minval_field.getText().isEmpty() &&
+	// !variable_maxval_field.getText().isEmpty()) {
+	// minval = binaryToInteger(variable_minval_field.getText());
+	// maxval = binaryToInteger(variable_maxval_field.getText());
+	// if (minval >= maxval && isBinary(variable_minval_field.getText())
+	// && isBinary(variable_maxval_field.getText()) &&
+	// isBinary(variable_restricted_field.getText())) {
+	// variable_maxval_field.setText("");
+	// messageDialog(
+	// "<html><font color=RED > The minimum value can not be bigger than the maximum
+	// value! </font></html>");
+	// variable_maxval_field.requestFocus();
+	// }
+	// if (!variable_restricted_field.getText().isEmpty()) {
+	// restricted = binaryToInteger(variable_restricted_field.getText());
+	// if (((minval >= restricted || maxval <= restricted) && (!isArrayBinary(array)
+	// && isBinary(variable_minval_field.getText()) &&
+	// isBinary(variable_maxval_field.getText())
+	// && isBinary(variable_restricted_field.getText())))) {
+	// variable_restricted_field.setText("");
+	// messageDialog(
+	// "<html><font color=RED > The restricted value must be between the minium
+	// value and the maximum value! </font></html>");
+	// variable_restricted_field.requestFocus();
+	// }
+	// if (isArrayBinary(array)) {
+	// for (int i = 0; i < array.length; i++) {
+	// aux = binaryToInteger(array[i]);
+	// if (minval >= aux || maxval <= aux) {
+	// show_message++;
+	// if (show_message == 1) {
+	// variable_restricted_field.setText("");
+	// messageDialog(
+	// "<html><font color=RED > The array of restricted value must be between the
+	// minium value and the maximum value! </font></html>");
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
 
 	/**
 	 * Method with message error
