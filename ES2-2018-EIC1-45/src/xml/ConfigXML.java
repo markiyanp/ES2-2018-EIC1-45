@@ -1,6 +1,7 @@
 package xml;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
@@ -45,8 +46,8 @@ public class ConfigXML {
 					config.getAdmin_mail()));
 
 			for(User user : config.getUsers()){
-				problemRootElement.appendChild(putUser(doc, user.getUsername(),
-						user.getEmailAddr()));
+				problemRootElement.appendChild(putUser(doc, user.getName(),
+						user.getEmailAddr(), user.getAlgorithms(), user.getCreate_var(), user.getUpload_jars(), user.getMax_var(), user.getMax_obj()));
 			}
 
 			for(Path path : config.getPaths()){
@@ -54,9 +55,7 @@ public class ConfigXML {
 						path.getUrl()));
 			}
 			
-			for(String s : config.getAlgorithms()){
-				problemRootElement.appendChild(putAlgorithm(doc, s));
-			}
+			problemRootElement.appendChild(putLimitTime(doc, config.getTime()));
 
 
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -83,7 +82,6 @@ public class ConfigXML {
 				doc.getDocumentElement().normalize();
 
 				NodeList variableList = doc.getElementsByTagName("Path");
-
 				for (int temp = 0; temp < variableList.getLength(); temp++) {
 					Node nNode = variableList.item(temp);
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -104,16 +102,6 @@ public class ConfigXML {
 						config.setAdmin_mail(eElement.getElementsByTagName("mail").item(0).getTextContent());
 					}
 				}
-				
-				NodeList algorithms = doc.getElementsByTagName("Algorithm");
-				for (int temp = 0; temp < algorithms.getLength(); temp++) {
-					Node nNode = algorithms.item(temp);
-					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element eElement = (Element) nNode;
-						config.getAlgorithms().add(eElement.getElementsByTagName("algo").item(0).getTextContent());
-					}
-				}
-
 
 				NodeList aboutUser = doc.getElementsByTagName("User");
 				for (int temp = 0; temp < aboutUser.getLength(); temp++) {
@@ -121,9 +109,28 @@ public class ConfigXML {
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element eElement = (Element) nNode;
 						User u = new User();
-						u.setUsername(eElement.getElementsByTagName("name").item(0).getTextContent());
+						u.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
 						u.setEmailAddr(eElement.getElementsByTagName("mail").item(0).getTextContent());
+						String[] algorithms = eElement.getElementsByTagName("algorithms").item(0).getTextContent().split(",");
+						ArrayList<String> array = new ArrayList<String>();
+						for(String algo : algorithms) {
+							array.add(algo);
+						}
+						u.setAlgorithms(array);
+						u.setCreate_var(eElement.getElementsByTagName("createVars").item(0).getTextContent());
+						u.setUpload_jars(eElement.getElementsByTagName("uploadJars").item(0).getTextContent());
+						u.setMax_var(eElement.getElementsByTagName("maxVar").item(0).getTextContent());
+						u.setMax_obj(eElement.getElementsByTagName("maxObj").item(0).getTextContent());
 						config.getUsers().add(u);
+					}
+				}
+				
+				NodeList aboutTime = doc.getElementsByTagName("TimeOut");
+				for (int temp = 0; temp < aboutTime.getLength(); temp++) {
+					Node nNode = aboutTime.item(temp);
+					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element eElement = (Element) nNode;
+						config.setTime(eElement.getElementsByTagName("time").item(0).getTextContent());
 					}
 				}
 			} catch (Exception e) {
@@ -145,10 +152,24 @@ public class ConfigXML {
 	 * @param mail
 	 * @return Node
 	 */
-	private static Node putUser(Document doc, String name, String mail) {
+	private static Node putUser(Document doc, String name, String mail, ArrayList<String> algorithms, String create_var, String upload_jars, String max_var, String max_obj) {
 		Element variable = doc.createElement("User");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
+		String algo = "";
+		for(int i = 0; i < algorithms.size(); i++) {
+			if(i != algorithms.size() - 1) {
+				algo += algorithms.get(i);
+				algo += ",";
+			} else {
+				algo += algorithms.get(i);
+			}
+		}
+		variable.appendChild(putNodeElements(doc, variable, "algorithms", algo));
+		variable.appendChild(putNodeElements(doc, variable, "createVars", create_var));
+		variable.appendChild(putNodeElements(doc, variable, "uploadJars", upload_jars));
+		variable.appendChild(putNodeElements(doc, variable, "maxVar", max_var));
+		variable.appendChild(putNodeElements(doc, variable, "maxObj", max_obj));
 		return variable;
 	}
 
@@ -181,14 +202,14 @@ public class ConfigXML {
 	}
 	
 	/**
-	 * Creates Node with algorithms "name"
+	 * Creates Node with limit time "time"
 	 * @param doc
 	 * @param name
 	 * @return Node
 	 */
-	private static Node putAlgorithm(Document doc, String name) {
-		Element variable = doc.createElement("Algorithm");
-		variable.appendChild(putNodeElements(doc, variable, "algo", name));
+	private static Node putLimitTime(Document doc, String time) {
+		Element variable = doc.createElement("TimeOut");
+		variable.appendChild(putNodeElements(doc, variable, "time", time));
 		return variable;
 	}
 

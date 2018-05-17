@@ -60,8 +60,9 @@ public class OptimizationTab extends JPanel {
 	// ******************************INSTANCES*********************************************
 	private static final long serialVersionUID = 4683732155570118854L;
 
+	// TODO
+	private File file_config = new File("Resources/Config.xml");
 	// TODO make files accessible inside the jar
-	private File file_config = new File("Resources/TestXML/Config.xml");
 	private File file_problem = new File("Resources/TestXML/TestProblem.xml");
 
 	// ***************************GENERAL_FIELDS********************************************
@@ -161,22 +162,29 @@ public class OptimizationTab extends JPanel {
 
 	// ******************************INSTANCES_END******************************************
 
+	private Launcher launch;
+	private File file = new File("Resources/config.xml");
+	private LauncherPanel launcher = new LauncherPanel(launch, file);
+
 	public OptimizationTab() {
 		setLayout(null);
 		setBackground(Color.LIGHT_GRAY);
 		ConfigXML.readXML(file_config);
 		ProblemXML.readXML(file_problem);
-
 		createActionListener();
 		createFocusListener();
 		tools_panel();
 		variables_panel();
+		permissionsToCreateVar();
+
 		settings_panel();
 		objectives_panel();
 		// TODO remove this!!!!
 		loadProblem();
 	}
 
+	
+	
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
 
@@ -407,16 +415,17 @@ public class OptimizationTab extends JPanel {
 		objectives_panel.add(objectives_evaluate_label);
 		add(objectives_panel);
 	}
-
+	
 	private void settings_panel() {
 		restrictions_panel.setBorder(restrictions_area_border);
 		restrictions_panel.setBounds(190, 10, 230, 230);
 		restrictions_panel.setOpaque(false);
 		restrictions_panel.setLayout(null);
 
-		String[] algorithms = new String[ConfigXML.config.getAlgorithms().size()];
-		for (String s : ConfigXML.config.getAlgorithms()) {
-			algorithms[ConfigXML.config.getAlgorithms().indexOf(s)] = s;
+		User user_logged = launcher.getUserLogged();
+		String[] algorithms = new String[user_logged.getAlgorithms().size()];
+		for (String s : user_logged.getAlgorithms()) {
+			algorithms[user_logged.getAlgorithms().indexOf(s)] = s;
 		}
 		this.algo_name_field = new JComboBox<String>(algorithms);
 
@@ -625,8 +634,30 @@ public class OptimizationTab extends JPanel {
 	
 	// ***************************RESTRICTIONS_VARIABLES********************************************
 
+	private void permissionsToCreateVar() {
+		User user_logged = Window.getUser();
+		String denied = "no";
+		if (user_logged.getCreate_var().equals(denied)) {
+			variable_name_field.setEnabled(false);
+			variable_type_field.setEnabled(false);
+			variable_minval_field.setEnabled(false);
+			variable_maxval_field.setEnabled(false);
+			variable_restricted_field.setEnabled(false);
+			variable_add_button.setEnabled(false);
+		}
+	}
+
+	private void permissionsToSelectVar() {
+		User user_logged = launcher.getUserLogged();
+		int max_var = Integer.parseInt(user_logged.getMax_var());
+		int table_size = table.getModel().getRowCount();
+		if(max_var == table_size) {
+			
+		}
+	}
+
 	/**
-	 * The focus listener 
+	 * The focus listener
 	 */
 	private void createFocusListener() {
 		FocusListener lis = new FocusListener() {
@@ -688,12 +719,14 @@ public class OptimizationTab extends JPanel {
 		case "Binary":
 			binaryRestriction(event);
 			compareBinaryValues();
+			variable_minval_field.setEnabled(false);
 			break;
 		}
 	}
 
 	/**
 	 * Verify if it's double
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -708,6 +741,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Method with double restrictions
+	 * 
 	 * @param value
 	 */
 	private void DoubleRestriction(FocusEvent value) {
@@ -752,9 +786,8 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
-	
 	/**
-	 * Restrictions and comparation the minium double with the maximum double 
+	 * Restrictions and comparation the minium double with the maximum double
 	 */
 	private void compareDoubleValues() {
 		try {
@@ -795,6 +828,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Verify if it's integer
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -809,6 +843,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Method with integer restrictions
+	 * 
 	 * @param value
 	 */
 	private void IntegerRestriction(FocusEvent value) {
@@ -846,7 +881,7 @@ public class OptimizationTab extends JPanel {
 	}
 
 	/**
-	 * Restrictions and comparation the minium integer with the maximum integer 
+	 * Restrictions and comparation the minium integer with the maximum integer
 	 */
 	private void compareIntegerValues() {
 		try {
@@ -892,6 +927,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Verify if it's binary
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -905,6 +941,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Verify if it's a array binary
+	 * 
 	 * @param array
 	 * @return
 	 */
@@ -921,6 +958,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Method with binary restrictions
+	 * 
 	 * @param value
 	 */
 	private void binaryRestriction(FocusEvent value) {
@@ -950,10 +988,11 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Converts a binary to integer
+	 * 
 	 * @param binary
 	 * @return
 	 */
-	public int binaryToInteger(String binary) {
+	private int binaryToInteger(String binary) {
 		char[] numbers = binary.toCharArray();
 		int result = 0;
 		for (int i = numbers.length - 1; i >= 0; i--)
@@ -1011,6 +1050,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Method with message error
+	 * 
 	 * @param message
 	 */
 	private void messageDialog(String message) {

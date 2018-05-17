@@ -8,7 +8,7 @@ public class Config {
 	private String admin_mail;
 	private ArrayList<User> users;
 	private ArrayList<Path> paths;
-	private ArrayList<String> algorithms;
+	private String time;
 	
 	
 	public String getAdmin_name() {
@@ -55,18 +55,25 @@ public class Config {
 		this.paths = paths;
 	}
 
-	public ArrayList<String> getAlgorithms() {
-		if(algorithms == null){
-			this.algorithms = new ArrayList<String>();
-		}
-		return algorithms;
-	}
-
-	public void setAlgorithms(ArrayList<String> algorithms) {
-		this.algorithms = algorithms;
-	}
-
 	public User getAdmin() {
 		return new User(admin_name, admin_mail);
 	}
+	
+	public LimitTime getLimitTime() {
+		return new LimitTime(time);
+	}
+	
+	public String getTime() {
+		if(time == null){
+			return new String("");
+		}
+		return time;
+	}
+	
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	
+
 }
