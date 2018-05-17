@@ -12,8 +12,8 @@
 	<Variable>
 		<name>var1</name>
 		<type>Double</type>
-		<min_val />
-		<max_val />
+		<min_val>12</min_val>
+		<max_val>199</max_val>
 		<restricted />
 		<used>true</used>
 	</Variable>

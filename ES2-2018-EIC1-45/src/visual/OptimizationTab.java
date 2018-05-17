@@ -180,7 +180,7 @@ public class OptimizationTab extends JPanel {
 		settings_panel();
 		objectives_panel();
 		// TODO remove this!!!!
-		loadProblem();
+		//loadProblem();
 	}
 
 	
@@ -204,9 +204,23 @@ public class OptimizationTab extends JPanel {
 					// runOptimization should be handled by a seperate thread
 					// there should be a button to select a Jar file if needed
 					OptimizationProcess.setData(data);
-					OptimizationProcess.setAlgorithm((String) algo_name_field.getSelectedItem());
+					OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
 					OptimizationProcess.setJar(false);
 					new OptimizationProcess().start();
+					
+					
+//					//TODO: WARNING WARNING WARNING THIS IS WRONG
+//					new Thread(){
+//						@Override
+//						public void run(){
+//							Object[][] testI = {{"test1-should-appear", "Integer", "-1", "2", null, true },
+//									   {"test2-should-appear", "Integer", "-2", "5", null, true},
+//									   {"test3-should-appear", "Integer", "-10", "10", null, true},
+//									   {"test4-should-not-appear", "Integer", "-10", "10", null, false}};
+//							OptimizationProcess.runOptimization(testI, "SMSEMOA", false, null);
+//						}
+//					}.start();
+					
 				} else if (e.getSource() == tools_about_button) {
 					showAboutWindow();
 				}

@@ -42,7 +42,7 @@ public class OptimizationProcess extends Thread {
 	public static void runOptimization(Object[][] data, String algorithm, boolean isJar, String jarPath) {
 		try {
 			variable_count = 0;
-			//debugSysout_Start(data, algorithm, isJar);
+			debugSysout_Start(data, algorithm, isJar);
 
 			boolean integerProblem = false, doubleProblem = false, binaryProblem = false;
 
@@ -61,7 +61,7 @@ public class OptimizationProcess extends Thread {
 					binaryProblem = true;
 				}
 			}
-
+	
 			if (!integerProblem && !doubleProblem && !binaryProblem) {
 				System.out.println("WARNING: No variables detected. Cannot proceed!");
 				return;
@@ -93,7 +93,7 @@ public class OptimizationProcess extends Thread {
 				true_data_iterator++;
 			}
 		}
-		//debugSysout_Parser(true_data);
+		debugSysout_Parser(true_data);
 		return true_data;
 	}
 
@@ -164,7 +164,7 @@ public class OptimizationProcess extends Thread {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Integer.parseInt((String) data[i][2]);
 					limits[i][1] = Integer.parseInt((String) data[i][3]);
-					//debug_Sysoutlimits_INT(limits, i);
+					debug_Sysoutlimits_INT(limits, i);
 				} else {
 					System.out.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
 					limits[i][0] = -100;
@@ -181,7 +181,7 @@ public class OptimizationProcess extends Thread {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Double.parseDouble((String) data[i][2]);
 					limits[i][1] = Double.parseDouble((String) data[i][3]);
-					//debug_Sysoutlimits_DOUBLE(limits, i);
+					debug_Sysoutlimits_DOUBLE(limits, i);
 				} else {
 					System.out.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
 					limits[i][0] = -100;
