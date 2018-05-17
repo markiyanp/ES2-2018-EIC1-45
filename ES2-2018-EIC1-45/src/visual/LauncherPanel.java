@@ -30,9 +30,9 @@ public class LauncherPanel extends JPanel {
 
 	private static final String USER_LOGGED_MSG = "Your user has logged in!";
 	private static final String USER_PERMISSION_TO_MODIFY_MSG = "Permission to modify accept!";
-	private static final String USER_REGISTERED_MSG = "An user has been registered in your name!";
-	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
-	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
+//	private static final String USER_REGISTERED_MSG = "An user has been registered in your name!";
+//	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
+//	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
 
 	private static final long serialVersionUID = 1L;
 

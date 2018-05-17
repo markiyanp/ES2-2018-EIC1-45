@@ -1,5 +1,6 @@
 package visual;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class TopPanel extends JPanel {
@@ -8,9 +9,10 @@ public class TopPanel extends JPanel {
 
 	
 	public TopPanel(Window window, int TOP_PANEL_HEIGHT) {
+		setLayout(null);
 		this.window = window;
 		setOpaque(false);
-		
+		add(new JButton());
 	}
 	
 	

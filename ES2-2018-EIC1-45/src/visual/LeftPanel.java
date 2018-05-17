@@ -7,26 +7,28 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
-public class LeftPanel extends JPanel{
+public class LeftPanel extends JPanel {
 
 	private static final long serialVersionUID = -8909301298283476974L;
 
-	//*****************BUTTONS**************************
+	// *****************BUTTONS**************************
 	private JButton optimization = new JButton();
 	private JButton importExport = new JButton();
 	private JButton graphics = new JButton();
 	private JButton help = new JButton();
-	//*****************BUTTONS**************************
+	// *****************BUTTONS**************************
 
-	//*******************OTHER**************************
+	// *******************OTHER**************************
 	private ActionListener listener;
 	private JLabel selector = new JLabel(new ImageIcon(LeftPanel.class.getResource("/selector.png")));
 	private JLabel selector1 = new JLabel(new ImageIcon(LeftPanel.class.getResource("/selector.png")));
 	private Object current = null;
 	private Window window;
-	//*******************OTHER**************************
-
+	private JProgressBar pb;
+	private int MAX = 100;
+	// *******************OTHER**************************
 
 	public LeftPanel(Window window, int WIDTH) {
 		this.window = window;
@@ -41,6 +43,10 @@ public class LeftPanel extends JPanel{
 		selector.setBounds(0, 0, 6, 55);
 		selector1.setBounds(289, 0, 6, 55);
 
+		progressBar();
+		// TODO Remove this when the algorithm will be able to set the progress
+		// status himself. (sorry my English)
+		setProgress(40);
 		setOpaque(false);
 		add(selector);
 		add(selector1);
@@ -51,18 +57,36 @@ public class LeftPanel extends JPanel{
 		repaint();
 	}
 
+	private void progressBar() {
+		pb = new JProgressBar();
+		pb.setMinimum(0);
+		pb.setMaximum(MAX);
+		pb.setStringPainted(true);
+
+		pb.setBounds(10, 580, 275, 25);
+		add(pb);
+	}
+
+	public void setProgress(int progress) {
+		if (progress <= MAX) {
+			this.pb.setValue(progress);
+		} else {
+			System.out.println(progress);
+		}
+	}
+
 	private ActionListener action_listener() {
 		ActionListener a = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == optimization){
-					if(current != e.getSource()){
+				if (e.getSource() == optimization) {
+					if (current != e.getSource()) {
 						selector.setBounds(0, 0, 6, 55);
 						selector1.setBounds(289, 0, 6, 55);
 						window.getRight_panel().changeTab("optimization");
 					}
 					current = e.getSource();
-				}else if(e.getSource() == graphics){
-					if(current != e.getSource()){
+				} else if (e.getSource() == graphics) {
+					if (current != e.getSource()) {
 						selector.setBounds(0, 111, 6, 55);
 						selector1.setBounds(289, 111, 6, 55);
 						selector.setBounds(0, 55, 6, 55);
@@ -70,8 +94,8 @@ public class LeftPanel extends JPanel{
 						window.getRight_panel().changeTab("graphics");
 					}
 					current = e.getSource();
-				}else if(e.getSource() == help){
-					if(current != e.getSource()){
+				} else if (e.getSource() == help) {
+					if (current != e.getSource()) {
 						selector.setBounds(0, 111, 6, 55);
 						selector1.setBounds(289, 111, 6, 55);
 						window.getRight_panel().changeTab("help");
@@ -83,7 +107,6 @@ public class LeftPanel extends JPanel{
 
 		return a;
 	}
-
 
 	private JButton optimization() {
 		JButton b = new JButton();
@@ -97,7 +120,7 @@ public class LeftPanel extends JPanel{
 
 	private JButton graphics() {
 		JButton b = new JButton();
-		b.setBounds(0, 55, 295, 54);	
+		b.setBounds(0, 55, 295, 54);
 		b.setOpaque(false);
 		b.setContentAreaFilled(false);
 		b.setBorderPainted(false);
