@@ -56,7 +56,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	@Override
 	public void evaluate(BinarySolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 2000) {
+		if (System.currentTimeMillis() - startingTime <= 10000) {
 			if (!useJar) {
 				double[] solutionObjectives = OneZeroMax.OneZeroMaxSolution(solution);
 				// OneZeroMax is a maximization problem: multiply by -1 to minimize

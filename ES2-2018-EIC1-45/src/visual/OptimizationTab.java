@@ -798,7 +798,7 @@ public class OptimizationTab extends JPanel {
 	}
 
 	/**
-	 * Restrictions and comparation the minium double with the maximum double
+	 * Restrictions and comparation of the minimum double with the maximum double
 	 */
 	private void compareDoubleValues() {
 		try {

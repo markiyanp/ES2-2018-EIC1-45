@@ -52,7 +52,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	}
 
 	public void evaluate(DoubleSolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 2000) {
+		if (System.currentTimeMillis() - startingTime <= 10000) {
 		if (!useJar) {
 			double[] fx = new double[getNumberOfObjectives()];
 			double[] x = new double[getNumberOfVariables()];

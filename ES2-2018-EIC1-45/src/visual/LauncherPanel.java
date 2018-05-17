@@ -552,13 +552,10 @@ public class LauncherPanel extends JPanel {
 		algorithms.add("MOCH");
 		
 		String create_var = "yes";
-		String create_jars = "yes";
-		String max_var = "2";
-		String max_obj = "3";
 		
-		User u = new User("Tiago Almeida", "tiago@gmail.com", algorithms, create_var, create_jars, max_var, max_obj);
-		User u1 = new User("Paulo Pina", "paulo@gmail.com", algorithms, create_var, create_jars, max_var, max_obj);
-		User u2 = new User("Andre Godinho", "andre@gmail.com", algorithms, create_var, create_jars, max_var, max_obj);
+		User u = new User("Tiago Almeida", "tiago@gmail.com", algorithms, create_var);
+		User u1 = new User("Paulo Pina", "paulo@gmail.com", algorithms, create_var);
+		User u2 = new User("Andre Godinho", "andre@gmail.com", algorithms, create_var);
 		
 		ArrayList<User> users = new ArrayList<>();
 		users.add(u);
@@ -601,9 +598,6 @@ public class LauncherPanel extends JPanel {
 			if(user.getName().equals(name_user) && user.getEmailAddr().equals(email_user)) {
 				algo += user.getAlgorithms();
 				create_var = user.getCreate_var();
-				create_jars = user.getUpload_jars();
-				max_var = user.getMax_var();
-				max_obj = user.getMax_obj();
 			}
 		}
 		algo = algo.replace("[", "");
@@ -615,7 +609,7 @@ public class LauncherPanel extends JPanel {
 			array_algo.add(s);
 		}
 		
-		User user_logged = new User(name_user, email_user, array_algo, create_var, create_jars, max_var, max_obj);
+		User user_logged = new User(name_user, email_user, array_algo, create_var);
 		return user_logged;
 	}
 	
