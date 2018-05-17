@@ -635,9 +635,8 @@ public class OptimizationTab extends JPanel {
 	// ***************************RESTRICTIONS_VARIABLES********************************************
 
 	private void permissionsToCreateVar() {
-		User user_logged = Window.getUser();
 		String denied = "no";
-		if (user_logged.getCreate_var().equals(denied)) {
+		if (Window.getUser().getCreate_var().equals(denied)) {
 			variable_name_field.setEnabled(false);
 			variable_type_field.setEnabled(false);
 			variable_minval_field.setEnabled(false);
