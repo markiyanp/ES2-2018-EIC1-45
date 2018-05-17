@@ -7,29 +7,20 @@
 <User>
 <name>Tiago Almeida</name>
 <mail>tiago@gmail.com</mail>
-<algorithms>SPEA2,SMPSO,PAES,IBEA</algorithms>
-<createVars>no</createVars>
-<uploadJars>yes</uploadJars>
-<maxVar>yes</maxVar>
-<maxObj>yes</maxObj>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
+<createVars>yes</createVars>
 </User>
 <User>
 <name>Paulo Pina</name>
 <mail>paulo@gmail.com</mail>
-<algorithms>SPEA2</algorithms>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
 <createVars>yes</createVars>
-<uploadJars>yes</uploadJars>
-<maxVar>yes</maxVar>
-<maxObj>yes</maxObj>
 </User>
 <User>
 <name>Andre Godinho</name>
 <mail>andre@gmail.com</mail>
-<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3</algorithms>
-<createVars>no</createVars>
-<uploadJars>yes</uploadJars>
-<maxVar>yes</maxVar>
-<maxObj>yes</maxObj>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
+<createVars>yes</createVars>
 </User>
 <Path>
 <name>ProblemsPath</name>
