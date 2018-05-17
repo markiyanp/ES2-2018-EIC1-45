@@ -113,8 +113,6 @@ public class LauncherPanel extends JPanel {
 	// *************************CREATE_USER_FIELDS*************************************
 	
 	public LauncherPanel(Launcher launch, File file) {
-		test();
-		
 		this.launch = launch;
 		this.file = file;
 		new_action_listener();
