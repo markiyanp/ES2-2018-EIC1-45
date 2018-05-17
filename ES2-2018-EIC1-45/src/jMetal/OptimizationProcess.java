@@ -1,7 +1,6 @@
 package jMetal;
 
 import java.io.IOException;
-import java.lang.Boolean;
 
 import jMetal.binaryProblems.ExperimentsBinary;
 import jMetal.doubleProblems.ExperimentsDouble;
@@ -22,25 +21,27 @@ public class OptimizationProcess extends Thread {
 	private static boolean isJar;
 	private static String jarPath;
 	
+
+	
+	@Override
+	public void run() {
+		runOptimization(data, algorithm, isJar);
+	}
+	
 	/**
 	 * Executes a problem depending on the data fed from the GUI's table, the chosen
-	 * algorithm, and whether a jar is used or not.
+	 * algorithm, and whether a jar is used or not along with its path.
 	 * 
 	 * @param data
 	 * @param algorithm
 	 * @param isJar
+	 * @param jarPath
 	 * @author pvmpa-iscteiulpt
 	 */
-	
-	@Override
-	public void run() {
-		runOptimization(data, algorithm, isJar, jarPath);
-	}
-	
-	public static void runOptimization(Object[][] data, String algorithm, boolean isJar, String jarPath) {
+	public static void runOptimization(Object[][] data, String algorithm, boolean isJar) {
 		try {
 			variable_count = 0;
-			debugSysout_Start(data, algorithm, isJar);
+			//debugSysout_Start(data, algorithm, isJar);
 
 			boolean integerProblem = false, doubleProblem = false, binaryProblem = false;
 
@@ -91,13 +92,13 @@ public class OptimizationProcess extends Thread {
 				true_data_iterator++;
 			}
 		}
-		debugSysout_Parser(true_data);
+		//debugSysout_Parser(true_data);
 		return true_data;
 	}
 
 	/**
 	 * Verifies whether a valid algorithm was chosen or not. Also verifies if there
-	 * are any datatypes mixed together.
+	 * are any datatypes mixed together, and throws an exception if that is true.
 	 * 
 	 * @param algorithm
 	 * @param integerProblem
@@ -162,7 +163,7 @@ public class OptimizationProcess extends Thread {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Integer.parseInt((String) data[i][2]);
 					limits[i][1] = Integer.parseInt((String) data[i][3]);
-					debug_Sysoutlimits_INT(limits, i);
+					//debug_Sysoutlimits_INT(limits, i);
 				} else {
 					System.out.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
 					limits[i][0] = -100;
@@ -179,7 +180,7 @@ public class OptimizationProcess extends Thread {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
 					limits[i][0] = Double.parseDouble((String) data[i][2]);
 					limits[i][1] = Double.parseDouble((String) data[i][3]);
-					debug_Sysoutlimits_DOUBLE(limits, i);
+					//debug_Sysoutlimits_DOUBLE(limits, i);
 				} else {
 					System.out.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
 					limits[i][0] = -100;
@@ -198,18 +199,34 @@ public class OptimizationProcess extends Thread {
 
 	}
 
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param limits
+	 * @param i
+	 */
 	@SuppressWarnings("unused")
 	private static void debug_Sysoutlimits_DOUBLE(double[][] limits, int i) {
 		System.out.println(limits[i][0]);
 		System.out.println(limits[i][1]);
 	}
 
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param limits
+	 * @param i
+	 */
 	@SuppressWarnings("unused")
 	private static void debug_Sysoutlimits_INT(int[][] limits, int i) {
 		System.out.println(limits[i][0]);
 		System.out.println(limits[i][1]);
 	}
 	
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param data
+	 * @param algorithm
+	 * @param isJar
+	 */
 	@SuppressWarnings("unused")
 	private static void debugSysout_Start(Object[][] data, String algorithm, boolean isJar) {
 		System.out.println("============================================================");
@@ -224,6 +241,10 @@ public class OptimizationProcess extends Thread {
 		System.out.println("Use jar: " + isJar);
 	}
 	
+	/**
+	 * This is a debugging function. Please don't touch it.
+	 * @param true_data
+	 */
 	@SuppressWarnings("unused")
 	private static void debugSysout_Parser(Object[][] true_data) {
 		System.out.println("============================================================");
@@ -260,6 +281,10 @@ public class OptimizationProcess extends Thread {
 
 	public static void setJar(boolean isJar) {
 		OptimizationProcess.isJar = isJar;
+	}
+	
+	public static void setJarPath(String path) {
+		jarPath = path;
 	}
 	
 	

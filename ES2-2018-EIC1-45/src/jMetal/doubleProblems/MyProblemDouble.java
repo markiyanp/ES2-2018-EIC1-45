@@ -4,12 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.mail.EmailException;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
-
-import email.EMail_Tools;
 import jMetal.ProgressChecker;
 
 public class MyProblemDouble extends AbstractDoubleProblem {
@@ -67,15 +63,17 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			String solutionString = "";
 			String evaluationResultString = "";
 			for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-				solutionString = solutionString + " " + solution.getVariableValue(i);
+				solutionString = solutionString + " " + "\"" + solution.getVariableValue(i) + "\"";
 			}
 			try {
 				String line;
-				Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString);
+				Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString.trim());
 				BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				
 				while ((line = brinput.readLine()) != null) {
 					evaluationResultString += line;
 				}
+				
 				brinput.close();
 				p.waitFor();
 			} catch (Exception err) {

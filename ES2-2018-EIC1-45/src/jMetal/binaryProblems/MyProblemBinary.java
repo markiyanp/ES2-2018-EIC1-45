@@ -1,15 +1,10 @@
 package jMetal.binaryProblems;
 
-import org.apache.commons.mail.EmailException;
 import org.uma.jmetal.problem.impl.AbstractBinaryProblem;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.impl.DefaultBinarySolution;
-import org.uma.jmetal.util.JMetalException;
 
-import email.EMail_Tools;
 import jMetal.ProgressChecker;
-import visual.LeftPanel;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.BitSet;
@@ -43,9 +38,6 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	@Override
 	protected int getBitsPerVariable(int index) {
-		if (index != 0) {
-			throw new JMetalException("Problem MyBinaryProblem has only a variable. Index = " + index);
-		}
 		return bits;
 	}
 

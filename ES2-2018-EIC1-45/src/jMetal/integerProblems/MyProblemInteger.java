@@ -1,13 +1,10 @@
 package jMetal.integerProblems;
 
-import org.apache.commons.mail.EmailException;
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.IntegerSolution;
 import org.uma.jmetal.util.JMetalException;
 
-import email.EMail_Tools;
 import jMetal.ProgressChecker;
-import visual.LeftPanel;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
