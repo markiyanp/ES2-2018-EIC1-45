@@ -9,10 +9,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -38,6 +40,7 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.commons.mail.EmailException;
 
+import core.Problem;
 import core.TimeMultiplier;
 import core.User;
 import core.Variable;
@@ -76,6 +79,8 @@ public class OptimizationTab extends JPanel {
 			.createImage(LauncherPanel.class.getResource("/icons/erase.png"));
 	private Image save_icon = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/icons/save.png"));
+	private Image correct_icon = Toolkit.getDefaultToolkit()
+			.createImage(LauncherPanel.class.getResource("/icons/correct.png"));
 	private Image import_icon = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/icons/import.png"));
 	private Image run_icon = Toolkit.getDefaultToolkit().createImage(LauncherPanel.class.getResource("/icons/run.png"));
@@ -102,8 +107,7 @@ public class OptimizationTab extends JPanel {
 	private JLabel settings_algo_label = new JLabel("Algorythm");
 	private JLabel settings_max_time_label = new JLabel("Max run time");
 	private JSpinner settings_time_spinner;
-	private JButton problem_about_exit_button = new JButton("  Cancel");
-	private JButton problem_about_save_button = new JButton("  Save");
+	private JButton problem_about_save_button = new JButton("OK  ");
 	private JLabel problem_name_label = new JLabel("Problem Name");
 	private JLabel problem_description_label = new JLabel("Description");
 	private JTextField problem_name_field = new JTextField();
@@ -126,6 +130,9 @@ public class OptimizationTab extends JPanel {
 	private JButton variable_deselectAll_button = new JButton("Disable All");
 	private String[] column_names = { "Name", "Type", "Min Val", "Max Val", "Restricted", "Used" };
 	private Object[][] data = {};
+	private JFrame about_frame = new JFrame("About");
+	private Variable variable;
+	private Problem problem;
 
 	// ***************************PROBLEM_FIELDS********************************************
 
@@ -162,10 +169,6 @@ public class OptimizationTab extends JPanel {
 
 	// ******************************INSTANCES_END******************************************
 
-	private Launcher launch;
-	private File file = new File("Resources/config.xml");
-	private LauncherPanel launcher = new LauncherPanel(launch, file);
-
 	public OptimizationTab() {
 		setLayout(null);
 		setBackground(Color.LIGHT_GRAY);
@@ -180,12 +183,16 @@ public class OptimizationTab extends JPanel {
 		settings_panel();
 		objectives_panel();
 		// TODO remove this!!!!
-		//loadProblem();
+		loadProblem();
 	}
 
+	public void setProblemOwner() {
+		ProblemXML.problem.setUser_name(Window.getUser().getName());
+		ProblemXML.problem.setUser_email(Window.getUser().getEmailAddr());
+	}
+	
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == variable_add_button) {
@@ -195,7 +202,14 @@ public class OptimizationTab extends JPanel {
 				} else if (e.getSource() == variable_deselectAll_button) {
 					disableAll();
 				} else if (e.getSource() == variable_remove_button) {
-					removeVariable();
+//					removeVariable();
+				} else if (e.getSource() == tools_export_button) {
+					setProblemOwner();
+					ProblemXML.problem.setAlgorithm(algo_name_field.getSelectedItem().toString());
+					ProblemXML.writeXML(ProblemXML.problem, file_problem);
+				} else if (e.getSource() == problem_about_save_button) {
+					saveAbout();
+					about_frame.dispose();
 				} else if (e.getSource() == tools_run_button) {
 					// sendMailAdmin();
 					// TODO:
@@ -205,20 +219,20 @@ public class OptimizationTab extends JPanel {
 					OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
 					OptimizationProcess.setJar(false);
 					new OptimizationProcess().start();
-					
-					
-//					//TODO: WARNING WARNING WARNING THIS IS WRONG
-//					new Thread(){
-//						@Override
-//						public void run(){
-//							Object[][] testI = {{"test1-should-appear", "Integer", "-1", "2", null, true },
-//									   {"test2-should-appear", "Integer", "-2", "5", null, true},
-//									   {"test3-should-appear", "Integer", "-10", "10", null, true},
-//									   {"test4-should-not-appear", "Integer", "-10", "10", null, false}};
-//							OptimizationProcess.runOptimization(testI, "SMSEMOA", false, null);
-//						}
-//					}.start();
-					
+
+					// //TODO: WARNING WARNING WARNING THIS IS WRONG
+					// new Thread(){
+					// @Override
+					// public void run(){
+					// Object[][] testI = {{"test1-should-appear", "Integer", "-1", "2", null, true
+					// },
+					// {"test2-should-appear", "Integer", "-2", "5", null, true},
+					// {"test3-should-appear", "Integer", "-10", "10", null, true},
+					// {"test4-should-not-appear", "Integer", "-10", "10", null, false}};
+					// OptimizationProcess.runOptimization(testI, "SMSEMOA", false, null);
+					// }
+					// }.start();
+
 				} else if (e.getSource() == tools_about_button) {
 					showAboutWindow();
 				}
@@ -228,7 +242,6 @@ public class OptimizationTab extends JPanel {
 	}
 
 	private void showAboutWindow() {
-		JFrame about_frame = new JFrame("About");
 		about_frame.setSize(266, 400);
 		about_frame.setLocationRelativeTo(null);
 		JPanel main_about_panel = new JPanel();
@@ -238,14 +251,11 @@ public class OptimizationTab extends JPanel {
 		content_about_panel.setOpaque(false);
 		content_about_panel.setLayout(null);
 
-		problem_about_exit_button.setIcon(new ImageIcon(cancel_icon));
-		problem_about_save_button.setIcon(new ImageIcon(save_icon));
+		problem_about_save_button.setIcon(new ImageIcon(correct_icon));
 
-		problem_about_exit_button.setBackground(general_color);
 		problem_about_save_button.setBackground(general_color);
 
-		problem_about_exit_button.setBounds(120, 240, 100, 25);
-		problem_about_save_button.setBounds(10, 240, 100, 25);
+		problem_about_save_button.setBounds(65, 240, 100, 25);
 
 		problem_name_label.setBounds(10, 0, 100, 20);
 		problem_name_field.setBounds(10, 20, 210, 25);
@@ -253,14 +263,12 @@ public class OptimizationTab extends JPanel {
 		problem_description_label.setBounds(10, 55, 100, 20);
 		problem_description_area.setBounds(10, 75, 210, 145);
 
-		problem_about_exit_button.addActionListener(action_listener);
 		problem_about_save_button.addActionListener(action_listener);
 
 		content_about_panel.add(problem_name_label);
 		content_about_panel.add(problem_name_field);
 		content_about_panel.add(problem_description_label);
 		content_about_panel.add(problem_description_area);
-		content_about_panel.add(problem_about_exit_button);
 		content_about_panel.add(problem_about_save_button);
 
 		main_about_panel.add(content_about_panel);
@@ -272,6 +280,11 @@ public class OptimizationTab extends JPanel {
 
 		about_frame.add(main_about_panel);
 		about_frame.setVisible(true);
+	}
+
+	private void saveAbout() {
+		ProblemXML.problem.setProblem_name(problem_name_field.getText());
+		ProblemXML.problem.setProblem_description(problem_description_area.getText());
 	}
 
 	private void createVariable() {
@@ -290,6 +303,11 @@ public class OptimizationTab extends JPanel {
 		row[3] = variable_maxval_field.getText();
 		row[4] = variable_restricted_field.getText();
 		row[5] = false;
+
+		variable = new Variable(variable_name_field.getText(), variable_type_field.getSelectedItem().toString(),
+				variable_minval_field.getText(), variable_maxval_field.getText(),
+				variable_restricted_field.getText(), "false");
+		ProblemXML.problem.getVariables().add(variable);
 
 		mod[mod.length - 1] = row;
 
@@ -327,6 +345,13 @@ public class OptimizationTab extends JPanel {
 				if (i != table.getSelectedRow()) {
 					mod[k] = this.data[i];
 					k++;
+				}else if(i == table.getSelectedRow()) {
+					ArrayList<Variable> var_list = ProblemXML.problem.getVariables();
+					for(Variable var : var_list) {
+						if(var.getVariable_name().equals( this.data[i][0])) {
+							ProblemXML.problem.getVariables().remove(var);
+						}
+					}
 				}
 			}
 			this.data = mod;
@@ -660,7 +685,7 @@ public class OptimizationTab extends JPanel {
 
 	private void restrictionToCreateVar() {
 		if (variable_name_field.getText().isEmpty() || variable_minval_field.getText().isEmpty()
-				|| variable_maxval_field.getText().isEmpty() || variable_restricted_field.getText().isEmpty()) {
+				|| variable_maxval_field.getText().isEmpty()) {
 			messageDialog("<html><font color=RED > Exist empty fields! </font></html>");
 		} else {
 			createVariable();

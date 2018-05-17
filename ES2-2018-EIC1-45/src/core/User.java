@@ -10,9 +10,6 @@ public class User {
 	private String mail;
 	private ArrayList<String> algorithms;
 	private String create_var;
-	private String upload_jars;
-	private String max_var;
-	private String max_obj;
 	
 	public User() {
 	}
@@ -53,14 +50,6 @@ public class User {
 		this.name = name;
 	}
 
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
 	public String getCreate_var() {
 		return create_var;
 	}
@@ -68,28 +57,5 @@ public class User {
 	public void setCreate_var(String create_var) {
 		this.create_var = create_var;
 	}
-
-	public String getUpload_jars() {
-		return upload_jars;
-	}
-
-	public void setUpload_jars(String upload_jars) {
-		this.upload_jars = upload_jars;
-	}
-
-	public String getMax_var() {
-		return max_var;
-	}
-
-	public void setMax_var(String max_var) {
-		this.max_var = max_var;
-	}
-
-	public String getMax_obj() {
-		return max_obj;
-	}
-
-	public void setMax_obj(String max_obj) {
-		this.max_obj = max_obj;
-	}
+	
 }

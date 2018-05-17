@@ -326,7 +326,7 @@ public class LauncherPanel extends JPanel {
 //				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
 //
 //				if (check) {
-					launch.setVisible(false);
+					launch.dispose();
 					new Window(getUserLogged());
 //				} else {
 //					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
@@ -579,9 +579,6 @@ public class LauncherPanel extends JPanel {
 		ArrayList<User> users = ConfigXML.config.getUsers();
 		String[] array = user_list_field.getSelectedItem().toString().split(" ");
 		String create_var = "";
-		String create_jars = "";
-		String max_var = "";
-		String max_obj = "";
 
 		String name_user = "";
 		name_user += array[0];

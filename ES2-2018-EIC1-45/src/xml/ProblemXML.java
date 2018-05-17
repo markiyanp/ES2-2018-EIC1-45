@@ -2,6 +2,7 @@ package xml;
 
 import java.io.File;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
@@ -20,6 +21,7 @@ import org.w3c.dom.NodeList;
 
 import core.Problem;
 import core.Variable;
+import visual.Window;
 
 public class ProblemXML {
 	

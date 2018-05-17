@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Problem>
-	<About>
-		<name>AntiSpamFilterConfig</name>
-		<description>Solve anti-spam filter configuration.</description>
-		<algorythm>NSGAII</algorythm>
-	</About>
-	<User>
-		<name>Tiago Almeida</name>
-		<mail>tiago.almeida@gmail.com</mail>
-	</User>
-	<Variable>
-		<name>var1</name>
-		<type>Double</type>
-		<min_val>12</min_val>
-		<max_val>199</max_val>
-		<restricted />
-		<used>true</used>
-	</Variable>
-	<Variable>
-		<name>var2</name>
-		<type>Double</type>
-		<min_val>12</min_val>
-		<max_val>199</max_val>
-		<restricted />
-		<used>false</used>
-	</Variable>
+<About>
+<name>AntiSpamFilterConfig</name>
+<description>Solve anti-spam filter configuration.</description>
+<algorythm>SPEA2</algorythm>
+</About>
+<User>
+<name>Tiago Almeida</name>
+<mail>tiago@gmail.com</mail>
+</User>
+<Variable>
+<name>var1</name>
+<type>Double</type>
+<min_val>12</min_val>
+<max_val>199</max_val>
+<restricted/>
+<used>true</used>
+</Variable>
+<Variable>
+<name>var2</name>
+<type>Double</type>
+<min_val>12</min_val>
+<max_val>199</max_val>
+<restricted/>
+<used>false</used>
+</Variable>
+<Variable>
+<name>TIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGO</name>
+<type>Integer</type>
+<min_val>0</min_val>
+<max_val>10</max_val>
+<restricted/>
+<used>false</used>
+</Variable>
 </Problem>

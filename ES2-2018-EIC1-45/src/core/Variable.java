@@ -9,8 +9,16 @@ public class Variable {
 	private String variable_restricted;
 	private String variable_used;
 
+	public Variable( ) {
+	}
 	
-	public Variable() {
+	public Variable(String variable_name, String variable_type, String variable_min_val, String variable_max_val, String variable_restricted, String variable_used) {
+		this.variable_name = variable_name;
+		this.variable_type = variable_type;
+		this.variable_min_val = variable_min_val;
+		this.variable_max_val = variable_max_val;
+		this.variable_restricted = variable_restricted;
+		this.variable_used = variable_used;
 	}
 	
 
