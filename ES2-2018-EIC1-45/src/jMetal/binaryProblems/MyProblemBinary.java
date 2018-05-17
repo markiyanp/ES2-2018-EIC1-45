@@ -1,13 +1,11 @@
 package jMetal.binaryProblems;
 
-import org.apache.commons.mail.EmailException;
 import org.uma.jmetal.problem.impl.AbstractBinaryProblem;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.impl.DefaultBinarySolution;
 import org.uma.jmetal.util.JMetalException;
 
-import email.EMail_Tools;
-
+import jMetal.ProgressChecker;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.BitSet;
@@ -22,9 +20,8 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	private int bits;
 	private boolean useJar = false;
-	private boolean email25 = false;
-	private boolean email50 = false;
-	private boolean email75 = false;
+	
+	private ProgressChecker progC;
 	
 	private String jarPath;
 	
@@ -33,6 +30,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar, String jarPath) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
+		this.progC = new ProgressChecker(useJar);
 		setNumberOfVariables(number_of_variables);
 		setNumberOfObjectives(2);
 		setName("MyProblemBinary");
@@ -54,7 +52,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	@Override
 	public void evaluate(BinarySolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 2000) {
+		if (System.currentTimeMillis() - startingTime <= 10000) {
 			if (!useJar) {
 				double[] solutionObjectives = OneZeroMax.OneZeroMaxSolution(solution);
 				// OneZeroMax is a maximization problem: multiply by -1 to minimize
@@ -85,42 +83,9 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 				}
 			}
 			testNumber++;
-			checkProgress(testNumber);
+			progC.checkProgress(testNumber);
 		}
 	}
 
-	/**
-	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to
-	 * user
-	 * 
-	 * @param testNumber
-	 */
-	public void checkProgress(int testNumber) {
-		double numberTests;
-		if (useJar)
-			numberTests = 500;
-		else
-			numberTests = 2500;
-		double progress = testNumber / numberTests;
-		try {
-			if (progress >= 0.25 && !email25) {
-				EMail_Tools.sendProgressMail(25);
-				email25 = true;
-			}
-			if (progress >= 0.5 && !email50) {
-				EMail_Tools.sendProgressMail(50);
-				email50 = true;
-			}
-			if (progress >= 0.75 && !email75) {
-				EMail_Tools.sendProgressMail(75);
-				email75 = true;
-			}
-			if (progress == 1) {
-				EMail_Tools.sendProgressMail(100);
-			}
-		} catch (EmailException e) {
-			e.printStackTrace();
-		}
-	}
 
 }
