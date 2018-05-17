@@ -13,8 +13,8 @@
 <User>
 <name>Paulo Pina</name>
 <mail>paulo@gmail.com</mail>
-<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
-<createVars>yes</createVars>
+<algorithms>SPEA2,SMPSO</algorithms>
+<createVars>no</createVars>
 </User>
 <User>
 <name>Andre Godinho</name>
