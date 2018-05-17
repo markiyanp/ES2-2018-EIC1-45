@@ -42,6 +42,7 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.commons.mail.EmailException;
 
+import core.Objective;
 import core.Path;
 import core.TimeMultiplier;
 import core.User;
@@ -156,6 +157,7 @@ public class OptimizationTab extends JPanel {
 	private Object[][] objectives_data = {};
 	private JTextField objectives_newobjective_field = new JTextField();
 	private JButton objectives_addobjective_button = new JButton("Add");
+	private JButton objectives_delete_button = new JButton("Delete");
 	private JLabel objectives_addobjective_label = new JLabel("Name");
 	// ****************************OBJECTIVES_FIELDS*****************************************
 
@@ -460,17 +462,23 @@ public class OptimizationTab extends JPanel {
 		JScrollPane sp = new JScrollPane(this.objectives_table);
 		sp.setBounds(16, 95, 352, 120);
 
-		objectives_newobjective_field.setBounds(16, 65, 260, 25);
-		objectives_addobjective_button.setBounds(280, 65, 87, 25);
+		objectives_newobjective_field.setBounds(16, 65, 215, 25);
+		objectives_addobjective_button.setBounds(235, 65, 58, 25);
 
 		objectives_addobjective_label.setBounds(16, 45, 100, 20);
 
 		objectives_evaluate_label.setBounds(15, 22, 100, 20);
 		objectives_possible_types.setBounds(120, 22, 245, 25);
+		
+		objectives_delete_button.setBounds(297, 65, 70, 25);
 
 		objectives_addobjective_button.setBackground(general_color);
 		objectives_addobjective_button.addActionListener(action_listener);
+		
+		objectives_delete_button.setBackground(general_color);
+		objectives_delete_button.addActionListener(action_listener);
 
+		objectives_panel.add(objectives_delete_button);
 		objectives_panel.add(objectives_possible_types);
 		objectives_panel.add(sp);
 		objectives_panel.add(objectives_evaluate_label);
@@ -698,6 +706,21 @@ public class OptimizationTab extends JPanel {
 
 	private void loadProblem(File file) {
 		ProblemXML.readXML(file);
+		
+		Object[][] objs = new Object[ProblemXML.problem.getObjectives().size()][3];
+		for (Objective obj : ProblemXML.problem.getObjectives()) {
+			objs[ProblemXML.problem.getObjectives().indexOf(obj)][0] = obj.getName();
+			objs[ProblemXML.problem.getObjectives().indexOf(obj)][1] = obj.getType();
+			if (obj.isUsed().contains("true")) {
+				objs[ProblemXML.problem.getObjectives().indexOf(obj)][2] = new Boolean(true);
+			} else {
+				objs[ProblemXML.problem.getObjectives().indexOf(obj)][2] = new Boolean(false);
+			}
+		}
+		this.objectives_data = objs;
+		this.objectives_table.setModel(tableModel(this.objectives_data, this.objectives_column_names));
+		
+		
 		Object[][] vars = new Object[ProblemXML.problem.getVariables().size()][6];
 		for (Variable var : ProblemXML.problem.getVariables()) {
 			vars[ProblemXML.problem.getVariables().indexOf(var)][0] = var.getVariable_name();

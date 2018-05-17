@@ -29,7 +29,7 @@ public class Problem {
 	
 	public ArrayList<Objective> getObjectives() {
 		if(objectives == null){
-			this.variables = new ArrayList<>();
+			this.objectives = new ArrayList<>();
 		}
 		return objectives;
 	}
