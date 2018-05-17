@@ -22,14 +22,11 @@ public class User {
 		this.mail = mail;
 	}
 	
-	public User(String name, String mail, ArrayList<String> algorithms, String create_var, String upload_jars, String max_var, String max_obj) {
+	public User(String name, String mail, ArrayList<String> algorithms, String create_var) {
 		this.name = name;
 		this.mail = mail;
 		this.algorithms = algorithms;
 		this.create_var = create_var;
-		this.upload_jars = upload_jars;
-		this.max_var = max_var;
-		this.max_obj = max_obj;
 	}
 	
 	public  String getEmailAddr() {

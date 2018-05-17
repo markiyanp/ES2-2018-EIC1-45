@@ -47,7 +47,7 @@ public class ConfigXML {
 
 			for(User user : config.getUsers()){
 				problemRootElement.appendChild(putUser(doc, user.getName(),
-						user.getEmailAddr(), user.getAlgorithms(), user.getCreate_var(), user.getUpload_jars(), user.getMax_var(), user.getMax_obj()));
+						user.getEmailAddr(), user.getAlgorithms(), user.getCreate_var()));
 			}
 
 			for(Path path : config.getPaths()){
@@ -118,9 +118,6 @@ public class ConfigXML {
 						}
 						u.setAlgorithms(array);
 						u.setCreate_var(eElement.getElementsByTagName("createVars").item(0).getTextContent());
-						u.setUpload_jars(eElement.getElementsByTagName("uploadJars").item(0).getTextContent());
-						u.setMax_var(eElement.getElementsByTagName("maxVar").item(0).getTextContent());
-						u.setMax_obj(eElement.getElementsByTagName("maxObj").item(0).getTextContent());
 						config.getUsers().add(u);
 					}
 				}
@@ -152,7 +149,7 @@ public class ConfigXML {
 	 * @param mail
 	 * @return Node
 	 */
-	private static Node putUser(Document doc, String name, String mail, ArrayList<String> algorithms, String create_var, String upload_jars, String max_var, String max_obj) {
+	private static Node putUser(Document doc, String name, String mail, ArrayList<String> algorithms, String create_var) {
 		Element variable = doc.createElement("User");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
@@ -167,9 +164,6 @@ public class ConfigXML {
 		}
 		variable.appendChild(putNodeElements(doc, variable, "algorithms", algo));
 		variable.appendChild(putNodeElements(doc, variable, "createVars", create_var));
-		variable.appendChild(putNodeElements(doc, variable, "uploadJars", upload_jars));
-		variable.appendChild(putNodeElements(doc, variable, "maxVar", max_var));
-		variable.appendChild(putNodeElements(doc, variable, "maxObj", max_obj));
 		return variable;
 	}
 
