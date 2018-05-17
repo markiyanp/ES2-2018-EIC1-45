@@ -4,12 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.mail.EmailException;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
-
-import email.EMail_Tools;
 import jMetal.ProgressChecker;
 
 public class MyProblemDouble extends AbstractDoubleProblem {
