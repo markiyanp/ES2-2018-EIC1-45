@@ -26,8 +26,8 @@ public class LeftPanel extends JPanel {
 	private JLabel selector1 = new JLabel(new ImageIcon(LeftPanel.class.getResource("/selector.png")));
 	private Object current = null;
 	private Window window;
-	private JProgressBar pb;
-	private int MAX = 100;
+	private static JProgressBar pb;
+	private static int MAX = 100;
 	// *******************OTHER**************************
 
 	public LeftPanel(Window window, int WIDTH) {
@@ -67,9 +67,9 @@ public class LeftPanel extends JPanel {
 		add(pb);
 	}
 
-	public void setProgress(int progress) {
+	public static void setProgress(int progress) {
 		if (progress <= MAX) {
-			this.pb.setValue(progress);
+			pb.setValue(progress);
 		} else {
 			System.out.println(progress);
 		}

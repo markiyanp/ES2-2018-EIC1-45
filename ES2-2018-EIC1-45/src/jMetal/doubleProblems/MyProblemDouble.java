@@ -10,6 +10,7 @@ import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 
 import email.EMail_Tools;
+import jMetal.ProgressChecker;
 
 public class MyProblemDouble extends AbstractDoubleProblem {
 
@@ -21,9 +22,8 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	private final static long startingTime = System.currentTimeMillis();
 	//private final static long timeLimit = Window.getTimeLimit();
 	private boolean useJar = false;
-	private boolean email25 = false;
-	private boolean email50 = false;
-	private boolean email75 = false;
+	
+	private ProgressChecker progC;
 	
 	private String jarPath;
 
@@ -32,6 +32,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	public MyProblemDouble(double[][] limits, boolean isJar, String jarPath) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
+		this.progC = new ProgressChecker(isJar);
 		setNumberOfVariables(limits.length);
 		System.out.println("Number of variables: " + limits.length);
 		setNumberOfObjectives(2);
@@ -88,40 +89,8 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			}
 		}
 		testNumber++;
-		checkProgress(testNumber);
+		progC.checkProgress(testNumber);
 		checkTimeLimit();
-		}
-	}
-
-	/**
-	 * checks test progress, if progress is 25,50,75 or 100% an email is sent to user
-	 * @param testNumber
-	 */
-	public void checkProgress(int testNumber) {
-		double numberTests;
-		if (useJar)
-			numberTests = 500;
-		else
-			numberTests = 2500;
-		double progress = testNumber/numberTests;
-		try {
-			if (progress >= 0.25 && !email25) {
-				EMail_Tools.sendProgressMail(25);
-				email25 = true;
-			}
-			if (progress >= 0.5 && !email50) {
-				EMail_Tools.sendProgressMail(50);
-				email50 = true;
-			}
-			if (progress >= 0.75 && !email75) {
-				EMail_Tools.sendProgressMail(75);
-				email75 = true;
-			}
-			if (progress == 1) {
-				EMail_Tools.sendProgressMail(100);
-			} 
-		} catch (EmailException e) {
-			e.printStackTrace();
 		}
 	}
 	
