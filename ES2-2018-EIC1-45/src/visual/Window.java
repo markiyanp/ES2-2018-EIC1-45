@@ -34,14 +34,13 @@ public class Window extends JFrame{
 	//**********************************CONFIG*****************************************
 	
 	public Window(User user) {
-		
 		//INITIALIZE
+		this.user = user;
 		this.top_panel = new TopPanel(this, TOP_PANEL_HEIGHT);
 		this.bott_panel = new Bott_Panel(this,BOTT_PANEL_HEIGHT);
 		this.right_panel = new RightPanel(this);
 		this.left_panel = new LeftPanel(this,LEFT_PANEL_WIDTH);
 		this.main_panel = new MainPanel(this);
-		this.user = user;
 		
 		//FRAME CONFIG
 		add(main_panel, BorderLayout.CENTER);

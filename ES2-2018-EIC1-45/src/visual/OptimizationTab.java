@@ -422,7 +422,7 @@ public class OptimizationTab extends JPanel {
 		restrictions_panel.setOpaque(false);
 		restrictions_panel.setLayout(null);
 
-		User user_logged = launcher.getUserLogged();
+		User user_logged = Window.getUser();
 		String[] algorithms = new String[user_logged.getAlgorithms().size()];
 		for (String s : user_logged.getAlgorithms()) {
 			algorithms[user_logged.getAlgorithms().indexOf(s)] = s;
