@@ -3,7 +3,6 @@ package jMetal.binaryProblems;
 import org.uma.jmetal.problem.impl.AbstractBinaryProblem;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.impl.DefaultBinarySolution;
-import org.uma.jmetal.util.JMetalException;
 
 import jMetal.ProgressChecker;
 import java.io.BufferedReader;
@@ -39,9 +38,6 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	@Override
 	protected int getBitsPerVariable(int index) {
-		if (index != 0) {
-			throw new JMetalException("Problem MyBinaryProblem has only a variable. Index = " + index);
-		}
 		return bits;
 	}
 
