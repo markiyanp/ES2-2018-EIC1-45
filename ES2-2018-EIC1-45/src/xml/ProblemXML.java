@@ -1,7 +1,6 @@
 package xml;
 
 import java.io.File;
-import java.time.format.DateTimeFormatter;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
@@ -36,13 +35,6 @@ public class ProblemXML {
 	 */
 	public static void writeXML(Problem problem, File file) {
 		String fileName = null;
-		if (file == null) {
-			String extension = ".xml";
-			DateTimeFormatter timeStamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
-			String time = timeStamp.format(java.time.LocalDateTime.now());
-			fileName = time + extension;
-		}
-
 		DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder icBuilder;
 		try {

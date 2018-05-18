@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -113,9 +114,9 @@ public class LauncherPanel extends JPanel {
 
 	// *************************CREATE_USER_FIELDS*************************************
 
-	public LauncherPanel(Launcher launch, File file) {
+	public LauncherPanel(Launcher launch, File file_config) {
 		this.launch = launch;
-		this.file = file;
+		this.file = file_config;
 		new_action_listener();
 		setLayout(null);
 		init_user_panel();
@@ -339,7 +340,7 @@ public class LauncherPanel extends JPanel {
 //
 //				if (check) {
 					launch.dispose();
-					new Window(getUserLogged());
+					new Window(getUserLogged(),file);
 //				} else {
 //					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
 //					System.out.println("WARNING: Incorrect credentials!");
@@ -403,10 +404,10 @@ public class LauncherPanel extends JPanel {
 			 * Verify authentication to modify users
 			 */
 			private void loginModifyUser() {
-				String passwd = String.valueOf(user_passwd_field.getPassword());
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_PERMISSION_TO_MODIFY_MSG);
-
-				if (check) {
+//				String passwd = String.valueOf(user_passwd_field.getPassword());
+//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_PERMISSION_TO_MODIFY_MSG);
+//
+//				if (check) {
 					String[] array = user_list_field.getSelectedItem().toString().split(" ");
 
 					String name_user = "";
@@ -423,37 +424,39 @@ public class LauncherPanel extends JPanel {
 					modify_user_email_field.setText(email_user);
 
 					add(modify_user_panel);
-				} else {
-					add(user_panel);
-					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
-					System.out.println("WARNING: Incorrect credentials!");
-				}
+//				} else {
+//					add(user_panel);
+//					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
+//					System.out.println("WARNING: Incorrect credentials!");
+//				}
 			}
 
 			/**
 			 * Method to modify users
 			 */
 			private void modifyUser() {
-				String passwd = String.valueOf(user_passwd_field.getPassword());
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
+				//String passwd = String.valueOf(user_passwd_field.getPassword());
+			//	boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
 
-				if (check) {
+				//if (check) {
 					User modify_user = null;
 					ArrayList<User> users = ConfigXML.config.getUsers();
 					ArrayList<User> new_users = new ArrayList<User>();
-					int i = 0;
-					for (User u : users) {
-						if (user_list_field.getSelectedItem() == u) {
-							users.remove(i);
+					for (int i = 0; i < users.size(); i++){
+						if (((String) user_list_field.getSelectedItem()).contains(users.get(i).getName())) {
+							modify_user = new User(modify_user_name_field.getText(), modify_user_email_field.getText(), users.get(i).getAlgorithms(), users.get(i).getCreate_var());
+							users.remove(users.get(i));
+							System.out.println();
+						} else {
+						 new_users.add(users.get(i));
 						}
-						new_users.add(i, u);
-						i++;
 					}
-					modify_user = new User(modify_user_name_field.getText(), modify_user_email_field.getText());
-					new_users.add(i, modify_user);
+					new_users.add(modify_user);
 
 					ConfigXML.config.getUsers().clear();
-					ConfigXML.config.setUsers(new_users);
+					for(User uu : new_users){
+						ConfigXML.config.getUsers().add(uu);
+					}
 					ConfigXML.writeXML(ConfigXML.config, file);
 
 					user_list_field.removeItem(user_list_field.getSelectedItem());
@@ -464,10 +467,10 @@ public class LauncherPanel extends JPanel {
 					new_item += modify_user.getEmailAddr();
 					new_item += "]";
 					user_list_field.addItem(new_item);
-				} else {
-					messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
-					System.out.println("WARNING: Incorrect credentials!");
-				}
+				//} else {
+				//	messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
+			//		System.out.println("WARNING: Incorrect credentials!");
+				//}
 			}
 
 			/**

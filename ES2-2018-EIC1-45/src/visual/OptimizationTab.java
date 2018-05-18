@@ -9,12 +9,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,7 +42,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.mail.EmailException;
 
 import core.Objective;
@@ -71,9 +69,6 @@ public class OptimizationTab extends JPanel {
 	// ******************************INSTANCES*********************************************
 	private static final long serialVersionUID = 4683732155570118854L;
 
-	// TODO
-	private File file_config = new File("Resources/Config.xml");
-
 	// ***************************GENERAL_FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
 	private TitledBorder variables_area_border = BorderFactory.createTitledBorder(blackline, "Variables");
@@ -81,8 +76,6 @@ public class OptimizationTab extends JPanel {
 	private TitledBorder restrictions_area_border = BorderFactory.createTitledBorder(blackline, "Settings");
 	private TitledBorder objectives_area_border = BorderFactory.createTitledBorder(blackline, "Objectives");
 
-	// private Image reset_icon = Toolkit.getDefaultToolkit()
-	// .createImage(LauncherPanel.class.getResource("/icons/erase.png"));
 	private Image newfile_icon = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/icons/new.png"));
 	private Image save_icon = Toolkit.getDefaultToolkit()
@@ -96,8 +89,8 @@ public class OptimizationTab extends JPanel {
 			.createImage(LauncherPanel.class.getResource("/icons/info.png"));
 	private Image about_background = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/aboutframe.png"));
-	// private Image cancel_icon = Toolkit.getDefaultToolkit()
-	// .createImage(LauncherPanel.class.getResource("/icons/cancel.png"));
+	private Image new_background = Toolkit.getDefaultToolkit()
+			.createImage(LauncherPanel.class.getResource("/newproblem_background.png"));
 	private Image new_icon = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/icons/plus.png"));
 
@@ -125,8 +118,8 @@ public class OptimizationTab extends JPanel {
 	// ***************************SETTINGS_FIELDS********************************************
 
 	// ***************************PROBLEM_FIELDS********************************************
-	private JButton problem_about_save_button = new JButton("OK  ");
-	private JButton new_problem_about_save_button = new JButton("Create  ");
+	private JButton problem_about_save_button = new JButton("  OK");
+	private JButton new_problem_about_save_button = new JButton("  Create");
 	private JLabel problem_name_label = new JLabel("Problem Name");
 	private JLabel problem_description_label = new JLabel("Description");
 	private JTextField problem_name_field = new JTextField();
@@ -150,7 +143,7 @@ public class OptimizationTab extends JPanel {
 	private String[] column_names = { "Name", "Type", "Min Val", "Max Val", "Restricted", "Used" };
 	private Object[][] data = {};
 	private JFrame about_frame = new JFrame("About");
-	// private Variable variable;
+	private JFrame problem_creation_frame = new JFrame("New problem");
 	private File file_problem;
 	// ***************************PROBLEM_FIELDS********************************************
 
@@ -196,13 +189,14 @@ public class OptimizationTab extends JPanel {
 	Window window;
 
 	public OptimizationTab(Window window) {
+		this.window = window;
 		tools_run_button.setEnabled(false);
 		tools_export_button.setEnabled(false);
 		tools_about_button.setEnabled(false);
 		
 		setLayout(null);
 		setBackground(Color.LIGHT_GRAY);
-		ConfigXML.readXML(file_config);
+//		ConfigXML.readXML(file_config);
 		createActionListener();
 		createFocusListener();
 		tools_panel();
@@ -210,12 +204,11 @@ public class OptimizationTab extends JPanel {
 		permissionsToCreateVar();
 		settings_panel();
 		objectives_panel();
-		this.window = window;
 	}
 
 	public void setProblemOwner() {
-		ProblemXML.problem.setUser_name(Window.getUser().getName());
-		ProblemXML.problem.setUser_email(Window.getUser().getEmailAddr());
+		ProblemXML.problem.setUser_name(window.getUser().getName());
+		ProblemXML.problem.setUser_email(window.getUser().getEmailAddr());
 	}
 
 	private void createActionListener() {
@@ -248,7 +241,6 @@ public class OptimizationTab extends JPanel {
 					// sendMailAdmin();
 					// TODO:
 					// runOptimization should be handled by a seperate thread
-					// there should be a button to select a Jar file if needed
 					OptimizationProcess.setData(data);
 					OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
 					OptimizationProcess.setJar(false);
@@ -276,8 +268,8 @@ public class OptimizationTab extends JPanel {
 	}
 	
 	private void createProblem() {
-		about_frame.setSize(266, 400);
-		about_frame.setLocationRelativeTo(null);
+		problem_creation_frame.setSize(266, 400);
+		problem_creation_frame.setLocationRelativeTo(null);
 		JPanel main_about_panel = new JPanel();
 		main_about_panel.setLayout(null);
 		JPanel content_about_panel = new JPanel();
@@ -308,47 +300,42 @@ public class OptimizationTab extends JPanel {
 		main_about_panel.add(content_about_panel);
 		add(main_about_panel);
 
-		JLabel picLabel = new JLabel(new ImageIcon(about_background));
+		JLabel picLabel = new JLabel(new ImageIcon(new_background));
 		picLabel.setBounds(0, 0, 250, 400);
 		main_about_panel.add(picLabel);
 
-		about_frame.add(main_about_panel);
-		about_frame.setVisible(true);
+		problem_creation_frame.add(main_about_panel);
+		problem_creation_frame.setVisible(true);
 		
 		
 		
 	}
 
-	private void saveNewProblem() {
-//		JFileChooser chooser = new JFileChooser();
-//		chooser.setCurrentDirectory( new File( "./") );
-//		int actionDialog = chooser.showSaveDialog(this);
-//		if ( actionDialog == JFileChooser.APPROVE_OPTION ) {
-//		    File fileName = new File( chooser.getSelectedFile( ) + ".xml" );
-//		    if(fileName == null) {
-//				messageDialog("<html><font color=RED > The File Name can´t be empty </font></html>");
-//		    }
-//		    if(fileName.exists()) {
-//		        actionDialog = JOptionPane.showConfirmDialog(this,
-//		                           "Replace existing file?");
-//		        // may need to check for cancel option as well
-//		        if (actionDialog == JOptionPane.NO_OPTION) {
-//		            return;
-//		        }
-//		    }
-		
-		JFrame saveFrame = new JFrame();
-		 
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Specify a file to save");   
-		 
-		int userSelection = fileChooser.showSaveDialog(saveFrame);
-		 
-		if (userSelection == JFileChooser.APPROVE_OPTION) {
-			 File fileToSave = null;
-			  ProblemXML.writeXML(ProblemXML.problem, fileToSave);
-		    fileToSave = fileChooser.getSelectedFile();
-		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+	private void saveNewProblem(Problem prob) {
+		String extension = ".xml";
+		DateTimeFormatter timeStamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+		String time = timeStamp.format(java.time.LocalDateTime.now());
+		String path = "";
+		JFileChooser chooser;
+		HashMap<String, Path> paths = ConfigXML.config.getPaths();
+		if (paths.containsKey("lastJarPath")) {
+			path = paths.get("lastJarPath").getUrl();
+		}
+		if (path != "") {
+			File folder = new File(path);
+			chooser = new JFileChooser(folder);
+		} else {
+			chooser = new JFileChooser();
+		}
+
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = chooser.showSaveDialog(window);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File dir = chooser.getSelectedFile();
+			File new_file = new File(dir.getAbsolutePath() + "/" + problem_name_field.getText()+ "_"+time+extension);
+			this.file_problem = new_file;
+			ProblemXML.writeXML(prob, this.file_problem);
+			loadProblem(file_problem);
 		}
 	}
 		
@@ -405,14 +392,8 @@ public class OptimizationTab extends JPanel {
 			pa.setUrl(chooser.getSelectedFile().getParent());
 			ConfigXML.config.getPaths().remove("lastJarPath");
 			ConfigXML.config.getPaths().put("lastJarPath", pa);
-			ConfigXML.writeXML(ConfigXML.config, file_config);
+			ConfigXML.writeXML(ConfigXML.config, window.getConfigPath());
 			file_problem = chooser.getSelectedFile();
-			
-			tools_run_button.setEnabled(true);
-			tools_export_button.setEnabled(true);
-			tools_about_button.setEnabled(true);
-			tools_import_button.setEnabled(false);
-			tools_newproblem_button.setEnabled(false);
 		}
 	}
 
@@ -461,7 +442,6 @@ public class OptimizationTab extends JPanel {
 		if (!problem_name_field.getText().isEmpty()) {
 		ProblemXML.problem.setProblem_name(problem_name_field.getText());
 		ProblemXML.problem.setProblem_description(problem_description_area.getText());
-		saveNewProblem();
 		about_frame.dispose();
 		} else {
 			messageDialog("<html><font color=RED > The Problem Name can't be empty </font></html>");
@@ -474,8 +454,8 @@ public class OptimizationTab extends JPanel {
 		Problem new_problem = new Problem();
 		new_problem.setProblem_name(problem_name_field.getText());
 		new_problem.setProblem_description(problem_description_area.getText());
-		saveNewProblem();
-		about_frame.dispose();
+		saveNewProblem(new_problem);
+		problem_creation_frame.dispose();
 		} else {
 			messageDialog("<html><font color=RED > The Problem Name can't be empty </font></html>");
 			problem_name_field.requestFocus();
@@ -701,7 +681,7 @@ public class OptimizationTab extends JPanel {
 		restrictions_panel.setOpaque(false);
 		restrictions_panel.setLayout(null);
 
-		User user_logged = Window.getUser();
+		User user_logged = window.getUser();
 		String[] algorithms = new String[user_logged.getAlgorithms().size()];
 		for (String s : user_logged.getAlgorithms()) {
 			algorithms[user_logged.getAlgorithms().indexOf(s)] = s;
@@ -925,6 +905,12 @@ public class OptimizationTab extends JPanel {
 				this.algo_name_field.setSelectedIndex(i);
 			}
 		}
+		
+		tools_run_button.setEnabled(true);
+		tools_export_button.setEnabled(true);
+		tools_about_button.setEnabled(true);
+		tools_import_button.setEnabled(false);
+		tools_newproblem_button.setEnabled(false);
 
 	}
 
@@ -945,7 +931,7 @@ public class OptimizationTab extends JPanel {
 	// ***************************RESTRICTIONS_VARIABLES********************************************
 	private void permissionsToCreateVar() {
 		String denied = "no";
-		if (Window.getUser().getCreate_var().equals(denied)) {
+		if (window.getUser().getCreate_var().equals(denied)) {
 			variable_name_field.setEnabled(false);
 			variable_type_field.setEnabled(false);
 			variable_minval_field.setEnabled(false);
