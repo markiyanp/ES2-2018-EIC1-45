@@ -145,7 +145,7 @@ public class OptimizationTab extends JPanel {
 	private String[] column_names = { "Name", "Type", "Min Val", "Max Val", "Restricted", "Used" };
 	private Object[][] data = {};
 	private JFrame about_frame = new JFrame("About");
-	private Variable variable;
+	// private Variable variable;
 	private File file_problem;
 	// ***************************PROBLEM_FIELDS********************************************
 
@@ -223,6 +223,8 @@ public class OptimizationTab extends JPanel {
 					removeVariable();
 				} else if (e.getSource() == tools_export_button) {
 					setProblemOwner();
+					ProblemXML.problem.setObjectives(toArrayListObjectives(objectives_data));
+					ProblemXML.problem.setVariables(toArrayListVariables(data));
 					ProblemXML.problem.setAlgorithm(algo_name_field.getSelectedItem().toString());
 					ProblemXML.writeXML(ProblemXML.problem, file_problem);
 				} else if (e.getSource() == problem_about_save_button) {
@@ -243,10 +245,41 @@ public class OptimizationTab extends JPanel {
 					importProblem();
 				} else if (e.getSource() == objectives_addobjective_button) {
 					addObjective();
+				} else if (e.getSource() == objectives_delete_button) {
+					removeObjective();
 				}
 			}
 		};
 		this.action_listener = lis;
+	}
+
+	private ArrayList<Variable> toArrayListVariables(Object[][] data) {
+		ArrayList<Variable> ret = new ArrayList<>();
+		for (int i = 0; i < data.length; i++) {
+			String a = "";
+			if ((boolean) data[i][5] == true) {
+				a = "true";
+			} else {
+				a = "false";
+			}
+			ret.add(new Variable((String) data[i][0], (String) data[i][1], (String) data[i][2], (String) data[i][3],
+					(String) data[i][4], a));
+		}
+		return ret;
+	}
+
+	private ArrayList<Objective> toArrayListObjectives(Object[][] data) {
+		ArrayList<Objective> ret = new ArrayList<>();
+		for (int i = 0; i < data.length; i++) {
+			String a = "";
+			if ((boolean) data[i][2] == true) {
+				a = "true";
+			} else {
+				a = "false";
+			}
+			ret.add(new Objective((String) data[i][0], (String) data[i][1], a));
+		}
+		return ret;
 	}
 
 	private void importProblem() {
@@ -340,13 +373,7 @@ public class OptimizationTab extends JPanel {
 		row[4] = variable_restricted_field.getText();
 		row[5] = false;
 
-		variable = new Variable(variable_name_field.getText(), variable_type_field.getSelectedItem().toString(),
-				variable_minval_field.getText(), variable_maxval_field.getText(), variable_restricted_field.getText(),
-				"false");
-		ProblemXML.problem.getVariables().add(variable);
-
 		mod[mod.length - 1] = row;
-
 		this.data = mod;
 
 		DefaultTableModel model = tableModel(this.data, this.column_names);
@@ -381,13 +408,6 @@ public class OptimizationTab extends JPanel {
 				if (i != table.getSelectedRow()) {
 					mod[k] = this.data[i];
 					k++;
-				} else if (i == table.getSelectedRow()) {
-					ArrayList<Variable> var_list = ProblemXML.problem.getVariables();
-					for (int j = 0; j < var_list.size(); j++) {
-						if (var_list.get(j).getVariable_name().equals(this.data[i][0])) {
-							ProblemXML.problem.getVariables().remove(var_list.get(j));
-						}
-					}
 				}
 			}
 			this.data = mod;
@@ -450,14 +470,17 @@ public class OptimizationTab extends JPanel {
 		this.objectives_table = new JTable(model);
 
 		this.objectives_table.addMouseListener(new MouseAdapter() {
-			// TODO CHECK THIS
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
 				int rowAtPoint = table.rowAtPoint(e.getPoint());
 				int columnAtPoint = table.columnAtPoint(e.getPoint());
 				if (columnAtPoint == table.getColumnCount() - 1) {
-					objectives_data[rowAtPoint][columnAtPoint] = table.getValueAt(rowAtPoint, columnAtPoint);
+					objectives_data[rowAtPoint][columnAtPoint] = !(boolean) objectives_table.getValueAt(rowAtPoint,
+							columnAtPoint);
+					DefaultTableModel model = tableModel(objectives_data, objectives_column_names);
+					objectives_table.setModel(model);
+					objectives_table.repaint();
 				}
 			}
 		});
@@ -466,7 +489,7 @@ public class OptimizationTab extends JPanel {
 		this.objectives_table.setRowSelectionAllowed(true);
 		this.objectives_table.setColumnSelectionAllowed(false);
 		this.objectives_table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		this.objectives_table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		this.objectives_table.setPreferredScrollableViewportSize(objectives_table.getPreferredSize());
 
 		JTableHeader th = this.objectives_table.getTableHeader();
 		th.setBackground(Color.darkGray);
@@ -526,6 +549,24 @@ public class OptimizationTab extends JPanel {
 			objectives_table.repaint();
 			objectives_newobjective_field.setText("");
 		}
+	}
+
+	private void removeObjective() {
+		if (this.objectives_data.length != 0 && objectives_table.getSelectedRow() >= 0) {
+			Object[][] mod = new Object[this.objectives_data.length - 1][objectives_table.getColumnCount()];
+			int k = 0;
+			for (int i = 0; i < objectives_data.length; i++) {
+				if (i != objectives_table.getSelectedRow()) {
+					mod[k] = objectives_data[i];
+					k++;
+				}
+			}
+			this.objectives_data = mod;
+			DefaultTableModel model = tableModel(this.objectives_data, this.objectives_column_names);
+			objectives_table.setModel(model);
+			objectives_table.repaint();
+		}
+
 	}
 
 	private void settings_panel() {
@@ -662,11 +703,6 @@ public class OptimizationTab extends JPanel {
 				int columnAtPoint = table.columnAtPoint(e.getPoint());
 				if (columnAtPoint == table.getColumnCount() - 1) {
 					data[rowAtPoint][columnAtPoint] = table.getValueAt(rowAtPoint, columnAtPoint);
-					if(columnAtPoint == 5){
-						System.out.println("***********************************");
-//						for()
-						System.out.println(data[rowAtPoint][columnAtPoint]);
-					}
 				}
 			}
 		});
@@ -794,11 +830,31 @@ public class OptimizationTab extends JPanel {
 	}
 
 	private void restrictionToCreateVar() {
-		if (variable_name_field.getText().isEmpty() || variable_minval_field.getText().isEmpty()
-				|| variable_maxval_field.getText().isEmpty()) {
+		if (variable_name_field.getText().isEmpty() || ((String) variable_type_field.getSelectedItem() != "Binary"
+				&& variable_minval_field.getText().isEmpty()) || variable_maxval_field.getText().isEmpty()) {
 			messageDialog("<html><font color=RED > Exist empty fields! </font></html>");
 		} else {
-			createVariable();
+			boolean check = false;
+			for (int i = 0; i < data.length; i++) {
+				if (((String) data[i][0]).contains(variable_name_field.getText().trim())) {
+					check = true;
+				}
+			}
+			if (!check) {
+				createVariable();
+				variable_name_field.setText("");
+				variable_minval_field.setText("");
+				variable_maxval_field.setText("");
+				variable_restricted_field.setText("");
+				variable_type_field.setSelectedIndex(0);
+			} else {
+				messageDialog("<html><font color=RED >Variable already exist!</font></html>");
+				variable_name_field.setText("");
+				variable_minval_field.setText("");
+				variable_maxval_field.setText("");
+				variable_restricted_field.setText("");
+				variable_type_field.setSelectedIndex(0);
+			}
 		}
 	}
 
@@ -808,6 +864,9 @@ public class OptimizationTab extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				String s = (String) cbox.getSelectedItem();
+				variable_minval_field.setText("");
+				variable_maxval_field.setText("");
+				variable_restricted_field.setText("");
 
 				switch (s) {
 				case "Double":

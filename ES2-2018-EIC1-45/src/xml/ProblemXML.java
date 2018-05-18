@@ -105,7 +105,6 @@ public class ProblemXML {
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Variable variable = new Variable();
 						Element eElement = (Element) nNode;
-
 						variable.setVariable_name(eElement.getElementsByTagName("name").item(0).getTextContent());
 						variable.setVariable_type(eElement.getElementsByTagName("type").item(0).getTextContent());
 						variable.setVariable_min_val(eElement.getElementsByTagName("min_val").item(0).getTextContent());
@@ -194,7 +193,7 @@ public class ProblemXML {
 	}
 	
 	private static Node putObjective(Document doc, String name, String type, String used) {
-		Element variable = doc.createElement("Variable");
+		Element variable = doc.createElement("Objective");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "type", type));
 		variable.appendChild(putNodeElements(doc, variable, "used", used));

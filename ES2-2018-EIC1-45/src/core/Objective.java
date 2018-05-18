@@ -11,6 +11,13 @@ public class Objective {
 	}
 
 
+	public Objective(String string, String string2, String a) {
+		this.name = string;
+		this.type = string2;
+		this.used = a;
+	}
+
+
 	public String getName() {
 		return name;
 	}
