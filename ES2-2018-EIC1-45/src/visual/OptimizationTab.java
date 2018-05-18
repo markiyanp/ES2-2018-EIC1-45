@@ -227,6 +227,7 @@ public class OptimizationTab extends JPanel {
 					ProblemXML.problem.setVariables(toArrayListVariables(data));
 					ProblemXML.problem.setAlgorithm(algo_name_field.getSelectedItem().toString());
 					ProblemXML.writeXML(ProblemXML.problem, file_problem);
+					JOptionPane.showMessageDialog(window,"File has been successfully saved!");
 				} else if (e.getSource() == problem_about_save_button) {
 					saveAbout();
 					about_frame.dispose();
