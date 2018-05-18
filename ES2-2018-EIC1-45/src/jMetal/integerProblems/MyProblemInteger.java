@@ -50,8 +50,9 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 					x[i] = solution.getVariableValue(i);
 				}
 				double[] solutionObjectives = NMMin.NMMinSolution(fx, x);
-				solution.setObjective(0, solutionObjectives[0]);
-				solution.setObjective(1, solutionObjectives[1]);
+				for (int i = 0; i < solutionObjectives.length; i++) {
+					solution.setObjective(i, solutionObjectives[i]);
+				}
 			} else {
 				String[] individualEvaluationCriteria = JarEvaluator.jarEvaluate(solution, jarPath);
 				// It is assumed that all evaluated criteria are returned in the same result

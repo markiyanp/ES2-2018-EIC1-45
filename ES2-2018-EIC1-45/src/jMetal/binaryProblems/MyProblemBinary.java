@@ -51,9 +51,9 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 		if (System.currentTimeMillis() - startingTime <= 10000) {
 			if (!useJar) {
 				double[] solutionObjectives = OneZeroMax.OneZeroMaxSolution(solution);
-				// OneZeroMax is a maximization problem: multiply by -1 to minimize
-				solution.setObjective(0, solutionObjectives[0]);
-				solution.setObjective(1, solutionObjectives[1]);
+				for (int i = 0; i < solutionObjectives.length; i++) {
+					solution.setObjective(i, solutionObjectives[i]);
+				}
 			} else {
 				String[] individualEvaluationCriteria = JarEvaluator.jarEvaluate(solution, jarPath);
 				// It is assumed that all evaluated criteria are returned in the same result
