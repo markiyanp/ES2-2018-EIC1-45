@@ -350,8 +350,8 @@ public class LauncherPanel extends JPanel {
 				// passwd, USER_LOGGED_MSG);
 				//
 				// if (check) {
-				launch.setVisible(false);
-				new Window(getUserLogged());
+//				launch.setVisible(false);
+//				new Window(getUserLogged());
 				// } else {
 				// messageDialog("<html><font color=RED > The credentials are
 				// wrong! </font></html>");

@@ -9,7 +9,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -44,7 +43,6 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.commons.mail.EmailException;
 
-import core.Problem;
 import core.Objective;
 import core.Path;
 import core.TimeMultiplier;
@@ -79,8 +77,10 @@ public class OptimizationTab extends JPanel {
 	private TitledBorder restrictions_area_border = BorderFactory.createTitledBorder(blackline, "Settings");
 	private TitledBorder objectives_area_border = BorderFactory.createTitledBorder(blackline, "Objectives");
 
-	private Image reset_icon = Toolkit.getDefaultToolkit()
-			.createImage(LauncherPanel.class.getResource("/icons/erase.png"));
+	// private Image reset_icon = Toolkit.getDefaultToolkit()
+	// .createImage(LauncherPanel.class.getResource("/icons/erase.png"));
+	private Image newfile_icon = Toolkit.getDefaultToolkit()
+			.createImage(LauncherPanel.class.getResource("/icons/new.png"));
 	private Image save_icon = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/icons/save.png"));
 	private Image correct_icon = Toolkit.getDefaultToolkit()
@@ -92,8 +92,8 @@ public class OptimizationTab extends JPanel {
 			.createImage(LauncherPanel.class.getResource("/icons/info.png"));
 	private Image about_background = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/aboutframe.png"));
-//	private Image cancel_icon = Toolkit.getDefaultToolkit()
-//			.createImage(LauncherPanel.class.getResource("/icons/cancel.png"));
+	// private Image cancel_icon = Toolkit.getDefaultToolkit()
+	// .createImage(LauncherPanel.class.getResource("/icons/cancel.png"));
 	private Image new_icon = Toolkit.getDefaultToolkit()
 			.createImage(LauncherPanel.class.getResource("/icons/plus.png"));
 
@@ -147,13 +147,12 @@ public class OptimizationTab extends JPanel {
 	private JFrame about_frame = new JFrame("About");
 	private Variable variable;
 	private File file_problem;
-
 	// ***************************PROBLEM_FIELDS********************************************
 
 	// ***************************TOOLS_FIELDS********************************************
 	private JButton tools_import_button = new JButton(" LOAD");
 	private JButton tools_export_button = new JButton(" SAVE");
-	private JButton tools_reset_button = new JButton(" RESET ALL");
+	private JButton tools_newproblem_button = new JButton(" CREATE");
 	private JButton tools_run_button = new JButton(" RUN");
 	private JButton tools_about_button = new JButton(" ABOUT");
 	// ***************************TOOLS_FIELDS********************************************
@@ -189,7 +188,6 @@ public class OptimizationTab extends JPanel {
 
 	// ******************************INSTANCES_END******************************************
 
-
 	Window window;
 
 	public OptimizationTab(Window window) {
@@ -210,7 +208,7 @@ public class OptimizationTab extends JPanel {
 		ProblemXML.problem.setUser_name(Window.getUser().getName());
 		ProblemXML.problem.setUser_email(Window.getUser().getEmailAddr());
 	}
-	
+
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
 			@Override
@@ -222,7 +220,7 @@ public class OptimizationTab extends JPanel {
 				} else if (e.getSource() == variable_deselectAll_button) {
 					disableAll();
 				} else if (e.getSource() == variable_remove_button) {
-//					removeVariable();
+					removeVariable();
 				} else if (e.getSource() == tools_export_button) {
 					setProblemOwner();
 					ProblemXML.problem.setAlgorithm(algo_name_field.getSelectedItem().toString());
@@ -343,8 +341,8 @@ public class OptimizationTab extends JPanel {
 		row[5] = false;
 
 		variable = new Variable(variable_name_field.getText(), variable_type_field.getSelectedItem().toString(),
-				variable_minval_field.getText(), variable_maxval_field.getText(),
-				variable_restricted_field.getText(), "false");
+				variable_minval_field.getText(), variable_maxval_field.getText(), variable_restricted_field.getText(),
+				"false");
 		ProblemXML.problem.getVariables().add(variable);
 
 		mod[mod.length - 1] = row;
@@ -383,11 +381,11 @@ public class OptimizationTab extends JPanel {
 				if (i != table.getSelectedRow()) {
 					mod[k] = this.data[i];
 					k++;
-				}else if(i == table.getSelectedRow()) {
+				} else if (i == table.getSelectedRow()) {
 					ArrayList<Variable> var_list = ProblemXML.problem.getVariables();
-					for(Variable var : var_list) {
-						if(var.getVariable_name().equals( this.data[i][0])) {
-							ProblemXML.problem.getVariables().remove(var);
+					for (int j = 0; j < var_list.size(); j++) {
+						if (var_list.get(j).getVariable_name().equals(this.data[i][0])) {
+							ProblemXML.problem.getVariables().remove(var_list.get(j));
 						}
 					}
 				}
@@ -484,12 +482,12 @@ public class OptimizationTab extends JPanel {
 
 		objectives_evaluate_label.setBounds(15, 22, 100, 20);
 		objectives_possible_types.setBounds(120, 22, 245, 25);
-		
+
 		objectives_delete_button.setBounds(297, 65, 70, 25);
 
 		objectives_addobjective_button.setBackground(general_color);
 		objectives_addobjective_button.addActionListener(action_listener);
-		
+
 		objectives_delete_button.setBackground(general_color);
 		objectives_delete_button.addActionListener(action_listener);
 
@@ -583,18 +581,18 @@ public class OptimizationTab extends JPanel {
 		tools_panel.setLayout(null);
 
 		tools_run_button.setBackground(new Color(187, 216, 162));
-		tools_reset_button.setBackground(general_color);
+		tools_newproblem_button.setBackground(general_color);
 		tools_import_button.setBackground(general_color);
 		tools_export_button.setBackground(general_color);
 		tools_about_button.setBackground(general_color);
 
-		tools_reset_button.setIcon(new ImageIcon(reset_icon));
+		tools_newproblem_button.setIcon(new ImageIcon(newfile_icon));
 		tools_import_button.setIcon(new ImageIcon(import_icon));
 		tools_export_button.setIcon(new ImageIcon(save_icon));
 		tools_run_button.setIcon(new ImageIcon(run_icon));
 		tools_about_button.setIcon(new ImageIcon(info_icon));
 
-		tools_reset_button.setBounds(15, 145, 130, 30);
+		tools_newproblem_button.setBounds(15, 145, 130, 30);
 		tools_import_button.setBounds(15, 105, 130, 30);
 		tools_export_button.setBounds(15, 65, 130, 30);
 		tools_run_button.setBounds(15, 25, 130, 30);
@@ -604,10 +602,10 @@ public class OptimizationTab extends JPanel {
 		tools_about_button.addActionListener(action_listener);
 		tools_export_button.addActionListener(action_listener);
 		tools_import_button.addActionListener(action_listener);
-		tools_reset_button.addActionListener(action_listener);
+		tools_newproblem_button.addActionListener(action_listener);
 
 		tools_panel.add(tools_run_button);
-		tools_panel.add(tools_reset_button);
+		tools_panel.add(tools_newproblem_button);
 		tools_panel.add(tools_import_button);
 		tools_panel.add(tools_export_button);
 		tools_panel.add(tools_about_button);
@@ -651,6 +649,7 @@ public class OptimizationTab extends JPanel {
 		variable_deselectAll_button.addActionListener(action_listener);
 		variable_deselectAll_button.setBackground(general_color);
 
+		createActionListenerForCombobox(variable_type_field);
 		DefaultTableModel model = tableModel(this.data, this.column_names);
 		this.table = new JTable(model);
 
@@ -663,6 +662,11 @@ public class OptimizationTab extends JPanel {
 				int columnAtPoint = table.columnAtPoint(e.getPoint());
 				if (columnAtPoint == table.getColumnCount() - 1) {
 					data[rowAtPoint][columnAtPoint] = table.getValueAt(rowAtPoint, columnAtPoint);
+					if(columnAtPoint == 5){
+						System.out.println("***********************************");
+//						for()
+						System.out.println(data[rowAtPoint][columnAtPoint]);
+					}
 				}
 			}
 		});
@@ -721,7 +725,7 @@ public class OptimizationTab extends JPanel {
 
 	private void loadProblem(File file) {
 		ProblemXML.readXML(file);
-		
+
 		Object[][] objs = new Object[ProblemXML.problem.getObjectives().size()][3];
 		for (Objective obj : ProblemXML.problem.getObjectives()) {
 			objs[ProblemXML.problem.getObjectives().indexOf(obj)][0] = obj.getName();
@@ -734,8 +738,7 @@ public class OptimizationTab extends JPanel {
 		}
 		this.objectives_data = objs;
 		this.objectives_table.setModel(tableModel(this.objectives_data, this.objectives_column_names));
-		
-		
+
 		Object[][] vars = new Object[ProblemXML.problem.getVariables().size()][6];
 		for (Variable var : ProblemXML.problem.getVariables()) {
 			vars[ProblemXML.problem.getVariables().indexOf(var)][0] = var.getVariable_name();
@@ -797,6 +800,34 @@ public class OptimizationTab extends JPanel {
 		} else {
 			createVariable();
 		}
+	}
+
+	private void createActionListenerForCombobox(JComboBox<String> cbox) {
+		ActionListener cbActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				String s = (String) cbox.getSelectedItem();
+
+				switch (s) {
+				case "Double":
+					variable_minval_field.setEnabled(true);
+					variable_restricted_field.setEnabled(true);
+					break;
+
+				case "Integer":
+					variable_minval_field.setEnabled(true);
+					variable_restricted_field.setEnabled(true);
+					break;
+
+				case "Binary":
+					variable_minval_field.setEnabled(false);
+					variable_restricted_field.setEnabled(false);
+					break;
+				}
+			}
+		};
+		cbox.addActionListener(cbActionListener);
 	}
 
 	/**
