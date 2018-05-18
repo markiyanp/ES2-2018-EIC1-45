@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,15 +28,17 @@ public class Window extends JFrame{
 	private RightPanel right_panel;
 	private Bott_Panel bott_panel;
 	private MainPanel main_panel;
-	private static User user;
+	private User user;
+	private File file;
 	//**********************************INSTANCES**************************************
 	
 	//**********************************CONFIG*****************************************
 	//**********************************CONFIG*****************************************
 	
-	public Window(User user) {
+	public Window(User user, File config_file) {
 		//INITIALIZE
 		this.user = user;
+		this.file = config_file;
 		this.top_panel = new TopPanel(this, TOP_PANEL_HEIGHT);
 		this.bott_panel = new Bott_Panel(this,BOTT_PANEL_HEIGHT);
 		this.right_panel = new RightPanel(this);
@@ -77,13 +80,17 @@ public class Window extends JFrame{
 		return bott_panel;
 	}
 
-	public static User getUser() {
+	public User getUser() {
 		return user;
 	}
 
 
-	public static void setUser(User user) {
-		Window.user = user;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public File getConfigPath() {
+		return file;
 	}
 
 }

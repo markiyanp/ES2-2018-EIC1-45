@@ -92,7 +92,7 @@ public class HelpTab extends JPanel{
 		setBackground(Color.LIGHT_GRAY);
 		help();
 		faq();
-		try {loadArticles();} catch (InterruptedException e) {e.printStackTrace();}
+//		try {loadArticles();} catch (InterruptedException e) {e.printStackTrace();}
 	}
 
 
