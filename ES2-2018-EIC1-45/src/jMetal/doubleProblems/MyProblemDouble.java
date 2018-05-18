@@ -1,11 +1,11 @@
 package jMetal.doubleProblems;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
+
+import jMetal.JarEvaluator;
 import jMetal.ProgressChecker;
 
 public class MyProblemDouble extends AbstractDoubleProblem {
@@ -18,6 +18,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	private final static long startingTime = System.currentTimeMillis();
 	//private final static long timeLimit = Window.getTimeLimit();
 	private boolean useJar = false;
+	private boolean barWarning = false;
 	
 	private ProgressChecker progC;
 	
@@ -49,51 +50,35 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 
 	public void evaluate(DoubleSolution solution) {
 		if (System.currentTimeMillis() - startingTime <= 10000) {
-		if (!useJar) {
-			double[] fx = new double[getNumberOfObjectives()];
-			double[] x = new double[getNumberOfVariables()];
-			for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-				x[i] = solution.getVariableValue(i);
-			}
-
-			double[] solutionObjectives = Kursawe.kurzaseSolution(fx, x);
-			solution.setObjective(0, solutionObjectives[0]);
-			solution.setObjective(1, solutionObjectives[1]);
-		} else {
-			String solutionString = "";
-			String evaluationResultString = "";
-			for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-				solutionString = solutionString + " " + "\"" + solution.getVariableValue(i) + "\"";
-			}
-			try {
-				String line;
-				Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString.trim());
-				BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-				
-				while ((line = brinput.readLine()) != null) {
-					evaluationResultString += line;
+			if (!useJar) {
+				double[] fx = new double[getNumberOfObjectives()];
+				double[] x = new double[getNumberOfVariables()];
+				for (int i = 0; i < solution.getNumberOfVariables(); i++) {
+					x[i] = solution.getVariableValue(i);
 				}
-				
-				brinput.close();
-				p.waitFor();
-			} catch (Exception err) {
-				err.printStackTrace();
+
+				double[] solutionObjectives = Kursawe.kurzaseSolution(fx, x);
+				solution.setObjective(0, solutionObjectives[0]);
+				solution.setObjective(1, solutionObjectives[1]);
+			} else {
+				String[] individualEvaluationCriteria = JarEvaluator.jarEvaluate(solution, jarPath);
+				// It is assumed that all evaluated criteria are returned in the same result
+				// string
+				for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
+					solution.setObjective(i, Double.parseDouble(individualEvaluationCriteria[i]));
+				}
 			}
-			String[] individualEvaluationCriteria = evaluationResultString.split("\\s+");
-			// It is assumed that all evaluated criteria are returned in the same result
-			// string
-			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
-				solution.setObjective(i, Double.parseDouble(individualEvaluationCriteria[i]));
+			testNumber++;
+			try {
+				progC.checkProgress(testNumber);
+			} catch (NullPointerException e) {
+				if (!barWarning) {
+					System.out.println("WARNING: Progress bar not found. Ignoring error!");
+					barWarning = true;
+				}
 			}
 		}
-		testNumber++;
-		progC.checkProgress(testNumber);
-		checkTimeLimit();
-		}
 	}
-	
-	public void checkTimeLimit() {
-		
-	}
+
 
 }

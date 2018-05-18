@@ -4,10 +4,8 @@ import org.uma.jmetal.problem.impl.AbstractBinaryProblem;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.impl.DefaultBinarySolution;
 
+import jMetal.JarEvaluator;
 import jMetal.ProgressChecker;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.BitSet;
 
 public class MyProblemBinary extends AbstractBinaryProblem {
 	/**
@@ -25,6 +23,8 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	private String jarPath;
 	
 	private int testNumber = 0;
+
+	private boolean barWarning = false;
 
 	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar, String jarPath) {
 		this.useJar = isJar;
@@ -55,23 +55,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 				solution.setObjective(0, solutionObjectives[0]);
 				solution.setObjective(1, solutionObjectives[1]);
 			} else {
-				String solutionString = "";
-				String evaluationResultString = "";
-				BitSet bitset = solution.getVariableValue(0);
-				solutionString = bitset.toString();
-				try {
-					String line;
-					Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString);
-					BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-					while ((line = brinput.readLine()) != null) {
-						evaluationResultString += line;
-					}
-					brinput.close();
-					p.waitFor();
-				} catch (Exception err) {
-					err.printStackTrace();
-				}
-				String[] individualEvaluationCriteria = evaluationResultString.split("\\s+");
+				String[] individualEvaluationCriteria = JarEvaluator.jarEvaluate(solution, jarPath);
 				// It is assumed that all evaluated criteria are returned in the same result
 				// string
 				for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
@@ -79,7 +63,14 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 				}
 			}
 			testNumber++;
-			progC.checkProgress(testNumber);
+			try {
+				progC.checkProgress(testNumber);
+			} catch (NullPointerException e) {
+				if (!barWarning) {
+					System.out.println("WARNING: Progress bar not found. Ignoring error!");
+					barWarning = true;
+				}
+			}
 		}
 	}
 

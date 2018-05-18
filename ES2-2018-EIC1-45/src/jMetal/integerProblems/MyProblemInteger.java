@@ -4,10 +4,9 @@ import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.IntegerSolution;
 import org.uma.jmetal.util.JMetalException;
 
+import jMetal.JarEvaluator;
 import jMetal.ProgressChecker;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +16,10 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	private final static long startingTime = System.currentTimeMillis();
 
 	private boolean useJar = false;
-
 	private String jarPath;
-	
 	private ProgressChecker progC;
-
 	private int testNumber = 0;
+	private boolean barWarning = false;
 
 	public MyProblemInteger(int[][] limits, boolean isJar, String jarPath) throws JMetalException {
 		this.useJar = isJar;
@@ -56,25 +53,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 				solution.setObjective(0, solutionObjectives[0]);
 				solution.setObjective(1, solutionObjectives[1]);
 			} else {
-				String solutionString = "";
-				String evaluationResultString = "";
-				for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-					solutionString = solutionString + " " + solution.getVariableValue(i);
-				}
-				try {
-					String line;
-					Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString);
-					BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-					while ((line = brinput.readLine()) != null) {
-						evaluationResultString += line;
-					}
-					brinput.close();
-					p.waitFor();
-				} catch (Exception err) {
-					err.printStackTrace();
-				}
-
-				String[] individualEvaluationCriteria = evaluationResultString.split("\\s+");
+				String[] individualEvaluationCriteria = JarEvaluator.jarEvaluate(solution, jarPath);
 				// It is assumed that all evaluated criteria are returned in the same result
 				// string
 				for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
@@ -82,7 +61,14 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 				}
 			}
 			testNumber++;
-			progC.checkProgress(testNumber);
+			try {
+				progC.checkProgress(testNumber);
+			} catch (NullPointerException e) {
+				if (!barWarning) {
+					System.out.println("WARNING: Progress bar not found. Ignoring error!");
+					barWarning  = true;
+				}
+			}
 		}
 	}
 
