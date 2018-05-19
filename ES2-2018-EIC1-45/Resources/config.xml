@@ -5,14 +5,20 @@
 <mail>mphna@gmail.com</mail>
 </Admin>
 <User>
-<name>Andre Godinho</name>
-<mail>andre@gmail.com</mail>
+<name>Tiago Almeida</name>
+<mail>tiago@gmail.com</mail>
 <algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
 <createVars>yes</createVars>
 </User>
 <User>
-<name>Tiago Almeidar</name>
-<mail>tiago@gmail.com</mail>
+<name>Paulo Pina</name>
+<mail>paulo@gmailcom</mail>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
+<createVars>yes</createVars>
+</User>
+<User>
+<name>Andre Godinho</name>
+<mail>andre@gmail.com</mail>
 <algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
 <createVars>yes</createVars>
 </User>

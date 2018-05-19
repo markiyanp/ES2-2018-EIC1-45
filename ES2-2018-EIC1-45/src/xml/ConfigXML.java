@@ -154,8 +154,6 @@ public class ConfigXML {
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
 		String algo = "";
-		System.out.println(name);
-		System.out.println(algorithms.size());
 		for(int i = 0; i < algorithms.size(); i++) {
 			if(i != algorithms.size() - 1) {
 				algo += algorithms.get(i);
