@@ -519,14 +519,19 @@ public class LauncherPanel extends JPanel {
 								new_item += users.get(i).getEmailAddr();
 								new_item += "]";
 								user_list_field.addItem(new_item);
+								
+								modify_user_name_field.setText(users.get(i).getName());
+								modify_user_email_field.setText(users.get(i).getEmailAddr());
 							}
 						}
 						ConfigXML.writeXML(ConfigXML.config, file);
 						user_list_field.removeItem(user_list_field.getSelectedItem());
 						JOptionPane.showMessageDialog(null, old_name + " was successfully modified!", "SUCESS",
 								JOptionPane.INFORMATION_MESSAGE);
-						modify_user_name_field.setText("");
-						modify_user_email_field.setText("");
+						clean_create_users_fields();
+						removeAll();
+						add(user_panel);
+						repaint();
 					}
 				}
 				// } else {
