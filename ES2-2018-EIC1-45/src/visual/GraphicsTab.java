@@ -13,6 +13,10 @@ import org.knowm.xchart.XYChart;
 
 import graphics.Individual_Graphic;
 
+/**
+ * @author Tiago Almeida
+ *
+ */
 public class GraphicsTab extends JPanel{
 
 	private static final long serialVersionUID = 6741926429964865025L; 
@@ -24,6 +28,9 @@ public class GraphicsTab extends JPanel{
 	private Button next;
 	private ArrayList<JPanel> list = new ArrayList<>();
 
+	/**
+	 * The constructor
+	 */
 	public GraphicsTab() {
 		
 		charts = g.getCharts();
@@ -47,6 +54,9 @@ public class GraphicsTab extends JPanel{
 		createPanels();
 	}
 
+	/**
+	 * Set a panel with graphic
+	 */
 	private void setCurrentPanel() {
 		if(list.size() != 0 && pointer >= 0 && pointer < charts.size()) {
 			prev.setEnabled(true);
@@ -65,6 +75,9 @@ public class GraphicsTab extends JPanel{
 		}
 	}
 	
+	/**
+	 * Create the panels
+	 */
 	private void createPanels() {
 		for (int i = 0; i < this.charts.size(); i++) {
 			JPanel pan = new JPanel();
@@ -73,6 +86,9 @@ public class GraphicsTab extends JPanel{
 		}
 	}
 
+	/**
+	 * The listener
+	 */
 	private class MyListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {

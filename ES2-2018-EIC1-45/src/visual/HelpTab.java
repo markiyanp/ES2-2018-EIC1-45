@@ -32,6 +32,10 @@ import core.Article;
 import core.User;
 import email.EMail_Tools;
 
+/**
+ * @author Markiyan Pyekh
+ *
+ */
 public class HelpTab extends JPanel{
 
 	private static final long serialVersionUID = 1L;
@@ -88,6 +92,9 @@ public class HelpTab extends JPanel{
 
 	//*************************************GENERAL FIELDS****************************************
 
+	/**
+	 * The constructor
+	 */
 	public HelpTab() {
 		setBackground(Color.LIGHT_GRAY);
 		help();

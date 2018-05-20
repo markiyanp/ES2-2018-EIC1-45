@@ -55,6 +55,10 @@ import jMetal.OptimizationProcess;
 import xml.ConfigXML;
 import xml.ProblemXML;
 
+/**
+ * @author Markiyan Pyekh, Tiago Almeida, Paulo Pina
+ *
+ */
 public class OptimizationTab extends JPanel {
 
 	// *********************DEFINES******************************************
@@ -188,7 +192,13 @@ public class OptimizationTab extends JPanel {
 
 	Window window;
 
+	/**
+	 * The constructor
+	 * 
+	 * @param window
+	 */
 	public OptimizationTab(Window window) {
+		
 		this.window = window;
 		tools_run_button.setEnabled(false);
 		tools_export_button.setEnabled(false);
@@ -206,15 +216,22 @@ public class OptimizationTab extends JPanel {
 		objectives_panel();
 	}
 
+	/**
+	 * Set in the problem the user who is logged in
+	 */
 	public void setProblemOwner() {
 		ProblemXML.problem.setUser_name(window.getUser().getName());
 		ProblemXML.problem.setUser_email(window.getUser().getEmailAddr());
 	}
 
+	/**
+	 * The listener
+	 */
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if (e.getSource() == variable_add_button) {
 					restrictionToCreateVar();
 					
@@ -267,6 +284,9 @@ public class OptimizationTab extends JPanel {
 		this.action_listener = lis;
 	}
 	
+	/**
+	 * Creates a frame with a new about problem
+	 */
 	private void createProblem() {
 		problem_creation_frame.setSize(266, 400);
 		problem_creation_frame.setLocationRelativeTo(null);
@@ -306,11 +326,13 @@ public class OptimizationTab extends JPanel {
 
 		problem_creation_frame.add(main_about_panel);
 		problem_creation_frame.setVisible(true);
-		
-		
-		
 	}
 
+	/**
+	 * Save a new problem in a specify directory
+	 * 
+	 * @param prob
+	 */
 	private void saveNewProblem(Problem prob) {
 		String extension = ".xml";
 		DateTimeFormatter timeStamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
@@ -340,6 +362,12 @@ public class OptimizationTab extends JPanel {
 	}
 		
 
+	/**
+	 * Returns a list of variables
+	 * 
+	 * @param data
+	 * @return
+	 */
 	private ArrayList<Variable> toArrayListVariables(Object[][] data) {
 		ArrayList<Variable> ret = new ArrayList<>();
 		for (int i = 0; i < data.length; i++) {
@@ -355,6 +383,13 @@ public class OptimizationTab extends JPanel {
 		return ret;
 	}
 
+
+	/**
+	 * Returns a list of objectives
+	 * 
+	 * @param data
+	 * @return
+	 */
 	private ArrayList<Objective> toArrayListObjectives(Object[][] data) {
 		ArrayList<Objective> ret = new ArrayList<>();
 		for (int i = 0; i < data.length; i++) {
@@ -369,6 +404,9 @@ public class OptimizationTab extends JPanel {
 		return ret;
 	}
 
+	/**
+	 * Import a problem in specify directory
+	 */
 	private void importProblem() {
 		String path = "";
 		JFileChooser chooser;
@@ -397,6 +435,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Show a about problem
+	 */
 	private void showAboutWindow() {
 		about_frame.setSize(266, 400);
 		about_frame.setLocationRelativeTo(null);
@@ -438,6 +479,9 @@ public class OptimizationTab extends JPanel {
 		about_frame.setVisible(true);
 	}
 
+	/**
+	 * Save the about problem with name and description
+	 */
 	private void saveAbout() {
 		if (!problem_name_field.getText().isEmpty()) {
 		ProblemXML.problem.setProblem_name(problem_name_field.getText());
@@ -449,6 +493,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 	
+	/**
+	 * Save a new about problem with name and description
+	 */
 	private void saveNewAbout() {
 		if (!problem_name_field.getText().isEmpty()) {
 		Problem new_problem = new Problem();
@@ -462,6 +509,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Create a new variable
+	 */
 	private void createVariable() {
 		Object[][] mod = new Object[this.data.length + 1][table.getColumnCount()];
 		if (this.data.length > 0) {
@@ -487,6 +537,9 @@ public class OptimizationTab extends JPanel {
 		table.repaint();
 	}
 
+	/**
+	 * Disable all variables
+	 */
 	private void disableAll() {
 		for (int i = 0; i < this.data.length; i++) {
 			this.data[i][table.getColumnCount() - 1] = false;
@@ -497,6 +550,9 @@ public class OptimizationTab extends JPanel {
 
 	}
 
+	/**
+	 * Enable all variables
+	 */
 	private void enableAll() {
 		for (int i = 0; i < this.data.length; i++) {
 			this.data[i][table.getColumnCount() - 1] = true;
@@ -506,6 +562,9 @@ public class OptimizationTab extends JPanel {
 		table.repaint();
 	}
 
+	/**
+	 * Remove a variable
+	 */
 	private void removeVariable() {
 		if (this.data.length != 0 && table.getSelectedRow() >= 0) {
 			Object[][] mod = new Object[this.data.length - 1][this.table.getColumnCount()];
@@ -523,6 +582,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Send an email to the administrator
+	 */
 	@SuppressWarnings("unused")
 	private void sendMailAdmin() {
 		User u = new User("default", "group45.dummy.user.1@gmail.com");
@@ -566,6 +628,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Objectives panel
+	 */
 	private void objectives_panel() {
 		objectives_panel.setBorder(objectives_area_border);
 		objectives_panel.setBounds(433, 10, 385, 230);
@@ -576,6 +641,7 @@ public class OptimizationTab extends JPanel {
 		this.objectives_table = new JTable(model);
 
 		this.objectives_table.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
@@ -631,6 +697,9 @@ public class OptimizationTab extends JPanel {
 		add(objectives_panel);
 	}
 
+	/**
+	 * Adds a new objective in the objectives table
+	 */
 	private void addObjective() {
 		if (objectives_newobjective_field.getText() != "") {
 			Object[][] mod = new Object[this.objectives_data.length + 1][objectives_table.getColumnCount()];
@@ -657,6 +726,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Remove a objective in the objectives table
+	 */
 	private void removeObjective() {
 		if (this.objectives_data.length != 0 && objectives_table.getSelectedRow() >= 0) {
 			Object[][] mod = new Object[this.objectives_data.length - 1][objectives_table.getColumnCount()];
@@ -675,6 +747,9 @@ public class OptimizationTab extends JPanel {
 
 	}
 
+	/**
+	 * Settings panel
+	 */
 	private void settings_panel() {
 		restrictions_panel.setBorder(restrictions_area_border);
 		restrictions_panel.setBounds(190, 10, 230, 230);
@@ -721,6 +796,9 @@ public class OptimizationTab extends JPanel {
 		add(restrictions_panel);
 	}
 
+	/**
+	 * Tools panel
+	 */
 	private void tools_panel() {
 		tools_panel.setBorder(tools_area_border);
 		tools_panel.setBounds(15, 10, tools_border_width, tools_border_height);
@@ -759,6 +837,9 @@ public class OptimizationTab extends JPanel {
 		add(tools_panel);
 	}
 
+	/**
+	 * Variables panel
+	 */
 	private void variables_panel() {
 		variables_panel.setBorder(variables_area_border);
 		variables_panel.setBounds(15, 250, variables_border_width, variables_border_height);
@@ -844,6 +925,13 @@ public class OptimizationTab extends JPanel {
 		add(variables_panel);
 	}
 
+	/**
+	 * Table with the variables
+	 * 
+	 * @param data_matrix
+	 * @param columns
+	 * @return model
+	 */
 	private DefaultTableModel tableModel(Object[][] data_matrix, String[] columns) {
 		DefaultTableModel model = new DefaultTableModel(data_matrix, columns) {
 			private static final long serialVersionUID = 1L;
@@ -865,6 +953,11 @@ public class OptimizationTab extends JPanel {
 		return model;
 	}
 
+	/**
+	 * Loads the problem that is recorded
+	 * 
+	 * @param file
+	 */
 	private void loadProblem(File file) {
 		ProblemXML.readXML(file);
 
@@ -914,6 +1007,11 @@ public class OptimizationTab extends JPanel {
 
 	}
 
+	/**
+	 * returns the max run time
+	 * 
+	 * @return value
+	 */
 	@SuppressWarnings("unused")
 	private int getMaxRunTime() {
 		int value = (Integer) settings_time_spinner.getValue();
@@ -929,6 +1027,9 @@ public class OptimizationTab extends JPanel {
 	}
 
 	// ***************************RESTRICTIONS_VARIABLES********************************************
+	/**
+	 * Verify whether the user is allowed to create variables
+	 */
 	private void permissionsToCreateVar() {
 		String denied = "no";
 		if (window.getUser().getCreate_var().equals(denied)) {
@@ -941,6 +1042,9 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Restrictions to create a variable
+	 */
 	private void restrictionToCreateVar() {
 		if (variable_name_field.getText().isEmpty() || ((String) variable_type_field.getSelectedItem() != "Binary"
 				&& variable_minval_field.getText().isEmpty()) || variable_maxval_field.getText().isEmpty()) {
@@ -970,6 +1074,11 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Listener to enable or disable the fields
+	 * 
+	 * @param cbox
+	 */
 	private void createActionListenerForCombobox(JComboBox<String> cbox) {
 		ActionListener cbActionListener = new ActionListener() {
 			@Override
@@ -1141,8 +1250,7 @@ public class OptimizationTab extends JPanel {
 	}
 
 	/**
-	 * Restrictions and comparation of the minimum double with the maximum
-	 * double
+	 * Restrictions and comparation of the minimum double with the maximum double
 	 */
 	private void compareDoubleValues() {
 		try {
@@ -1280,6 +1388,11 @@ public class OptimizationTab extends JPanel {
 		}
 	}
 
+	/**
+	 * Method with binary restrictions
+	 * 
+	 * @param value
+	 */
 	private void BinaryRestriction(FocusEvent value) {
 		JTextField aux = ((JTextField) value.getComponent());
 		if (!aux.getText().isEmpty()) {

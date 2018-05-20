@@ -22,14 +22,20 @@ import core.Config;
 import core.Path;
 import core.User;
 
+
+
+/**
+ * @author Tiago Almeida, Markiyan Pyekh
+ *
+ */
 public class ConfigXML {
 
 	private static ConfigXML instance;
 	public static Config config;
-
 	
 	/**
 	 * Writes "config" in "file" with xml format
+	 * 
 	 * @param config
 	 * @param file
 	 */
@@ -70,6 +76,7 @@ public class ConfigXML {
 
 	/**
 	 * reads xml File and saves it in config object
+	 * 
 	 * @param file
 	 */
 	public static void readXML(File file){
@@ -144,6 +151,7 @@ public class ConfigXML {
 
 	/**
 	 * Creates Node with user "name" and "email" and puts it in "doc"
+	 * 
 	 * @param doc
 	 * @param name
 	 * @param mail
@@ -169,6 +177,7 @@ public class ConfigXML {
 
 	/**
 	 * Creates Node with path "name" and "url" and puts it in doc
+	 * 
 	 * @param doc
 	 * @param name
 	 * @param url
@@ -183,6 +192,7 @@ public class ConfigXML {
 	
 	/**
 	 * Cretes Node with Admin "name" and "mail" and puts it in "doc"
+	 * 
 	 * @param doc
 	 * @param name
 	 * @param mail
@@ -197,6 +207,7 @@ public class ConfigXML {
 	
 	/**
 	 * Creates Node with limit time "time"
+	 * 
 	 * @param doc
 	 * @param name
 	 * @return Node
@@ -209,6 +220,7 @@ public class ConfigXML {
 
 	/**
 	 * Creates Node with Elements "name" and "value" and puts it in "doc"
+	 * 
 	 * @param doc
 	 * @param element
 	 * @param name
@@ -223,6 +235,7 @@ public class ConfigXML {
 
 	/**
 	 * Getter to ConfigXML instance
+	 * 
 	 * @return ConfigXML instance
 	 */
 	public static synchronized ConfigXML getInstance() {

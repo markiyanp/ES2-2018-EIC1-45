@@ -114,6 +114,11 @@ public class LauncherPanel extends JPanel {
 
 	// *************************CREATE_USER_FIELDS*************************************
 
+	/**
+	 * The constructor
+	 * @param launch
+	 * @param file_config
+	 */
 	public LauncherPanel(Launcher launch, File file_config) {
 		this.launch = launch;
 		this.file = file_config;
@@ -627,7 +632,7 @@ public class LauncherPanel extends JPanel {
 	}
 
 	/*
-	 * public void test() { Config cfg = new Config();
+	 * public void createUsersTest() { Config cfg = new Config();
 	 * cfg.setAdmin_mail("mphna@gmail.com"); cfg.setAdmin_name("Markiyan");
 	 * 
 	 * ArrayList<String> algorithms = new ArrayList<String>();
@@ -655,6 +660,10 @@ public class LauncherPanel extends JPanel {
 	 * ConfigXML.writeXML(cfg, new File("Resources/config.xml")); }
 	 */
 
+	/**
+	 * Returns the user who is logged in
+	 * @return User
+	 */
 	public User getUserLogged() {
 
 		ArrayList<User> users = ConfigXML.config.getUsers();

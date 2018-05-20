@@ -15,14 +15,26 @@ import org.knowm.xchart.style.Styler.ChartTheme;
 import org.knowm.xchart.style.Styler.LegendPosition;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
+/**
+ * @author Tiago Almeida
+ *
+ */
 public class Full_Graphic {
 
 	private static XYSeries series;
 	
+	/**
+	 * The constructor
+	 */
 	public Full_Graphic() {
 		getChart();   
 	}
 
+	/**
+	 * Returns the graphic
+	 * 
+	 * @return chart
+	 */
 	public XYChart getChart() {
 		
 		XYChart chart = new XYChartBuilder().title("Graphic").xAxisTitle("Rules").yAxisTitle("Weights").build();
@@ -49,6 +61,12 @@ public class Full_Graphic {
 		return chart;
 	}
 
+	/**
+	 * Read a file
+	 * 
+	 * @param fileName
+	 * @return row_list
+	 */
 	public static ArrayList<ArrayList<String>> readFile(String fileName) {
 		ArrayList<ArrayList<String>> row_list = new ArrayList<>();
 		try {
