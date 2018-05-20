@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Config>
+<Admin>
+<name>Markiyan</name>
+<mail>mphna@gmail.com</mail>
+</Admin>
+<User>
+<name>Paulo Pinaw</name>
+<mail>paulo@gmailcom</mail>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
+<createVars>yes</createVars>
+</User>
+<User>
+<name>Andre Godinho</name>
+<mail>andre@gmail.com</mail>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
+<createVars>yes</createVars>
+</User>
+<User>
+<name>Tiago Almeida</name>
+<mail>tiago@gmail.com</mail>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
+<createVars>yes</createVars>
+</User>
+<Path>
+<name>lastJarPath</name>
+<url>C:\Users\Admin\Desktop</url>
+</Path>
+<TimeOut>
+<time>5</time>
+</TimeOut>
+</Config>
