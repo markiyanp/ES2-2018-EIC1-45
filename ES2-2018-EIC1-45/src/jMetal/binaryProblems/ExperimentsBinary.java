@@ -40,13 +40,13 @@ public class ExperimentsBinary extends AbstractExperiment {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
 			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_variables(), 
-					isJar(), getJarPath())));
+					isJar(), getJarPath(), getProblemName())));
 		}
 		else { 
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
 			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_variables(), 
-					isJar(), null)));
+					isJar(), null, getProblemName())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 		
@@ -55,7 +55,7 @@ public class ExperimentsBinary extends AbstractExperiment {
 				problemList, getAlgorithm());
 
 		Experiment<BinarySolution, List<BinarySolution>> experiment = new ExperimentBuilder<BinarySolution, List<BinarySolution>>(
-				getProblemName()).setAlgorithmList(algorithmList).setProblemList(problemList)
+				"ExperimentsBinary").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
 						.setOutputParetoSetFileName("VAR")
 						.setReferenceFrontDirectory(experimentBaseDirectory + "/referenceFronts")

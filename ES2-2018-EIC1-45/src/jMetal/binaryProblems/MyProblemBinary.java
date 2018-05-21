@@ -26,13 +26,13 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	private boolean barWarning = false;
 
-	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar, String jarPath) {
+	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar, String jarPath, String problemName) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(useJar);
 		setNumberOfVariables(number_of_variables);
 		setNumberOfObjectives(2);
-		setName("MyProblemBinary");
+		setName(problemName);
 		bits = numberOfBits;
 	}
 

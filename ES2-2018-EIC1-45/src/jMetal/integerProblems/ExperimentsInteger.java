@@ -32,12 +32,12 @@ public class ExperimentsInteger extends AbstractExperiment {
 		if (isJar()) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
-			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), getJarPath())));
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), getJarPath(), getProblemName())));
 		}
 		else { 
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
-			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), null)));
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), null, getProblemName())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
@@ -46,7 +46,7 @@ public class ExperimentsInteger extends AbstractExperiment {
 				problemList, getAlgorithm());
 
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
-				getProblemName()).setAlgorithmList(algorithmList).setProblemList(problemList)
+				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
 						.setOutputParetoSetFileName("VAR")
 						.setReferenceFrontDirectory(experimentBaseDirectory + "/referenceFronts")

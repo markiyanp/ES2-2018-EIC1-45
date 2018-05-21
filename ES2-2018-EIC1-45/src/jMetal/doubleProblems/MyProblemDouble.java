@@ -26,14 +26,14 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 
 	private int testNumber = 0;
 
-	public MyProblemDouble(double[][] limits, boolean isJar, String jarPath) {
+	public MyProblemDouble(double[][] limits, boolean isJar, String jarPath, String problemName) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
 		setNumberOfVariables(limits.length);
 		System.out.println("Number of variables: " + limits.length);
 		setNumberOfObjectives(2);
-		setName("MyProblemDouble");
+		setName(problemName);
 
 		List<Double> lowerLimit = new ArrayList<>(getNumberOfVariables());
 		List<Double> upperLimit = new ArrayList<>(getNumberOfVariables());

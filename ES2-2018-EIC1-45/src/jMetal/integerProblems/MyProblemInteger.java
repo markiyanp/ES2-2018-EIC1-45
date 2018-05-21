@@ -21,13 +21,13 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	private int testNumber = 0;
 	private boolean barWarning = false;
 
-	public MyProblemInteger(int[][] limits, boolean isJar, String jarPath) throws JMetalException {
+	public MyProblemInteger(int[][] limits, boolean isJar, String jarPath, String problemName) throws JMetalException {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
 		setNumberOfVariables(limits.length);
 		setNumberOfObjectives(2);
-		setName("MyProblemInteger");
+		setName(problemName);
 
 		List<Integer> lowerLimit = new ArrayList<>(getNumberOfVariables());
 		List<Integer> upperLimit = new ArrayList<>(getNumberOfVariables());
