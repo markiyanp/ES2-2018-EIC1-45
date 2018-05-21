@@ -19,7 +19,10 @@ public class TestJar {
 				{ "test1-should-appear", "Integer", "-1", "2", null, true }
 				 };
 		OptimizationProcess.setJarPath("D:\\NMMin.jar");
-		OptimizationProcess.runOptimization(testI, "NSGAII", true);
+		OptimizationProcess.setData(testI);
+		OptimizationProcess.setAlgorithm("NSGAII");
+		OptimizationProcess.setJar(true);
+		OptimizationProcess.runOptimization();
 
 //		 Object[][] testB = { { "test1-should-appear", "Binary", "-1", "2", null, true
 //		 },

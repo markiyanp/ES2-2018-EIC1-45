@@ -22,15 +22,15 @@ public class OptimizationProcess extends Thread {
 	private static int variable_count = 0;
 
 	private static Object[][] data;
+	private static Object[][] objectives;
 	private static String algorithm;
 	private static boolean isJar;
+	private static String problemName;
 	private static String jarPath;
-	
-
 	
 	@Override
 	public void run() {
-		runOptimization(data, algorithm, isJar);
+		runOptimization();
 	}
 	
 	/**
@@ -38,12 +38,13 @@ public class OptimizationProcess extends Thread {
 	 * algorithm, and whether a jar is used or not along with its path.
 	 * 
 	 * @param data
+	 * @param objectives
 	 * @param algorithm
+	 * @param problemName
 	 * @param isJar
-	 * @param jarPath
 	 * @author pvmpa-iscteiulpt
 	 */
-	public static void runOptimization(Object[][] data, String algorithm, boolean isJar) {
+	public static void runOptimization() {
 		try {
 			variable_count = 0;
 			//debugSysout_Start(data, algorithm, isJar);
@@ -163,6 +164,7 @@ public class OptimizationProcess extends Thread {
 			boolean binaryProblem, boolean isJar) throws IOException {
 		//is an integer Problem
 		if (integerProblem && !doubleProblem && !binaryProblem) {
+			ExperimentsInteger e = new ExperimentsInteger();
 			int[][] limits = new int[variable_count][2];
 			for (int i = 0; i < limits.length; i++) {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
@@ -175,11 +177,17 @@ public class OptimizationProcess extends Thread {
 					limits[i][1] = 100;
 				}
 			}
-			ExperimentsInteger.execute(limits, algorithm, isJar, jarPath);
+			e.setLimits_Int(limits);
+			e.setAlgorithm(algorithm);
+			e.setJar(isJar);
+			e.setJarPath(jarPath);
+			e.setProblemName(problemName);
+			e.execute();
 		}
 		
 		//is a double Problem
 		else if (doubleProblem && !integerProblem && !binaryProblem) {
+			ExperimentsDouble e = new ExperimentsDouble();
 			double[][] limits = new double[variable_count][2];
 			for (int i = 0; i < limits.length; i++) {
 				if (!(data[i][2].equals(null)) && !(data[i][3].equals(null))) {
@@ -192,13 +200,26 @@ public class OptimizationProcess extends Thread {
 					limits[i][1] = 100;
 				}
 			}
-			ExperimentsDouble.execute(limits, algorithm, isJar, jarPath);
+			e.setLimits_Double(limits);
+			e.setAlgorithm(algorithm);
+			e.setJar(isJar);
+			e.setJarPath(jarPath);
+			e.setProblemName(problemName);
+			e.execute();
 		} 
 		
 		//is a binary Problem
 		else if (binaryProblem && !integerProblem && !doubleProblem) {
+			ExperimentsBinary e = new ExperimentsBinary();
 			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
-			ExperimentsBinary.execute(8, algorithm, data.length, isJar, jarPath);
+			e.setLimits_Binary(8);
+			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
+			e.setAlgorithm(algorithm);
+			e.setNumber_of_variables(data.length);
+			e.setJar(isJar);
+			e.setJarPath(jarPath);
+			e.setProblemName(problemName);
+			e.execute();
 		} else
 			throw new IllegalStateException("How in the world did this happen???");
 
@@ -290,6 +311,14 @@ public class OptimizationProcess extends Thread {
 	
 	public static void setJarPath(String path) {
 		jarPath = path;
+	}
+
+	public static void setObjectives(Object[][] objectives) {
+		OptimizationProcess.objectives = objectives;
+	}
+
+	public static void setProblemName(String problemName) {
+		OptimizationProcess.problemName = problemName;
 	}
 	
 	

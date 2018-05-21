@@ -16,35 +16,37 @@ import org.uma.jmetal.util.experiment.component.*;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
+import jMetal.AbstractExperiment;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExperimentsInteger {
+public class ExperimentsInteger extends AbstractExperiment {
 	private static int INDEPENDENT_RUNS = 5;
 	private static int maxEvaluations = 500;
 
-	public static void execute(int[][] limits, String algorithm, boolean isJar, String jarPath) throws IOException {
+	public void execute() throws IOException {
 		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
-		if (isJar) {
+		if (isJar()) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
-			problemList.add(new ExperimentProblem<>(new MyProblemInteger(limits, isJar, jarPath)));
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), getJarPath())));
 		}
 		else { 
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
-			problemList.add(new ExperimentProblem<>(new MyProblemInteger(limits, isJar, null)));
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), null)));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
 		
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithmList = configureAlgorithmList(
-				problemList, algorithm);
+				problemList, getAlgorithm());
 
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
-				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
+				getProblemName()).setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
 						.setOutputParetoSetFileName("VAR")
 						.setReferenceFrontDirectory(experimentBaseDirectory + "/referenceFronts")
@@ -58,7 +60,7 @@ public class ExperimentsInteger {
 		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
 	}
 
-	static List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> configureAlgorithmList(
+	private List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> configureAlgorithmList(
 			List<ExperimentProblem<IntegerSolution>> problemList, String algo) {
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithms = new ArrayList<>();
 

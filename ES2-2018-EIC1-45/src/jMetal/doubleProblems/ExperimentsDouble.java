@@ -21,35 +21,37 @@ import org.uma.jmetal.util.experiment.component.*;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
+import jMetal.AbstractExperiment;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExperimentsDouble {
+public class ExperimentsDouble extends AbstractExperiment {
 	private static int INDEPENDENT_RUNS = 5;
 	private static int maxEvaluations = 500;
 
-	public static void execute(double[][] limits, String algorithm, boolean isJar, String jarPath) throws IOException {
+	public void execute() throws IOException {
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-		if (isJar) {
+		if (isJar()) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
-			problemList.add(new ExperimentProblem<>(new MyProblemDouble(limits, isJar, jarPath)));
+			problemList.add(new ExperimentProblem<>(new MyProblemDouble(getLimits_Double(), isJar(), getJarPath())));
 		}
 		else { 
-			INDEPENDENT_RUNS = 50;
+			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
-			problemList.add(new ExperimentProblem<>(new MyProblemDouble(limits, isJar, null)));
+			problemList.add(new ExperimentProblem<>(new MyProblemDouble(getLimits_Double(), isJar(), null)));
 		}
 		
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureAlgorithmList(
-				problemList, algorithm);
+				problemList, getAlgorithm());
 
 		Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
-				"ExperimentsDouble").setAlgorithmList(algorithmList).setProblemList(problemList)
+				getProblemName()).setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
 						.setOutputParetoSetFileName("VAR")
 						.setReferenceFrontDirectory(experimentBaseDirectory + "/referenceFronts")
@@ -63,7 +65,7 @@ public class ExperimentsDouble {
 		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
 	}
 
-	static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
+	private List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
 			List<ExperimentProblem<DoubleSolution>> problemList, String algo) {
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
 
