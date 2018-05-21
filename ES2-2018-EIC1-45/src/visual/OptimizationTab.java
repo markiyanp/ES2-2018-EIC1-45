@@ -233,7 +233,8 @@ public class OptimizationTab extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (e.getSource() == variable_add_button) {
-					restrictionToCreateVar();
+					restrictionToCreateVar(variable_type_field);
+					createFocusListener();
 					
 				} else if (e.getSource() == variable_selectAll_button) {
 					enableAll();
@@ -1045,7 +1046,7 @@ public class OptimizationTab extends JPanel {
 	/**
 	 * Restrictions to create a variable
 	 */
-	private void restrictionToCreateVar() {
+	private void restrictionToCreateVar(JComboBox<String> cbox) {
 		if (variable_name_field.getText().isEmpty() || ((String) variable_type_field.getSelectedItem() != "Binary"
 				&& variable_minval_field.getText().isEmpty()) || variable_maxval_field.getText().isEmpty()) {
 			messageDialog("<html><font color=RED > Exist empty fields! </font></html>");
@@ -1056,14 +1057,42 @@ public class OptimizationTab extends JPanel {
 					check = true;
 				}
 			}
-			if (!check) {
-				createVariable();
-				variable_name_field.setText("");
-				variable_minval_field.setText("");
-				variable_maxval_field.setText("");
-				variable_restricted_field.setText("");
-				variable_type_field.setSelectedIndex(0);
-			} else {
+			String s = (String) cbox.getSelectedItem();
+			switch (s) {
+			case "Double":
+				if ((!check && isDouble(variable_minval_field.getText()) && isDouble(variable_maxval_field.getText()) || (!check && isDouble(variable_minval_field.getText()) && isDouble(variable_maxval_field.getText()) && isDouble(variable_restricted_field.getText())))) {
+					createVariable();
+					variable_name_field.setText("");
+					variable_minval_field.setText("");
+					variable_maxval_field.setText("");
+					variable_restricted_field.setText("");
+					variable_type_field.setSelectedIndex(0);
+				}
+				break;
+
+			case "Integer":
+				if ((!check && isInteger(variable_minval_field.getText()) && isInteger(variable_maxval_field.getText()) || (!check && isInteger(variable_minval_field.getText()) && isInteger(variable_maxval_field.getText()) && isInteger(variable_restricted_field.getText())))) {
+					createVariable();
+					variable_name_field.setText("");
+					variable_minval_field.setText("");
+					variable_maxval_field.setText("");
+					variable_restricted_field.setText("");
+					variable_type_field.setSelectedIndex(0);
+				}
+				break;
+
+			case "Binary":
+				if ((!check && isInteger(variable_maxval_field.getText()) && !variable_maxval_field.getText().contains("-"))) {
+					createVariable();
+					variable_name_field.setText("");
+					variable_minval_field.setText("");
+					variable_maxval_field.setText("");
+					variable_restricted_field.setText("");
+					variable_type_field.setSelectedIndex(0);
+				}
+				break;
+			}
+			if (check) {
 				messageDialog("<html><font color=RED >Variable already exist!</font></html>");
 				variable_name_field.setText("");
 				variable_minval_field.setText("");
@@ -1404,7 +1433,7 @@ public class OptimizationTab extends JPanel {
 				int round = (int) Math.round(d);
 				aux.setText(Integer.toString(round));
 			}
-			if (!isDouble(aux.getText())) {
+			if (!isInteger(aux.getText()) || aux.getText().contains("-")) {
 				messageDialog(
 						"<html><font color=RED > The maximum value can only have integer numbers! </font></html>");
 				aux.setText("");

@@ -75,7 +75,7 @@ public class Article implements Serializable {
 	/**
 	 * Returns the article list
 	 * 
-	 * @return
+	 * @return article
 	 */
 	public ArrayList<String> getArticle() {
 		return article;
@@ -93,7 +93,7 @@ public class Article implements Serializable {
 	/**
 	 * Returns the file
 	 * 
-	 * @return
+	 * @return f
 	 */
 	public File getF() {
 		return f;
