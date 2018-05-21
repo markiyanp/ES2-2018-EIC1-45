@@ -6,8 +6,8 @@ public class TestJar {
 
 	public static void main(String[] args) {
 
-//		Object[][] testD = { { "test1-should-not-appear", "Double", "-1.1", "2.2", null, false },
-//				{ "test2-should-appear", "Double", "-2.0", "2.0", null, true },
+//		Object[][] testD = { { "test1-should-not-appear", "Double", "-1.0", "2.0", null, false },
+//				{ "test2-should-appear", "Double", "-2.0", "5.0", null, true },
 //				{ "test3-should-appear", "Double", "-10.0", "10.0", null, true },
 //				{ "test4-should-not-appear", "Integer", "-10", "10", null, false } };
 //
@@ -15,10 +15,8 @@ public class TestJar {
 //		OptimizationProcess.runOptimization(testD, "NSGAII", true);
 
 		Object[][] testI = { { "test1-should-appear", "Integer", "-1", "2", null, true },
-				{ "test2-should-appear", "Integer", "-2", "5", null, true },
-				{ "test3-should-appear", "Integer", "-10", "10", null, true },
-				{ "test4-should-not-appear", "Integer", "-10", "10", null, false } };
-		OptimizationProcess.setJarPath("D:\\NMMin.jar");
+				 };
+		OptimizationProcess.setJarPath("D:\\monstrosity.jar");
 		OptimizationProcess.runOptimization(testI, "NSGAII", true);
 
 //		 Object[][] testB = { { "test1-should-appear", "Binary", "-1", "2", null, true

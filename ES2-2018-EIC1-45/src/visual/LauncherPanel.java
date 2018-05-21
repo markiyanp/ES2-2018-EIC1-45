@@ -35,11 +35,22 @@ import xml.ConfigXML;
 
 public class LauncherPanel extends JPanel {
 
-	// private static final String USER_LOGGED_MSG = "Your user has logged in!";
+	private static final String USER_LOGGED_MSG = "Your user has logged in!";
 	private static final String USER_PERMISSION_TO_MODIFY_MSG = "Permission to modify accept!";
 	private static final String USER_REGISTERED_MSG = "An user has been registered in your name!";
 	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
 	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
+	
+	//TODO: This needs to be displayed in a YES/NO dialog when the user hits the "Create User" button!!!
+	private final String USER_HITS_REGISTER_LEGAL_MSG = "ATTENTION: We need your complete consent to use your e-mail address. "
+			+ "It will only be used for the following ends: "
+			+ "\n -General warnings to the system's Administrator about the optimization process; "
+			+ "\n -Reception of messages with information pertinent to the optimization process "
+			+ "(start of process, current status, errors, etc); "
+			+ "\n -Sending help messages to the system's Administrator. "
+			+ "\n\n The system may ask for your e-mail address's password for authentication purposes. "
+			+ "Your password will never be saved anywhere or shared with anyone. "
+			+ "\n Proceed with the registration process?";
 
 	private static final long serialVersionUID = 1L;
 

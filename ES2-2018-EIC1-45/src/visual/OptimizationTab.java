@@ -115,7 +115,7 @@ public class OptimizationTab extends JPanel {
 	private JButton restrictions_choosejarpath_button = new JButton("...");
 	private JComboBox<String> algo_name_field;
 	private JComboBox<String> settings_time_combobox;
-	private JLabel settings_algo_label = new JLabel("Algorythm");
+	private JLabel settings_algo_label = new JLabel("Algorithm");
 	private JLabel settings_max_time_label = new JLabel("Max run time");
 	private JSpinner settings_time_spinner;
 
@@ -172,16 +172,6 @@ public class OptimizationTab extends JPanel {
 	// ****************************OBJECTIVES_FIELDS*****************************************
 
 	// ****************************RESOURCES**************************************************
-	@SuppressWarnings("unused")
-	private final String legal_message = "ATTENTION: We need your complete consent to use your e-mail address. "
-			+ "It will only be used for the following ends: "
-			+ "\n -General warnings to the system's Administrator about the optimization process; "
-			+ "\n -Reception of messages with information pertinent to the optimization process "
-			+ "(start of process, current status, errors, etc); "
-			+ "\n -Sending help messages to the system's Administrator. "
-			+ "\n\n The system may ask for your e-mail address's password for authentication purposes. "
-			+ "Your password will never be saved anywhere or shared with anyone. "
-			+ "\n Proceed with the registration process?";
 
 	private final String thankyou_message = "Muito obrigado por usar esta plataforma de otimização. "
 			+ "Será informado por email sobre o progresso do processo de otimização, "
@@ -256,8 +246,6 @@ public class OptimizationTab extends JPanel {
 					
 				} else if (e.getSource() == tools_run_button) {
 					// sendMailAdmin();
-					// TODO:
-					// runOptimization should be handled by a seperate thread
 					OptimizationProcess.setData(data);
 					OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
 					OptimizationProcess.setJar(false);
