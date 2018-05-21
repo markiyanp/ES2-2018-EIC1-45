@@ -581,24 +581,6 @@ public class OptimizationTab extends JPanel {
 			Date date = new Date();
 			String[] admin = { EMail_Tools.getAdminEmail() };
 
-			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "*******", u.getEmailAddr(), admin, // cc
-																											// to
-																											// admin
-					"Otimização em curso: " + // need to say what it is
-							problem_name_field.getText() + // get the problem's
-															// name
-							" " + dateFormat.format(date), // and the current
-															// date:time
-					"Muito obrigado por usar esta plataforma de otimização. "
-							+ "Será informado por email sobre o progresso do processo de otimização, "
-							+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total "
-							+ "do tempo estimado, " // this train might need to
-													// be moved to its own
-													// String TODO
-							+ "e também quando o processo tiver terminado, "
-							+ "com sucesso ou devido à ocorrência de erros.",
-					""); // no attachment YET, it needs to be an XML
-
 			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc
 																											// to
 																											// admin
