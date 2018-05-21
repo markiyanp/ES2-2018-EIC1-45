@@ -27,17 +27,15 @@ public class JarEvaluator {
 		String solutionString = "";
 		String evaluationResultString = "";
 		for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-			solutionString = solutionString + " " + "\"" + solution.getVariableValue(i) + "\"";
+			solutionString = solutionString + " " + solution.getVariableValue(i);
 		}
 		try {
 			String line;
-			System.out.println("CURRENT SOLUTIONSTRING: " + solutionString);
 			Process p = Runtime.getRuntime().exec("java -jar " + jarPath + " " + solutionString.trim());
 			BufferedReader brinput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			
 			while ((line = brinput.readLine()) != null) {
 				evaluationResultString += line;
-				System.out.println("CURRENT EVALUATIONRESULTSTRING: " + evaluationResultString);
 			}
 			
 			brinput.close();

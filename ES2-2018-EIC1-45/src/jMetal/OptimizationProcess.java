@@ -6,6 +6,11 @@ import jMetal.binaryProblems.ExperimentsBinary;
 import jMetal.doubleProblems.ExperimentsDouble;
 import jMetal.integerProblems.ExperimentsInteger;
 
+/**Handles the interfacing between user and jMetal.
+ * 
+ * @author pvmpa-iscteiulpt
+ *
+ */
 public class OptimizationProcess extends Thread {
 
 	private static String[] AlgorithmsForDoubleProblemType = new String[] { "NSGAII", "SMSEMOA", "GDE3", "IBEA",
