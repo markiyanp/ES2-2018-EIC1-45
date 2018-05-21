@@ -173,10 +173,9 @@ public class OptimizationTab extends JPanel {
 
 	// ****************************RESOURCES**************************************************
 
-	private final String thankyou_message = "Muito obrigado por usar esta plataforma de otimização. "
-			+ "Será informado por email sobre o progresso do processo de otimização, "
-			+ "quando o processo de otimização tiver atingido 25%, 50%, 75% do total " + "do tempo estimado, "
-			+ "e também quando o processo tiver terminado, " + "com sucesso ou devido à ocorrência de erros.";
+	private final String thankyou_message = "Thank you for using this optimization platform. "
+			+ "You will be informed by e-mail about the optimization's progress "
+			+ "periodically and when the process is finished as well, whether it was successful or when errors occur. ";
 
 	// ******************************INSTANCES_END******************************************
 

@@ -15,8 +15,10 @@ public class TestJar {
 //		OptimizationProcess.runOptimization(testD, "NSGAII", true);
 
 		Object[][] testI = { { "test1-should-appear", "Integer", "-1", "2", null, true },
+				{ "test1-should-appear", "Integer", "-1", "2", null, true },
+				{ "test1-should-appear", "Integer", "-1", "2", null, true }
 				 };
-		OptimizationProcess.setJarPath("D:\\monstrosity.jar");
+		OptimizationProcess.setJarPath("D:\\NMMin.jar");
 		OptimizationProcess.runOptimization(testI, "NSGAII", true);
 
 //		 Object[][] testB = { { "test1-should-appear", "Binary", "-1", "2", null, true
