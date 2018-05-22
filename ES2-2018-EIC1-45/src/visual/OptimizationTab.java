@@ -276,20 +276,7 @@ public class OptimizationTab extends JPanel {
 		long timelimit = 0;
 		timelimit += (int) settings_time_spinner.getValue();
 
-		switch ((String) settings_time_combobox.getSelectedItem()) {
-		case "second(s)":
-			timelimit *= TimeMultiplier.SECOND.getMultiplier();
-			break;
-		case "minute(s)":
-			timelimit *= TimeMultiplier.MINUTE.getMultiplier();
-			break;
-		case "hour(s)":
-			timelimit *= TimeMultiplier.HOUR.getMultiplier();
-			break;
-		default:
-			throw new IllegalStateException("Something's wrong here! Couldn't parse the correct timelimit!");
-		}
-		timelimit *= 1000;
+		timelimit = getMaxTime(timelimit);
 		System.out.println("Caught timelimit: " + timelimit);
 
 		if (timelimit <= 10000) {
@@ -306,6 +293,29 @@ public class OptimizationTab extends JPanel {
 		OptimizationProcess.setProblemName(problem_name_field.getText());
 		OptimizationProcess.setTimelimit(timelimit);
 		new OptimizationProcess().start();
+	}
+
+	/**
+	 * Returns the max time limit that the user specified.
+	 * @param timelimit
+	 * @return the time limit
+	 */
+	private long getMaxTime(long timelimit) {
+		switch ((String) settings_time_combobox.getSelectedItem()) {
+		case "second(s)":
+			timelimit *= TimeMultiplier.SECOND.getMultiplier();
+			break;
+		case "minute(s)":
+			timelimit *= TimeMultiplier.MINUTE.getMultiplier();
+			break;
+		case "hour(s)":
+			timelimit *= TimeMultiplier.HOUR.getMultiplier();
+			break;
+		default:
+			throw new IllegalStateException("Something's wrong here! Couldn't parse the correct timelimit!");
+		}
+		timelimit *= 1000;
+		return timelimit;
 	}
 
 	/**
@@ -608,7 +618,6 @@ public class OptimizationTab extends JPanel {
 	/**
 	 * Send an email to the administrator
 	 */
-	@SuppressWarnings("unused")
 	private void sendMailAdmin() {
 		User u = new User("default", "group45.dummy.user.1@gmail.com");
 		try {
@@ -1012,24 +1021,6 @@ public class OptimizationTab extends JPanel {
 
 	}
 
-	/**
-	 * returns the max run time
-	 * 
-	 * @return value
-	 */
-	@SuppressWarnings("unused")
-	private int getMaxRunTime() {
-		int value = (Integer) settings_time_spinner.getValue();
-		String multiplier = (String) settings_time_combobox.getSelectedItem();
-		if (multiplier.equals(TimeMultiplier.MINUTE.getName())) {
-			value = value * TimeMultiplier.MINUTE.getMultiplier();
-		} else if (multiplier.equals(TimeMultiplier.SECOND.getName())) {
-			value = value * TimeMultiplier.SECOND.getMultiplier();
-		} else if (multiplier.equals(TimeMultiplier.HOUR.getName())) {
-			value = value * TimeMultiplier.HOUR.getMultiplier();
-		}
-		return value;
-	}
 
 	// ***************************RESTRICTIONS_VARIABLES********************************************
 	/**

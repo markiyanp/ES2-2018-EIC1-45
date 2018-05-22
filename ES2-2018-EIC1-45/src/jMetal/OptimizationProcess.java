@@ -374,9 +374,8 @@ public class OptimizationProcess extends Thread {
 		//is a binary Problem
 		else if (binaryProblem && !integerProblem && !doubleProblem) {
 			ExperimentsBinary e = new ExperimentsBinary();
-			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
-			e.setLimits_Binary(8);
-			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT 8 IS THE NUMBER OF BITS
+			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT THE FIRST VARIABLE HOLDS THE ONE TRUE MAX VALUE
+			e.setLimits_Binary(Integer.parseInt((String) data[0][3]));
 			e.setAlgorithm(algorithm);
 			e.setNumber_of_variables(data.length);
 			e.setJar(isJar);
