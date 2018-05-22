@@ -38,12 +38,12 @@ public class ExperimentsDouble extends AbstractExperiment {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
 			problemList.add(new ExperimentProblem<>(new MyProblemDouble(getLimits_Double(), getNumber_of_objectives(),
-					isJar(), getJarPath(), getProblemName())));
+					isJar(), getJarPath(), getProblemName(), getTimelimit())));
 		} else {
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
 			problemList.add(new ExperimentProblem<>(new MyProblemDouble(getLimits_Double(), getNumber_of_objectives(),
-					isJar(), null, getProblemName())));
+					isJar(), null, getProblemName(), getTimelimit())));
 		}
 
 		String experimentBaseDirectory = "experimentBaseDirectory";

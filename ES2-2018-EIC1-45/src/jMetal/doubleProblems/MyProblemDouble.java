@@ -25,11 +25,15 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	private String jarPath;
 
 	private int testNumber = 0;
+	
+	private long timelimit;
 
-	public MyProblemDouble(double[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName) {
+	public MyProblemDouble(double[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName, long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
+		this.timelimit = timelimit;
+		
 		setNumberOfVariables(limits.length);
 		setNumberOfObjectives(number_of_objectives);
 		setName(problemName);
@@ -47,7 +51,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	}
 
 	public void evaluate(DoubleSolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 10000) {
+		if (System.currentTimeMillis() - startingTime <= timelimit) {
 			if (!useJar) {
 				double[] fx = new double[getNumberOfObjectives()];
 				double[] x = new double[getNumberOfVariables()];

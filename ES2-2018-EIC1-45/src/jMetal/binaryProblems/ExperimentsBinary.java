@@ -40,12 +40,12 @@ public class ExperimentsBinary extends AbstractExperiment {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
 			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_objectives(),
-					getNumber_of_variables(), isJar(), getJarPath(), getProblemName())));
+					getNumber_of_variables(), isJar(), getJarPath(), getProblemName(), getTimelimit())));
 		} else {
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
 			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_objectives(),
-					getNumber_of_variables(), isJar(), null, getProblemName())));
+					getNumber_of_variables(), isJar(), null, getProblemName(), getTimelimit())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 

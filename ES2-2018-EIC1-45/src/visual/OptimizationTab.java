@@ -244,10 +244,37 @@ public class OptimizationTab extends JPanel {
 					saveAbout();
 					
 				} else if (e.getSource() == tools_run_button) {
+					long timelimit = 0;
+					timelimit += (int) settings_time_spinner.getValue();
+					
+					switch ((String) settings_time_combobox.getSelectedItem()) {
+					case "second(s)":
+						timelimit *= TimeMultiplier.SECOND.getMultiplier();
+						break;
+					case "minute(s)":
+						timelimit *= TimeMultiplier.MINUTE.getMultiplier();
+						break;
+					case "hour(s)":
+						timelimit *= TimeMultiplier.HOUR.getMultiplier();
+						break;
+					default:
+						throw new IllegalStateException("Something's wrong here! Couldn't parse the correct timelimit!");
+					}
+					timelimit *= 1000;
+					System.out.println("Caught timelimit: " + timelimit);
+					
+					if (timelimit <= 10000) {
+						System.out.println("WARNING: Unreasonable time limit! The optimization process may not work properly!");
+					}
+					
 					// sendMailAdmin();
 					OptimizationProcess.setData(data);
+					OptimizationProcess.setObjectives(objectives_data);
 					OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
-					OptimizationProcess.setJar(false);
+					OptimizationProcess.setJar(restrictions_jarcheck.isSelected());
+					OptimizationProcess.setJarPath(restrictions_externaljarpath_field.getText());
+					OptimizationProcess.setProblemName(problem_name_field.getText());
+					OptimizationProcess.setTimelimit(timelimit);
 					new OptimizationProcess().start();
 					
 				} else if (e.getSource() == tools_about_button) {

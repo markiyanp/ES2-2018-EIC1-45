@@ -21,16 +21,18 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	private ProgressChecker progC;
 
 	private String jarPath;
-
 	private int testNumber = 0;
-
 	private boolean barWarning = false;
 
+	private long timelimit;
+	
 	public MyProblemBinary(Integer numberOfBits, int number_of_objectives, int number_of_variables, boolean isJar,
-			String jarPath, String problemName) {
+			String jarPath, String problemName, long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(useJar);
+		this.timelimit = timelimit;
+		
 		setNumberOfVariables(number_of_variables);
 		setNumberOfObjectives(number_of_objectives);
 		setName(problemName);
@@ -49,7 +51,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	@Override
 	public void evaluate(BinarySolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 10000) {
+		if (System.currentTimeMillis() - startingTime <= timelimit) {
 			if (!useJar) {
 				double[] solutionObjectives = OneZeroMax.OneZeroMaxSolution(solution);
 				for (int i = 0; i < solutionObjectives.length; i++) {

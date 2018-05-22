@@ -19,11 +19,15 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	private ProgressChecker progC;
 	private int testNumber = 0;
 	private boolean barWarning = false;
+	
+	private long timelimit;
 
-	public MyProblemInteger(int[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName) {
+	public MyProblemInteger(int[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName, long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
+		this.timelimit = timelimit;
+		
 		setNumberOfVariables(limits.length);
 		setNumberOfObjectives(number_of_objectives);
 		setName(problemName);
@@ -41,7 +45,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	}
 
 	public void evaluate(IntegerSolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 10000) {
+		if (System.currentTimeMillis() - startingTime <= timelimit) {
 			if (!useJar) {
 				double[] fx = new double[getNumberOfObjectives()];
 				int[] x = new int[getNumberOfVariables()];

@@ -33,12 +33,12 @@ public class ExperimentsInteger extends AbstractExperiment {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
 			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), getNumber_of_objectives(),
-					isJar(), getJarPath(), getProblemName())));
+					isJar(), getJarPath(), getProblemName(), getTimelimit())));
 		} else {
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
 			problemList.add(new ExperimentProblem<>(
-					new MyProblemInteger(getLimits_Int(), getNumber_of_objectives(), isJar(), null, getProblemName())));
+					new MyProblemInteger(getLimits_Int(), getNumber_of_objectives(), isJar(), null, getProblemName(), getTimelimit())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 

@@ -11,6 +11,7 @@ public abstract class AbstractExperiment {
 	private int number_of_variables; //for Binary only
 	private int number_of_objectives;
 	private boolean isJar;
+	private long timelimit;
 
 	public String getJarPath() {
 		return jarPath;
@@ -82,6 +83,14 @@ public abstract class AbstractExperiment {
 
 	public void setNumber_of_objectives(int number_of_objectives) {
 		this.number_of_objectives = number_of_objectives;
+	}
+
+	public long getTimelimit() {
+		return timelimit;
+	}
+
+	public void setTimelimit(long timelimit) {
+		this.timelimit = timelimit;
 	}
 
 }

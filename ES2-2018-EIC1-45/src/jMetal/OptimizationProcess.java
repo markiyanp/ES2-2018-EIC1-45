@@ -30,6 +30,7 @@ public class OptimizationProcess extends Thread {
 	private static boolean isJar;
 	private static String problemName;
 	private static String jarPath;
+	private static long timelimit;
 	
 	@Override
 	public void run() {
@@ -340,6 +341,7 @@ public class OptimizationProcess extends Thread {
 			e.setJarPath(jarPath);
 			e.setProblemName(problemName);
 			e.setNumber_of_objectives(objectives.length);
+			e.setTimelimit(timelimit);
 			e.execute();
 			
 		}
@@ -365,6 +367,7 @@ public class OptimizationProcess extends Thread {
 			e.setJarPath(jarPath);
 			e.setProblemName(problemName);
 			e.setNumber_of_objectives(objectives.length);
+			e.setTimelimit(timelimit);
 			e.execute();
 		} 
 		
@@ -380,6 +383,7 @@ public class OptimizationProcess extends Thread {
 			e.setJarPath(jarPath);
 			e.setProblemName(problemName);
 			e.setNumber_of_objectives(objectives.length);
+			e.setTimelimit(timelimit);
 			e.execute();
 		} else
 			throw new IllegalStateException("How in the world did this happen???");
@@ -480,6 +484,14 @@ public class OptimizationProcess extends Thread {
 
 	public static void setProblemName(String problemName) {
 		OptimizationProcess.problemName = problemName;
+	}
+
+	public static long getTimelimit() {
+		return timelimit;
+	}
+
+	public static void setTimelimit(long timelimit) {
+		OptimizationProcess.timelimit = timelimit;
 	}
 	
 	
