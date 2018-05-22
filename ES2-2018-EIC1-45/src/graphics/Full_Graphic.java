@@ -38,7 +38,7 @@ public class Full_Graphic {
 	public XYChart getChart() {
 		
 		XYChart chart = new XYChartBuilder().title("Graphic").xAxisTitle("Rules").yAxisTitle("Weights").build();
-		ArrayList<ArrayList<String>> results = readFile("Resources/Results/AntiSpamFilterProblem.NSGAII.rs");
+		ArrayList<ArrayList<String>> results = readFile("ExperimentsDouble/data/NSGAII/MyProblemDouble");
 		List<Integer> xData = new ArrayList<Integer>();
 		List<Double> yData = new ArrayList<Double>();
 		for (int i = 0; i < results.size(); i++) {
