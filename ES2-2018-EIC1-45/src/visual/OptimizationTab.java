@@ -187,15 +187,15 @@ public class OptimizationTab extends JPanel {
 	 * @param window
 	 */
 	public OptimizationTab(Window window) {
-		
+
 		this.window = window;
 		tools_run_button.setEnabled(false);
 		tools_export_button.setEnabled(false);
 		tools_about_button.setEnabled(false);
-		
+
 		setLayout(null);
 		setBackground(Color.LIGHT_GRAY);
-//		ConfigXML.readXML(file_config);
+		// ConfigXML.readXML(file_config);
 		createActionListener();
 		createFocusListener();
 		tools_panel();
@@ -214,91 +214,100 @@ public class OptimizationTab extends JPanel {
 	}
 
 	/**
-	 * The listener
+	 * Handles all button-user interactions.
 	 */
 	private void createActionListener() {
 		ActionListener lis = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (e.getSource() == variable_add_button) {
 					restrictionToCreateVar(variable_type_field);
 					createFocusListener();
-					
+
 				} else if (e.getSource() == variable_selectAll_button) {
 					enableAll();
-					
+
 				} else if (e.getSource() == variable_deselectAll_button) {
 					disableAll();
-					
+
 				} else if (e.getSource() == variable_remove_button) {
 					removeVariable();
-					
+
 				} else if (e.getSource() == tools_export_button) {
 					setProblemOwner();
 					ProblemXML.problem.setObjectives(toArrayListObjectives(objectives_data));
 					ProblemXML.problem.setVariables(toArrayListVariables(data));
 					ProblemXML.problem.setAlgorithm(algo_name_field.getSelectedItem().toString());
 					ProblemXML.writeXML(ProblemXML.problem, file_problem);
-					JOptionPane.showMessageDialog(window,"File has been successfully saved!");
+					JOptionPane.showMessageDialog(window, "File has been successfully saved!");
 				} else if (e.getSource() == problem_about_save_button) {
 					saveAbout();
-					
+
 				} else if (e.getSource() == tools_run_button) {
-					long timelimit = 0;
-					timelimit += (int) settings_time_spinner.getValue();
-					
-					switch ((String) settings_time_combobox.getSelectedItem()) {
-					case "second(s)":
-						timelimit *= TimeMultiplier.SECOND.getMultiplier();
-						break;
-					case "minute(s)":
-						timelimit *= TimeMultiplier.MINUTE.getMultiplier();
-						break;
-					case "hour(s)":
-						timelimit *= TimeMultiplier.HOUR.getMultiplier();
-						break;
-					default:
-						throw new IllegalStateException("Something's wrong here! Couldn't parse the correct timelimit!");
-					}
-					timelimit *= 1000;
-					System.out.println("Caught timelimit: " + timelimit);
-					
-					if (timelimit <= 10000) {
-						System.out.println("WARNING: Unreasonable time limit! The optimization process may not work properly!");
-					}
-					
-					// sendMailAdmin();
-					OptimizationProcess.setData(data);
-					OptimizationProcess.setObjectives(objectives_data);
-					OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
-					OptimizationProcess.setJar(restrictions_jarcheck.isSelected());
-					OptimizationProcess.setJarPath(restrictions_externaljarpath_field.getText());
-					OptimizationProcess.setProblemName(problem_name_field.getText());
-					OptimizationProcess.setTimelimit(timelimit);
-					new OptimizationProcess().start();
-					
+					runProcess();
+
 				} else if (e.getSource() == tools_about_button) {
 					showAboutWindow();
-					
+
 				} else if (e.getSource() == tools_import_button) {
 					importProblem();
 				} else if (e.getSource() == tools_newproblem_button) {
 					createProblem();
-					
+
 				} else if (e.getSource() == new_problem_about_save_button) {
 					saveNewAbout();
-					
+
 				} else if (e.getSource() == objectives_addobjective_button) {
 					addObjective();
 				} else if (e.getSource() == objectives_delete_button) {
 					removeObjective();
 				}
 			}
+			
 		};
 		this.action_listener = lis;
 	}
 	
+	/**
+	 * Begins the optimization process according to the settings set on the GUI.
+	 */
+	private void runProcess() {
+		long timelimit = 0;
+		timelimit += (int) settings_time_spinner.getValue();
+
+		switch ((String) settings_time_combobox.getSelectedItem()) {
+		case "second(s)":
+			timelimit *= TimeMultiplier.SECOND.getMultiplier();
+			break;
+		case "minute(s)":
+			timelimit *= TimeMultiplier.MINUTE.getMultiplier();
+			break;
+		case "hour(s)":
+			timelimit *= TimeMultiplier.HOUR.getMultiplier();
+			break;
+		default:
+			throw new IllegalStateException("Something's wrong here! Couldn't parse the correct timelimit!");
+		}
+		timelimit *= 1000;
+		System.out.println("Caught timelimit: " + timelimit);
+
+		if (timelimit <= 10000) {
+			System.out.println(
+					"WARNING: Unreasonable time limit! The optimization process may not work properly!");
+		}
+
+		// sendMailAdmin();
+		OptimizationProcess.setData(data);
+		OptimizationProcess.setObjectives(objectives_data);
+		OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
+		OptimizationProcess.setJar(restrictions_jarcheck.isSelected());
+		OptimizationProcess.setJarPath(restrictions_externaljarpath_field.getText().trim());
+		OptimizationProcess.setProblemName(problem_name_field.getText());
+		OptimizationProcess.setTimelimit(timelimit);
+		new OptimizationProcess().start();
+	}
+
 	/**
 	 * Creates a frame with a new about problem
 	 */
@@ -369,13 +378,13 @@ public class OptimizationTab extends JPanel {
 		int returnVal = chooser.showSaveDialog(window);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File dir = chooser.getSelectedFile();
-			File new_file = new File(dir.getAbsolutePath() + "/" + problem_name_field.getText()+ "_"+time+extension);
+			File new_file = new File(
+					dir.getAbsolutePath() + "/" + problem_name_field.getText() + "_" + time + extension);
 			this.file_problem = new_file;
 			ProblemXML.writeXML(prob, this.file_problem);
 			loadProblem(file_problem);
 		}
 	}
-		
 
 	/**
 	 * Returns a list of variables
@@ -397,7 +406,6 @@ public class OptimizationTab extends JPanel {
 		}
 		return ret;
 	}
-
 
 	/**
 	 * Returns a list of objectives
@@ -499,25 +507,25 @@ public class OptimizationTab extends JPanel {
 	 */
 	private void saveAbout() {
 		if (!problem_name_field.getText().isEmpty()) {
-		ProblemXML.problem.setProblem_name(problem_name_field.getText());
-		ProblemXML.problem.setProblem_description(problem_description_area.getText());
-		about_frame.dispose();
+			ProblemXML.problem.setProblem_name(problem_name_field.getText());
+			ProblemXML.problem.setProblem_description(problem_description_area.getText());
+			about_frame.dispose();
 		} else {
 			messageDialog("<html><font color=RED > The Problem Name can't be empty </font></html>");
 			problem_name_field.requestFocus();
 		}
 	}
-	
+
 	/**
 	 * Save a new about problem with name and description
 	 */
 	private void saveNewAbout() {
 		if (!problem_name_field.getText().isEmpty()) {
-		Problem new_problem = new Problem();
-		new_problem.setProblem_name(problem_name_field.getText());
-		new_problem.setProblem_description(problem_description_area.getText());
-		saveNewProblem(new_problem);
-		problem_creation_frame.dispose();
+			Problem new_problem = new Problem();
+			new_problem.setProblem_name(problem_name_field.getText());
+			new_problem.setProblem_description(problem_description_area.getText());
+			saveNewProblem(new_problem);
+			problem_creation_frame.dispose();
 		} else {
 			messageDialog("<html><font color=RED > The Problem Name can't be empty </font></html>");
 			problem_name_field.requestFocus();
@@ -638,7 +646,7 @@ public class OptimizationTab extends JPanel {
 		this.objectives_table = new JTable(model);
 
 		this.objectives_table.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JTable table = (JTable) e.getSource();
@@ -995,7 +1003,7 @@ public class OptimizationTab extends JPanel {
 				this.algo_name_field.setSelectedIndex(i);
 			}
 		}
-		
+
 		tools_run_button.setEnabled(true);
 		tools_export_button.setEnabled(true);
 		tools_about_button.setEnabled(true);
@@ -1056,7 +1064,10 @@ public class OptimizationTab extends JPanel {
 			String s = (String) cbox.getSelectedItem();
 			switch (s) {
 			case "Double":
-				if ((!check && isDouble(variable_minval_field.getText()) && isDouble(variable_maxval_field.getText()) || (!check && isDouble(variable_minval_field.getText()) && isDouble(variable_maxval_field.getText()) && isDouble(variable_restricted_field.getText())))) {
+				if ((!check && isDouble(variable_minval_field.getText()) && isDouble(variable_maxval_field.getText())
+						|| (!check && isDouble(variable_minval_field.getText())
+								&& isDouble(variable_maxval_field.getText())
+								&& isDouble(variable_restricted_field.getText())))) {
 					createVariable();
 					variable_name_field.setText("");
 					variable_minval_field.setText("");
@@ -1067,7 +1078,10 @@ public class OptimizationTab extends JPanel {
 				break;
 
 			case "Integer":
-				if ((!check && isInteger(variable_minval_field.getText()) && isInteger(variable_maxval_field.getText()) || (!check && isInteger(variable_minval_field.getText()) && isInteger(variable_maxval_field.getText()) && isInteger(variable_restricted_field.getText())))) {
+				if ((!check && isInteger(variable_minval_field.getText()) && isInteger(variable_maxval_field.getText())
+						|| (!check && isInteger(variable_minval_field.getText())
+								&& isInteger(variable_maxval_field.getText())
+								&& isInteger(variable_restricted_field.getText())))) {
 					createVariable();
 					variable_name_field.setText("");
 					variable_minval_field.setText("");
@@ -1078,7 +1092,8 @@ public class OptimizationTab extends JPanel {
 				break;
 
 			case "Binary":
-				if ((!check && isInteger(variable_maxval_field.getText()) && !variable_maxval_field.getText().contains("-"))) {
+				if ((!check && isInteger(variable_maxval_field.getText())
+						&& !variable_maxval_field.getText().contains("-"))) {
 					createVariable();
 					variable_name_field.setText("");
 					variable_minval_field.setText("");

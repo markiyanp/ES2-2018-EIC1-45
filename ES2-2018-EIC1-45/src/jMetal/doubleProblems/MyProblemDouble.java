@@ -58,7 +58,6 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 				for (int i = 0; i < solution.getNumberOfVariables(); i++) {
 					x[i] = solution.getVariableValue(i);
 				}
-
 				double[] solutionObjectives = Kursawe.kurzaseSolution(fx, x);
 				for (int i = 0; i < solutionObjectives.length; i++) {
 					solution.setObjective(i, solutionObjectives[i]);

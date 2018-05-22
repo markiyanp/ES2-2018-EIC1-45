@@ -14,14 +14,23 @@ public class TestJar {
 //		OptimizationProcess.setJarPath("D:\\Kursawe.jar");
 //		OptimizationProcess.runOptimization(testD, "NSGAII", true);
 
-		Object[][] testI = { { "test1-should-appear", "Integer", "-1", "2", null, true },
-				{ "test1-should-appear", "Integer", "-1", "2", null, true },
-				{ "test1-should-appear", "Integer", "-1", "2", null, true }
+		Object[][] testI = { { "test1-should-appear-VAR-INTEG-JAR", "Integer", "-1", "2", null, true },
+				{ "test2-should-appear-VAR-INTEG-JAR", "Integer", "-1", "2", null, true },
+				{ "test3-should-appear-VAR-INTEG-JAR", "Integer", "-1", "2", null, true }
 				 };
+		Object[][] testOI = {
+		{"test1-should-appear-OBJ-INTEG-JAR", "Integer", true},
+		{"test2-should-not-appear-OBJ-INTEG-JAR", "Double", false},
+		{"test3-should-appear-OBJ-INTEG-JAR", "Integer", true},
+		{"test5-should-not-appear-OBJ-INTEG-JAR", "Integer", false}
+				};
 		OptimizationProcess.setJarPath("D:\\NMMin.jar");
 		OptimizationProcess.setData(testI);
+		OptimizationProcess.setObjectives(testOI);
 		OptimizationProcess.setAlgorithm("NSGAII");
 		OptimizationProcess.setJar(true);
+		OptimizationProcess.setProblemName("TestJar");
+		OptimizationProcess.setTimelimit(3600000);
 		OptimizationProcess.runOptimization();
 
 //		 Object[][] testB = { { "test1-should-appear", "Binary", "-1", "2", null, true

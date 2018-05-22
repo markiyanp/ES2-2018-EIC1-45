@@ -61,7 +61,7 @@ public class LeftPanel extends JPanel {
 		pb.setMaximum(MAX);
 		pb.setStringPainted(true);
 
-//		pb.setBounds(10, 580, 275, 25);
+		pb.setBounds(10, 580, 275, 25);
 		add(pb);
 	}
 
