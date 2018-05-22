@@ -32,16 +32,16 @@ public class ExperimentsInteger extends AbstractExperiment {
 		if (isJar()) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
-			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), getJarPath(), getProblemName())));
-		}
-		else { 
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), getNumber_of_objectives(),
+					isJar(), getJarPath(), getProblemName())));
+		} else {
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
-			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), isJar(), null, getProblemName())));
+			problemList.add(new ExperimentProblem<>(
+					new MyProblemInteger(getLimits_Int(), getNumber_of_objectives(), isJar(), null, getProblemName())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
-		
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithmList = configureAlgorithmList(
 				problemList, getAlgorithm());
 
@@ -102,7 +102,8 @@ public class ExperimentsInteger extends AbstractExperiment {
 				algorithms.add(new ExperimentAlgorithm<>(algorithm5, "RandomSearch", problemList.get(i).getTag()));
 				break;
 			default:
-				throw new IllegalStateException("This has got to stop. How did algorithm parsing succeed until the Experiment?");
+				throw new IllegalStateException(
+						"This has got to stop. How did algorithm parsing succeed until the Experiment?");
 			}
 		}
 		return algorithms;

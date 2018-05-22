@@ -1,6 +1,9 @@
 package jMetal;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import jMetal.binaryProblems.ExperimentsBinary;
 import jMetal.doubleProblems.ExperimentsDouble;
@@ -50,9 +53,9 @@ public class OptimizationProcess extends Thread {
 			//debugSysout_Start(data, algorithm, isJar);
 
 			boolean integerProblem = false, doubleProblem = false, binaryProblem = false;
-
+			
 			for (int i = 0; i < data.length; i++) {
-				if (data[i][1].equals("Integer") && (data[i][5].equals(Boolean.TRUE))) {
+				if ((data[i][1].equals("Integer") && (data[i][5].equals(Boolean.TRUE)))) {
 					System.out.println("Detected Integer Problem!");
 					variable_count++;
 					integerProblem = true;
@@ -66,6 +69,8 @@ public class OptimizationProcess extends Thread {
 					binaryProblem = true;
 				}
 			}
+			
+			Object[][] true_objectives = parseTrueObjectives(objectives, integerProblem, doubleProblem, binaryProblem);
 	
 			if (!integerProblem && !doubleProblem && !binaryProblem) {
 				System.out.println("WARNING: No variables detected. Cannot proceed!");
@@ -75,11 +80,110 @@ public class OptimizationProcess extends Thread {
 			Object[][] true_data = parseTrueData(data);
 
 			verifyAlgorithmAndTypes(algorithm, integerProblem, doubleProblem, binaryProblem);
-
-			launchProblem(true_data, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
-
+			
+			System.out.println("============================================================");
+			System.out.println("BEGINNING runOptimization WITH THE FOLLOWING PARAMETERS:");
+			for (int i = 0; i < true_objectives.length; i++) {
+				System.out.println(true_objectives[i][0] + " " + true_objectives[i][1] + " " + true_objectives[i][2]);
+			}
+			System.out.println("============================================================");
+			
+			long startTime = System.currentTimeMillis();
+			launchProblem(true_data, true_objectives, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
+			long endTime = System.currentTimeMillis() - startTime;
+			
+			double endTime_inSeconds = ((double) endTime)/1000;
+			
+			writeNamesOfResultsAndTime(integerProblem, doubleProblem, binaryProblem, true_objectives,
+					true_data, endTime_inSeconds);
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**Writes the variables' names, the objectives' names and the elapsed time onto a file in order
+	 * to display them in the Graphics tab.
+	 * 
+	 * @param integerProblem
+	 * @param doubleProblem
+	 * @param binaryProblem
+	 * @param true_objectives
+	 * @param true_data
+	 * @param endTime_inSeconds
+	 * @author pvmpa-iscteiulpt
+	 */
+	private static void writeNamesOfResultsAndTime(boolean integerProblem,
+			boolean doubleProblem, boolean binaryProblem, Object[][] true_objectives, Object[][] true_data,
+			double endTime_inSeconds) {
+		PrintWriter writer = null;
+		String variable_names = new String();
+		String objective_names = new String();
+		
+		
+		for (int i = 0; i < true_data.length; i++) {
+			variable_names += true_data[i][0] + " ";
+		}
+		variable_names = variable_names.substring(0, variable_names.length()-1);
+		
+		for (int i = 0; i < true_objectives.length; i++) {
+			objective_names += true_objectives[i][0] + " ";
+		}
+		objective_names = objective_names.substring(0, objective_names.length()-1);
+		
+		try {
+			if (integerProblem) {
+				final String directory_expInt = "experimentBaseDirectory\\ExperimentsInteger\\data\\";
+				
+				writer = new PrintWriter(new File(directory_expInt + algorithm + "\\" + problemName + "\\BEST_VAR_NAMES.txt"));
+				writer.print(variable_names);
+				writer.close();
+
+				writer = new PrintWriter(new File(directory_expInt + algorithm + "\\" + problemName + "\\BEST_FUN_NAMES.txt"));
+				writer.print(objective_names);
+				writer.close();
+
+				writer = new PrintWriter(new File(directory_expInt + algorithm + "\\" + problemName + "\\exec_time.txt"));
+				writer.print(endTime_inSeconds);
+				writer.close();
+			} else if (doubleProblem) {
+				final String directory_expDouble = "experimentBaseDirectory\\ExperimentsDouble\\data\\";
+				
+				writer = new PrintWriter(new File(directory_expDouble + algorithm + "\\" + problemName + "\\BEST_VAR_NAMES.txt"));
+				writer.print(variable_names);
+				writer.close();
+
+				writer = new PrintWriter(new File(directory_expDouble + algorithm + "\\" + problemName + "\\BEST_FUN_NAMES.txt"));
+				writer.print(objective_names);
+				writer.close();
+
+				writer = new PrintWriter(new File(directory_expDouble + algorithm + "\\" + problemName + "\\exec_time.txt"));
+				writer.print(endTime_inSeconds);
+				writer.close();
+
+			} else if (binaryProblem) {
+				final String directory_expBinary = "experimentBaseDirectory\\ExperimentsBinary\\data\\";
+				
+				writer = new PrintWriter(new File(directory_expBinary + algorithm + "\\" + problemName + "\\BEST_VAR_NAMES.txt"));
+				writer.print(variable_names);
+				writer.close();
+
+				writer = new PrintWriter(new File(directory_expBinary + algorithm + "\\" + problemName + "\\BEST_FUN_NAMES.txt"));
+				writer.print(objective_names);
+				writer.close();
+
+				writer = new PrintWriter(new File(directory_expBinary + algorithm + "\\" + problemName + "\\exec_time.txt"));
+				writer.print(endTime_inSeconds);
+				writer.close();
+			} 
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			writer.close();
+			throw new IllegalStateException("This is NOT ok.");
+		} finally {
+			writer.close();
 		}
 	}
 
@@ -100,6 +204,59 @@ public class OptimizationProcess extends Thread {
 		}
 		//debugSysout_Parser(true_data);
 		return true_data;
+	}
+	
+	/**Prepares the objectives selected by the user.
+	 * 
+	 * @param objectives
+	 * @param integerProblem
+	 * @param doubleProblem
+	 * @param binaryProblem
+	 * @return true objectives
+	 * @author pvmpa-iscteiulpt
+	 */
+	private static Object[][] parseTrueObjectives(Object[][] objectives, boolean integerProblem, boolean doubleProblem,
+												  boolean binaryProblem){
+		int objectives_count = 0;
+		for (int i = 0; i < objectives.length; i++) {
+			if(objectives[i][2].equals(Boolean.TRUE)) {
+				objectives_count++;
+			}
+		}
+		
+		Object[][] true_objectives = new Object[objectives_count][3];
+		int true_objectives_iterator = 0;
+		for (int i = 0; i < objectives.length; i++) {
+			if(objectives[i][2].equals(Boolean.TRUE)) {
+				checkDatatypeCombo(objectives, integerProblem, doubleProblem, binaryProblem, i);
+				true_objectives[true_objectives_iterator] = objectives[i];
+				true_objectives_iterator++;
+			}
+		}
+		return true_objectives;
+	}
+
+	/**
+	 * Verifies whether the selected objective is in conflict with the problem at hand or not.
+	 * 
+	 * @param objectives
+	 * @param integerProblem
+	 * @param doubleProblem
+	 * @param binaryProblem
+	 * @param i
+	 * @author pvmpa-iscteiulpt
+	 */
+	private static void checkDatatypeCombo(Object[][] objectives, boolean integerProblem, boolean doubleProblem,
+			boolean binaryProblem, int i) {
+		if(objectives[i][1].equals("Integer") && (doubleProblem || binaryProblem)) {
+			throw new IllegalStateException("Invalid objective datatype for specified variable-objective combo!");
+		}
+		else if(objectives[i][1].equals("Double") && (integerProblem || binaryProblem)) {
+			throw new IllegalStateException("Invalid objective datatype for specified variable-objective combo!");
+		}
+		else if(objectives[i][1].equals("Binary") && (doubleProblem || integerProblem)) {
+			throw new IllegalStateException("Invalid objective datatype for specified variable-objective combo!");
+		}
 	}
 
 	/**
@@ -160,8 +317,8 @@ public class OptimizationProcess extends Thread {
 	 * @throws IOException
 	 * @author pvmpa-iscteiulpt
 	 */
-	private static void launchProblem(Object[][] data, String algorithm, boolean integerProblem, boolean doubleProblem,
-			boolean binaryProblem, boolean isJar) throws IOException {
+	private static void launchProblem(Object[][] data, Object[][] objectives, String algorithm, boolean integerProblem,
+			boolean doubleProblem, boolean binaryProblem, boolean isJar) throws IOException {
 		//is an integer Problem
 		if (integerProblem && !doubleProblem && !binaryProblem) {
 			ExperimentsInteger e = new ExperimentsInteger();
@@ -182,7 +339,9 @@ public class OptimizationProcess extends Thread {
 			e.setJar(isJar);
 			e.setJarPath(jarPath);
 			e.setProblemName(problemName);
+			e.setNumber_of_objectives(objectives.length);
 			e.execute();
+			
 		}
 		
 		//is a double Problem
@@ -205,6 +364,7 @@ public class OptimizationProcess extends Thread {
 			e.setJar(isJar);
 			e.setJarPath(jarPath);
 			e.setProblemName(problemName);
+			e.setNumber_of_objectives(objectives.length);
 			e.execute();
 		} 
 		
@@ -219,6 +379,7 @@ public class OptimizationProcess extends Thread {
 			e.setJar(isJar);
 			e.setJarPath(jarPath);
 			e.setProblemName(problemName);
+			e.setNumber_of_objectives(objectives.length);
 			e.execute();
 		} else
 			throw new IllegalStateException("How in the world did this happen???");

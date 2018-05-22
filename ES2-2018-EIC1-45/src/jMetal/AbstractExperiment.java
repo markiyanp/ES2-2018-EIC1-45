@@ -8,7 +8,8 @@ public abstract class AbstractExperiment {
 	private double[][] limits_Double;
 	private int[][] limits_Int;
 	private int limits_Binary;
-	private int number_of_variables;
+	private int number_of_variables; //for Binary only
+	private int number_of_objectives;
 	private boolean isJar;
 
 	public String getJarPath() {
@@ -73,6 +74,14 @@ public abstract class AbstractExperiment {
 
 	public void setNumber_of_variables(int number_of_variables) {
 		this.number_of_variables = number_of_variables;
+	}
+
+	public int getNumber_of_objectives() {
+		return number_of_objectives;
+	}
+
+	public void setNumber_of_objectives(int number_of_objectives) {
+		this.number_of_objectives = number_of_objectives;
 	}
 
 }

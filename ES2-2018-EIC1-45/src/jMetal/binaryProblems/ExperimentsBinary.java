@@ -39,17 +39,15 @@ public class ExperimentsBinary extends AbstractExperiment {
 		if (isJar()) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
-			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_variables(), 
-					isJar(), getJarPath(), getProblemName())));
-		}
-		else { 
+			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_objectives(),
+					getNumber_of_variables(), isJar(), getJarPath(), getProblemName())));
+		} else {
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
-			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_variables(), 
-					isJar(), null, getProblemName())));
+			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_objectives(),
+					getNumber_of_variables(), isJar(), null, getProblemName())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
-		
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureAlgorithmList(
 				problemList, getAlgorithm());
@@ -132,7 +130,8 @@ public class ExperimentsBinary extends AbstractExperiment {
 				algorithms.add(new ExperimentAlgorithm<>(algorithm7, "SPEA2", problemList.get(i).getTag()));
 				break;
 			default:
-				throw new IllegalStateException("This has got to stop. How did algorithm parsing succeed until the Experiment?");
+				throw new IllegalStateException(
+						"This has got to stop. How did algorithm parsing succeed until the Experiment?");
 			}
 
 		}

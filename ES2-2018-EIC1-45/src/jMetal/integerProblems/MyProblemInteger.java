@@ -2,7 +2,6 @@ package jMetal.integerProblems;
 
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.IntegerSolution;
-import org.uma.jmetal.util.JMetalException;
 
 import jMetal.JarEvaluator;
 import jMetal.ProgressChecker;
@@ -21,12 +20,12 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	private int testNumber = 0;
 	private boolean barWarning = false;
 
-	public MyProblemInteger(int[][] limits, boolean isJar, String jarPath, String problemName) throws JMetalException {
+	public MyProblemInteger(int[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
 		setNumberOfVariables(limits.length);
-		setNumberOfObjectives(2);
+		setNumberOfObjectives(number_of_objectives);
 		setName(problemName);
 
 		List<Integer> lowerLimit = new ArrayList<>(getNumberOfVariables());
@@ -67,7 +66,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 			} catch (NullPointerException e) {
 				if (!barWarning) {
 					System.out.println("WARNING: Progress bar not found. Ignoring error!");
-					barWarning  = true;
+					barWarning = true;
 				}
 			}
 		}
