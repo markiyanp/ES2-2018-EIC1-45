@@ -17,22 +17,23 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	private int bits;
 	private boolean useJar = false;
-	
+
 	private ProgressChecker progC;
-	
+
 	private String jarPath;
-	
+
 	private int testNumber = 0;
 
 	private boolean barWarning = false;
 
-	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar, String jarPath) {
+	public MyProblemBinary(Integer numberOfBits, int number_of_objectives, int number_of_variables, boolean isJar,
+			String jarPath, String problemName) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(useJar);
 		setNumberOfVariables(number_of_variables);
-		setNumberOfObjectives(2);
-		setName("MyProblemBinary");
+		setNumberOfObjectives(number_of_objectives);
+		setName(problemName);
 		bits = numberOfBits;
 	}
 
@@ -73,6 +74,5 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 			}
 		}
 	}
-
 
 }
