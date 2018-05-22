@@ -104,6 +104,9 @@ public class HelpTab extends JPanel{
 
 
 	//TODO make list scrollable
+	/**
+	 * Faq panel
+	 */
 	private void faq() {
 		faq_panel.setBorder(faq_area_border);
 		faq_panel.setBounds(15, 250, faq_panel_width, faq_panel_height);
@@ -142,6 +145,9 @@ public class HelpTab extends JPanel{
 	}
 
 
+	/**
+	 * Help panel
+	 */
 	private void help() {
 		help_panel.setBorder(help_area_border);
 		help_panel.setBounds(15, 10, help_panel_width, help_panel_height);
@@ -200,6 +206,11 @@ public class HelpTab extends JPanel{
 	}
 
 
+	/**
+	 * The listener
+	 * 
+	 * @return list
+	 */
 	private ActionListener listener(){
 		ActionListener list = new ActionListener() {
 
@@ -239,6 +250,13 @@ public class HelpTab extends JPanel{
 
 
 
+	/**
+	 * Load a spcify article
+	 * 
+	 * @param selectedValue
+	 * @throws IOException
+	 * @throws BadLocationException
+	 */
 	private void loadSelectedArticle(String selectedValue) throws IOException, BadLocationException{
 		if(this.current_prev.containsKey(selectedValue)){
 			textPane.setText("");
@@ -256,12 +274,23 @@ public class HelpTab extends JPanel{
 	}
 
 
+	/**
+	 * Insert string to document
+	 * 
+	 * @param str
+	 * @throws BadLocationException
+	 */
 	public void appendString(String str) throws BadLocationException{
 		StyledDocument document = (StyledDocument) textPane.getDocument();
 		document.insertString(document.getLength(), str, null);
 	}
 
 
+	/**
+	 * Load articles
+	 * 
+	 * @throws InterruptedException
+	 */
 	private void loadArticles() throws InterruptedException{
 		this.current_prev = new HashMap<>();
 		this.articles = new ArrayList<>();

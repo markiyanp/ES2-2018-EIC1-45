@@ -609,11 +609,6 @@ public class LauncherPanel extends JPanel {
 		create_user_retypePass_field.setText("");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
 	public void paintComponent(Graphics page) {
 		super.paintComponent(page);
 		int h = background.getHeight(null);
@@ -634,10 +629,16 @@ public class LauncherPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * @return
+	 */
 	public Window getWindow() {
 		return window;
 	}
 
+	/**
+	 * @param window
+	 */
 	public void setWindow(Window window) {
 		this.window = window;
 	}

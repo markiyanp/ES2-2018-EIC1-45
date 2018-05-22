@@ -15,6 +15,10 @@ import javax.swing.JPanel;
 
 import xml.ConfigXML;
 
+/**
+ * @author Markiyan Pyekh
+ *
+ */
 public class Launcher extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +34,12 @@ public class Launcher extends JFrame {
 	private File file;
 	// **********************************INSTANCES**************************************
 
+	/**
+	 * The constructor
+	 * 
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	public Launcher() throws IOException, URISyntaxException {
 		String curDir = System.getProperty("user.dir");
 		file = new File(curDir + "/" + "config.xml");
@@ -91,6 +101,13 @@ public class Launcher extends JFrame {
 //	    return file;
 //	}
 
+	/**
+	 * The main
+	 * 
+	 * @param args
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	public static void main(String[] args) throws IOException, URISyntaxException {
 		new Launcher();
 	}
