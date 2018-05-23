@@ -15,8 +15,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	*/
 	private static final long serialVersionUID = 5661793940199968579L;
 
-	private final static long startingTime = System.currentTimeMillis();
-	//private final static long timeLimit = Window.getTimeLimit();
+	private final long startingTime = System.currentTimeMillis();
 	private boolean useJar = false;
 	private boolean barWarning = false;
 	

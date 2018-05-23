@@ -277,7 +277,7 @@ public class OptimizationTab extends JPanel {
 		timelimit += (int) settings_time_spinner.getValue();
 
 		timelimit = getMaxTime(timelimit);
-		
+
 		// sendMailAdmin();
 		OptimizationProcess op1 = new OptimizationProcess();
 		op1.setData(data);
@@ -292,6 +292,7 @@ public class OptimizationTab extends JPanel {
 
 	/**
 	 * Returns the max time limit that the user specified.
+	 * 
 	 * @param timelimit
 	 * @return the time limit in miliseconds
 	 */

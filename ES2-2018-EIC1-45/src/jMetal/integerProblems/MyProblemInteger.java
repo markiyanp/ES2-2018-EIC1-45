@@ -12,7 +12,7 @@ import java.util.List;
 public class MyProblemInteger extends AbstractIntegerProblem {
 	private static final long serialVersionUID = 5053442100790906706L;
 
-	private final static long startingTime = System.currentTimeMillis();
+	private final long startingTime = System.currentTimeMillis();
 
 	private boolean useJar = false;
 	private String jarPath;
