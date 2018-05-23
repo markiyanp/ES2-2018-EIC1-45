@@ -22,13 +22,14 @@ public class TestjMetal {
 				{"test3-should-appear-OBJ-DOUBL", "Double", true},
 				{"test5-should-not-appear-OBJ-DOUBL", "Double", false}
 		};
-		OptimizationProcess.setObjectives(testOD);
-		OptimizationProcess.setData(testD);
-		OptimizationProcess.setAlgorithm("NSGAII");
-		OptimizationProcess.setJar(false);
-		OptimizationProcess.setProblemName("TestjMetal");
-		OptimizationProcess.setTimelimit(100000);
-		OptimizationProcess.runOptimization();
+		OptimizationProcess op1 = new OptimizationProcess();
+		op1.setObjectives(testOD);
+		op1.setData(testD);
+		op1.setAlgorithm("NSGAII");
+		op1.setJar(false);
+		op1.setProblemName("TestjMetal");
+		op1.setTimelimit(100000);
+		op1.runOptimization();
 
 		Object[][] testI = { { "test1-should-appear-VAR-INTEG", "Integer", "-1", "2", null, true },
 				{ "test2-should-appear-VAR-INTEG", "Integer", "-1", "2", null, true },
@@ -40,13 +41,14 @@ public class TestjMetal {
 		{"test3-should-appear-OBJ-INTEG", "Integer", true},
 		{"test5-should-not-appear-OBJ-INTEG", "Integer", false}
 				};
-		OptimizationProcess.setObjectives(testOI);
-		OptimizationProcess.setData(testI);
-		OptimizationProcess.setAlgorithm("NSGAII");
-		OptimizationProcess.setJar(false);
-		OptimizationProcess.setTimelimit(100000);
-		OptimizationProcess.setProblemName("TestjMetal");
-		OptimizationProcess.runOptimization();
+		op1 = new OptimizationProcess();
+		op1.setObjectives(testOI);
+		op1.setData(testI);
+		op1.setAlgorithm("NSGAII");
+		op1.setJar(false);
+		op1.setTimelimit(100000);
+		op1.setProblemName("TestjMetal");
+		op1.runOptimization();
 		//SMSEMOA
 		
 
@@ -66,13 +68,14 @@ public class TestjMetal {
 				{"test3-should-appear-OBJ-VAR-BINAR", "Binary", true},
 				{"test5-should-not-appear-OBJ-VAR-BINAR", "Binary", false}
 		};
-		OptimizationProcess.setObjectives(testOB);
-		OptimizationProcess.setData(testB);
-		OptimizationProcess.setAlgorithm("SMSEMOA");
-		OptimizationProcess.setJar(false);
-		OptimizationProcess.setTimelimit(100000);
-		OptimizationProcess.setProblemName("TestjMetal");
-		OptimizationProcess.runOptimization();
+		op1 = new OptimizationProcess();
+		op1.setData(testB);
+		op1.setObjectives(testOB);
+		op1.setAlgorithm("SMSEMOA");
+		op1.setJar(false);
+		op1.setTimelimit(100000);
+		op1.setProblemName("TestjMetal");
+		op1.runOptimization();
 //
 //		
 //		Object[][] test1 = {{"test1-singular-variable", "Double", "-1.1", "2.2", null, true }};

@@ -285,14 +285,15 @@ public class OptimizationTab extends JPanel {
 		}
 
 		// sendMailAdmin();
-		OptimizationProcess.setData(data);
-		OptimizationProcess.setObjectives(objectives_data);
-		OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
-		OptimizationProcess.setJar(restrictions_jarcheck.isSelected());
-		OptimizationProcess.setJarPath(restrictions_externaljarpath_field.getText().trim());
-		OptimizationProcess.setProblemName(problem_name_field.getText());
-		OptimizationProcess.setTimelimit(timelimit);
-		new OptimizationProcess().start();
+		OptimizationProcess op1 = new OptimizationProcess();
+		op1.setData(data);
+		op1.setObjectives(objectives_data);
+		op1.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
+		op1.setJar(restrictions_jarcheck.isSelected());
+		op1.setJarPath(restrictions_externaljarpath_field.getText().trim());
+		op1.setProblemName(problem_name_field.getText());
+		op1.setTimelimit(timelimit);
+		op1.start();
 	}
 
 	/**
