@@ -54,6 +54,8 @@ public class OptimizationProcess extends Thread {
 			variable_count = 0;
 			// debugSysout_Start(data, algorithm, isJar);
 
+			validateData();
+
 			boolean integerProblem = false, doubleProblem = false, binaryProblem = false;
 
 			for (int i = 0; i < data.length; i++) {
@@ -83,12 +85,7 @@ public class OptimizationProcess extends Thread {
 
 			verifyAlgorithmAndTypes(algorithm, integerProblem, doubleProblem, binaryProblem);
 
-			System.out.println("============================================================");
-			System.out.println("BEGINNING runOptimization WITH THE FOLLOWING PARAMETERS:");
-			for (int i = 0; i < true_objectives.length; i++) {
-				System.out.println(true_objectives[i][0] + " " + true_objectives[i][1] + " " + true_objectives[i][2]);
-			}
-			System.out.println("============================================================");
+			debug_Objectiveparser(true_objectives);
 
 			long startTime = System.currentTimeMillis();
 			launchProblem(true_data, true_objectives, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
@@ -102,6 +99,36 @@ public class OptimizationProcess extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void debug_Objectiveparser(Object[][] true_objectives) {
+		System.out.println("============================================================");
+		System.out.println("BEGINNING runOptimization WITH THE FOLLOWING PARAMETERS:");
+		for (int i = 0; i < true_objectives.length; i++) {
+			System.out.println(true_objectives[i][0] + " " + true_objectives[i][1] + " " + true_objectives[i][2]);
+		}
+		System.out.println("============================================================");
+	}
+
+	private void validateData() {
+		if (algorithm.equals(null) || algorithm.equals("")) {
+			System.out.println("WARNING: No algorithm specified. Aborting!");
+			throw new IllegalStateException("ABORTED ON DATA VALIDATION: No algorithm specified");
+		}
+		if (isJar() && (jarPath.equals(null) || jarPath.equals(""))) {
+			System.out.println("WARNING: Specified jar usage, but no path to jar??? Aborting!");
+			throw new IllegalStateException("ABORTED ON DATA VALIDATION: No jar specified");
+		}
+		if (timelimit <= 10000) {
+			System.out.println(
+					"WARNING: Unreasonable timelimit! Normally, Optimization Processes take more than 10 seconds!");
+			System.out.println("The process will continue, but coherent results are NOT guaranteed!");
+		}
+		if (problemName.equals(null) || problemName.equals("")) {
+			System.out.println("WARNING: No name specified! Defaulting to 'Untitled'");
+			this.problemName = "Untitled";
+		}
+
 	}
 
 	/**
@@ -395,7 +422,9 @@ public class OptimizationProcess extends Thread {
 			e.setTimelimit(timelimit);
 			e.execute();
 		} else
-			throw new IllegalStateException("How in the world did this happen???");
+			throw new IllegalStateException(
+					"How in the world did this happen??? Couldn't find out what the problem was even though"
+							+ " it should've already been specified?!?!");
 
 	}
 

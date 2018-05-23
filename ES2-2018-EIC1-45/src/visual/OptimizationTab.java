@@ -277,13 +277,7 @@ public class OptimizationTab extends JPanel {
 		timelimit += (int) settings_time_spinner.getValue();
 
 		timelimit = getMaxTime(timelimit);
-		System.out.println("Caught timelimit: " + timelimit);
-
-		if (timelimit <= 10000) {
-			System.out.println(
-					"WARNING: Unreasonable time limit! The optimization process may not work properly!");
-		}
-
+		
 		// sendMailAdmin();
 		OptimizationProcess op1 = new OptimizationProcess();
 		op1.setData(data);
@@ -299,7 +293,7 @@ public class OptimizationTab extends JPanel {
 	/**
 	 * Returns the max time limit that the user specified.
 	 * @param timelimit
-	 * @return the time limit
+	 * @return the time limit in miliseconds
 	 */
 	private long getMaxTime(long timelimit) {
 		switch ((String) settings_time_combobox.getSelectedItem()) {
