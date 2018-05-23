@@ -64,6 +64,8 @@ public class ExperimentsDouble extends AbstractExperiment {
 		new ComputeQualityIndicators<>(experiment).run();
 		new GenerateLatexTablesWithStatistics(experiment).run();
 		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
+		
+		generateDocuments(DEFAULT_R_PATH, DEFAULT_LATEX_PATH, this);
 	}
 
 	private List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
