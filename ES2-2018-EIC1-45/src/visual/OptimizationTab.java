@@ -122,6 +122,8 @@ public class OptimizationTab extends JPanel {
 	// ***************************SETTINGS_FIELDS********************************************
 
 	// ***************************PROBLEM_FIELDS********************************************
+	private JTextField new_problem_name_field = new JTextField();
+	private JTextArea new_problem_description_area = new JTextArea();
 	private JButton problem_about_save_button = new JButton("  OK");
 	private JButton new_problem_about_save_button = new JButton("  Create");
 	private JLabel problem_name_label = new JLabel("Problem Name");
@@ -333,18 +335,20 @@ public class OptimizationTab extends JPanel {
 
 		new_problem_about_save_button.setBounds(65, 240, 100, 25);
 
+		new_problem_name_field.setText("");
 		problem_name_label.setBounds(10, 0, 100, 20);
-		problem_name_field.setBounds(10, 20, 210, 25);
+		new_problem_name_field.setBounds(10, 20, 210, 25);
 
+		new_problem_description_area.setText("");
 		problem_description_label.setBounds(10, 55, 100, 20);
-		problem_description_area.setBounds(10, 75, 210, 145);
+		new_problem_description_area.setBounds(10, 75, 210, 145);
 
 		new_problem_about_save_button.addActionListener(action_listener);
 
 		content_about_panel.add(problem_name_label);
-		content_about_panel.add(problem_name_field);
+		content_about_panel.add(new_problem_name_field);
 		content_about_panel.add(problem_description_label);
-		content_about_panel.add(problem_description_area);
+		content_about_panel.add(new_problem_description_area);
 		content_about_panel.add(new_problem_about_save_button);
 
 		main_about_panel.add(content_about_panel);
@@ -385,7 +389,7 @@ public class OptimizationTab extends JPanel {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File dir = chooser.getSelectedFile();
 			File new_file = new File(
-					dir.getAbsolutePath() + "/" + problem_name_field.getText() + "_" + time + extension);
+					dir.getAbsolutePath() + "/" + new_problem_name_field.getText() + "_" + time + extension);
 			this.file_problem = new_file;
 			ProblemXML.writeXML(prob, this.file_problem);
 			loadProblem(file_problem);
@@ -1012,9 +1016,6 @@ public class OptimizationTab extends JPanel {
 		tools_run_button.setEnabled(true);
 		tools_export_button.setEnabled(true);
 		tools_about_button.setEnabled(true);
-		tools_import_button.setEnabled(false);
-		tools_newproblem_button.setEnabled(false);
-
 	}
 
 
