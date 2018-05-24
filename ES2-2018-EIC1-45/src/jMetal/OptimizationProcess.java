@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.swing.JOptionPane;
+
 import jMetal.binaryProblems.ExperimentsBinary;
 import jMetal.doubleProblems.ExperimentsDouble;
 import jMetal.integerProblems.ExperimentsInteger;
@@ -16,6 +18,31 @@ import jMetal.integerProblems.ExperimentsInteger;
  *
  */
 public class OptimizationProcess extends Thread {
+
+	private static final String WARNING_TITLE_INVALID_MINMAX = "Invalid min/max";
+	private static final String WARNING_INVALID_MINMAX = "WARNING: Invalid min/max on a variable, assuming -100/100";
+	private static final String WARNING_TITLE_MULTIPLE_DATA_TYPES = "Multiple data types fail";
+	private static final String WARNING_TITLE_INVALID_ALGORITHM_SELECTED = "Invalid algorithm selected";
+	private static final String WARNING_TITLE_INVALID_DATA_TYPE_COMBO = "Invalid data type combination";
+	private static final String WARNING_TITLE_WRITE_FAIL = "Write fail";
+	private static final String WARNING_TITLE_DATA_VALIDATION = "Data Validation Warning";
+	
+	private static final String WARNING_MULTIPLE_DATA_TYPES = "Multiple data types detected! Please keep only ONE data type "
+			+ "per problem!";
+	private static final String WARNING_INVALID_ALGORITHM = "Invalid algorithm for problem type!";
+	private static final String WARNING_INVALID_DATA_TYPE_COMBO = "Invalid objective data type for specified variable-objective combo!";
+	private static final String WARNING_FAILED_TO_WRITE_VARIABLE_OBJECTIVE_NAMES = "Failed to write variable/objective names and "
+			+ "elapsed time to file!";
+	private static final String WARNING_DEFAULT_TO_UNTITLED = "WARNING: For some reason, the program couldn't "
+			+ "catch the problem's name. Default to 'Untitled' and proceed?";
+	
+	private static final String WARNING_UNREASONABLE_TIMELIMIT = "WARNING: Unreasonable timelimit! Normally, Optimization Processes "
+			+ "take more than 10 seconds! \nThe process can continue, but coherent results are NOT guaranteed!\n"
+			+ "Do you wish to continue with the optimization process?";
+
+	private static final String WARNING_NO_JAR_PATH = "WARNING: Specified jar usage, but "
+			+ "no path to jar has been specified! Aborting!";
+	private static final String WARNING_NO_ALGORITHM_SPECIFIED = "WARNING: No algorithm specified. Aborting!";
 
 	private String[] AlgorithmsForDoubleProblemType = new String[] { "NSGAII", "SMSEMOA", "GDE3", "IBEA", "MOCell",
 			"MOEAD", "PAES", "RandomSearch" };
@@ -31,6 +58,7 @@ public class OptimizationProcess extends Thread {
 	private boolean isJar;
 	private String problemName;
 	private String jarPath;
+	private String expectedAlgorithm = "";
 	private long timelimit;
 
 	@Override
@@ -85,8 +113,6 @@ public class OptimizationProcess extends Thread {
 
 			verifyAlgorithmAndTypes(algorithm, integerProblem, doubleProblem, binaryProblem);
 
-			debug_Objectiveparser(true_objectives);
-
 			long startTime = System.currentTimeMillis();
 			launchProblem(true_data, true_objectives, algorithm, integerProblem, doubleProblem, binaryProblem, isJar);
 			long endTime = System.currentTimeMillis() - startTime;
@@ -101,32 +127,52 @@ public class OptimizationProcess extends Thread {
 		}
 	}
 
-	private void debug_Objectiveparser(Object[][] true_objectives) {
-		System.out.println("============================================================");
-		System.out.println("BEGINNING runOptimization WITH THE FOLLOWING PARAMETERS:");
-		for (int i = 0; i < true_objectives.length; i++) {
-			System.out.println(true_objectives[i][0] + " " + true_objectives[i][1] + " " + true_objectives[i][2]);
-		}
-		System.out.println("============================================================");
-	}
 
 	private void validateData() {
 		if (algorithm.equals(null) || algorithm.equals("")) {
-			System.out.println("WARNING: No algorithm specified. Aborting!");
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, WARNING_NO_ALGORITHM_SPECIFIED, WARNING_TITLE_DATA_VALIDATION,
+							2);
+				}
+			}.start();
+
 			throw new IllegalStateException("ABORTED ON DATA VALIDATION: No algorithm specified");
 		}
 		if (isJar() && (jarPath.equals(null) || jarPath.equals(""))) {
-			System.out.println("WARNING: Specified jar usage, but no path to jar??? Aborting!");
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, WARNING_NO_JAR_PATH, WARNING_TITLE_DATA_VALIDATION, 2);
+				}
+			}.start();
+
 			throw new IllegalStateException("ABORTED ON DATA VALIDATION: No jar specified");
 		}
 		if (timelimit <= 10000) {
-			System.out.println(
-					"WARNING: Unreasonable timelimit! Normally, Optimization Processes take more than 10 seconds!");
-			System.out.println("The process will continue, but coherent results are NOT guaranteed!");
+			Object[] options = { "Yes", "No" };
+			int n = JOptionPane.showOptionDialog(null, WARNING_UNREASONABLE_TIMELIMIT, WARNING_TITLE_DATA_VALIDATION,
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+			switch (n) {
+			case 0:
+				break;
+			case 1:
+				throw new IllegalStateException("ABORTED ON DATA VALIDATION: User aborted on bad timelimit prompt");
+			}
 		}
 		if (problemName.equals(null) || problemName.equals("")) {
-			System.out.println("WARNING: No name specified! Defaulting to 'Untitled'");
-			this.problemName = "Untitled";
+			Object[] options = { "Yes", "No" };
+
+			int n = JOptionPane.showOptionDialog(null, WARNING_DEFAULT_TO_UNTITLED, WARNING_TITLE_DATA_VALIDATION,
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+			switch (n) {
+			case 0:
+				this.problemName = "Untitled";
+				break;
+			case 1:
+				throw new IllegalStateException("ABORTED ON DATA VALIDATION: User aborted on bad name prompt");
+			}
 		}
 
 	}
@@ -216,7 +262,12 @@ public class OptimizationProcess extends Thread {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			writer.close();
-			throw new IllegalStateException("This is NOT ok.");
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, WARNING_FAILED_TO_WRITE_VARIABLE_OBJECTIVE_NAMES,
+							WARNING_TITLE_WRITE_FAIL, 2);
+				}
+			}.start();
 		} finally {
 			writer.close();
 		}
@@ -287,11 +338,36 @@ public class OptimizationProcess extends Thread {
 	private void checkDatatypeCombo(Object[][] objectives, boolean integerProblem, boolean doubleProblem,
 			boolean binaryProblem, int i) {
 		if (objectives[i][1].equals("Integer") && (doubleProblem || binaryProblem)) {
-			throw new IllegalStateException("Invalid objective datatype for specified variable-objective combo!");
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null,
+							WARNING_INVALID_DATA_TYPE_COMBO + "\nExpected Integer, got something else",
+							WARNING_TITLE_INVALID_DATA_TYPE_COMBO, 2);
+				}
+			}.start();
+			
+			throw new IllegalStateException(WARNING_INVALID_DATA_TYPE_COMBO);
+
 		} else if (objectives[i][1].equals("Double") && (integerProblem || binaryProblem)) {
-			throw new IllegalStateException("Invalid objective datatype for specified variable-objective combo!");
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null,
+							WARNING_INVALID_DATA_TYPE_COMBO + "\nExpected Double, got something else",
+							WARNING_TITLE_INVALID_DATA_TYPE_COMBO, 2);
+				}
+			}.start();
+			
+			throw new IllegalStateException(WARNING_INVALID_DATA_TYPE_COMBO);
 		} else if (objectives[i][1].equals("Binary") && (doubleProblem || integerProblem)) {
-			throw new IllegalStateException("Invalid objective datatype for specified variable-objective combo!");
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null,
+							WARNING_INVALID_DATA_TYPE_COMBO + "\nExpected Binary, got something else",
+							WARNING_TITLE_INVALID_DATA_TYPE_COMBO, 2);
+				}
+			}.start();
+			
+			throw new IllegalStateException(WARNING_INVALID_DATA_TYPE_COMBO);
 		}
 	}
 
@@ -307,14 +383,26 @@ public class OptimizationProcess extends Thread {
 	 */
 	private void verifyAlgorithmAndTypes(String algorithm, boolean integerProblem, boolean doubleProblem,
 			boolean binaryProblem) {
+		expectedAlgorithm = "";
 		if (integerProblem && !doubleProblem && !binaryProblem) {
 			for (int i = 0; i < AlgorithmsForIntegerProblemType.length; i++) {
 				if (algorithm.equals(AlgorithmsForIntegerProblemType[i])) {
 					System.out.println("Valid algorithm detected: " + AlgorithmsForIntegerProblemType[i]);
 					break;
 				}
+				expectedAlgorithm += AlgorithmsForIntegerProblemType[i] + ", ";
 				if (i == AlgorithmsForIntegerProblemType.length - 1) {
-					throw new IllegalArgumentException("Invalid algorithm for problem type!");
+					
+					new Thread() {
+						public void run() {
+							JOptionPane.showMessageDialog(null,
+									WARNING_INVALID_ALGORITHM + "\nExpected one of the following algorithms: " 
+									+ expectedAlgorithm,
+									WARNING_TITLE_INVALID_ALGORITHM_SELECTED, 2);
+						}
+					}.start();
+					
+					throw new IllegalArgumentException(WARNING_INVALID_ALGORITHM);
 				}
 			}
 		} else if (!integerProblem && doubleProblem && !binaryProblem) {
@@ -323,8 +411,19 @@ public class OptimizationProcess extends Thread {
 					System.out.println("Valid algorithm detected: " + AlgorithmsForDoubleProblemType[i]);
 					break;
 				}
+				expectedAlgorithm += AlgorithmsForDoubleProblemType[i] + " ";
 				if (i == AlgorithmsForDoubleProblemType.length - 1) {
-					throw new IllegalArgumentException("Invalid algorithm for problem type!");
+					
+					new Thread() {
+						public void run() {
+							JOptionPane.showMessageDialog(null,
+									WARNING_INVALID_ALGORITHM + "\nExpected one of the following algorithms: " 
+									+ expectedAlgorithm,
+									WARNING_TITLE_INVALID_ALGORITHM_SELECTED, 2);
+						}
+					}.start();
+					
+					throw new IllegalArgumentException(WARNING_INVALID_ALGORITHM);
 				}
 			}
 		} else if (!integerProblem && !doubleProblem && binaryProblem) {
@@ -333,12 +432,31 @@ public class OptimizationProcess extends Thread {
 					System.out.println("Valid algorithm detected: " + AlgorithmsForBinaryProblemType[i]);
 					break;
 				}
+				expectedAlgorithm += AlgorithmsForBinaryProblemType[i] + ", ";
 				if (i == AlgorithmsForBinaryProblemType.length - 1) {
-					throw new IllegalArgumentException("Invalid algorithm for problem type!");
+					
+					new Thread() {
+						public void run() {
+							JOptionPane.showMessageDialog(null,
+									WARNING_INVALID_ALGORITHM + "\nExpected one of the following algorithms: " 
+									+ expectedAlgorithm,
+									WARNING_TITLE_INVALID_ALGORITHM_SELECTED, 2);
+						}
+					}.start();
+					
+					throw new IllegalArgumentException(WARNING_INVALID_ALGORITHM);
 				}
 			}
-		} else
-			throw new IllegalArgumentException("Multiple data types detected!");
+		} else {
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null,
+							WARNING_MULTIPLE_DATA_TYPES,
+							WARNING_TITLE_MULTIPLE_DATA_TYPES, 2);
+				}
+			}.start();
+			throw new IllegalArgumentException(WARNING_MULTIPLE_DATA_TYPES);
+		}
 	}
 
 	/**
@@ -364,8 +482,13 @@ public class OptimizationProcess extends Thread {
 					limits[i][1] = Integer.parseInt((String) data[i][3]);
 					// debug_Sysoutlimits_INT(limits, i);
 				} else {
-					System.out
-							.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
+					new Thread() {
+						public void run() {
+							JOptionPane.showMessageDialog(null,
+									WARNING_INVALID_MINMAX,
+									WARNING_TITLE_INVALID_MINMAX, 2);
+						}
+					}.start();
 					limits[i][0] = -100;
 					limits[i][1] = 100;
 				}
@@ -391,8 +514,13 @@ public class OptimizationProcess extends Thread {
 					limits[i][1] = Double.parseDouble((String) data[i][3]);
 					// debug_Sysoutlimits_DOUBLE(limits, i);
 				} else {
-					System.out
-							.println("WARNING: No min/max detected, cannot iterate safely. Assuming min/max -100/100");
+					new Thread() {
+						public void run() {
+							JOptionPane.showMessageDialog(null,
+									WARNING_INVALID_MINMAX,
+									WARNING_TITLE_INVALID_MINMAX, 2);
+						}
+					}.start();
 					limits[i][0] = -100;
 					limits[i][1] = 100;
 				}
@@ -426,70 +554,6 @@ public class OptimizationProcess extends Thread {
 					"How in the world did this happen??? Couldn't find out what the problem was even though"
 							+ " it should've already been specified?!?!");
 
-	}
-
-	/**
-	 * This is a debugging function. Please don't touch it.
-	 * 
-	 * @param limits
-	 * @param i
-	 */
-	@SuppressWarnings("unused")
-	private void debug_Sysoutlimits_DOUBLE(double[][] limits, int i) {
-		System.out.println(limits[i][0]);
-		System.out.println(limits[i][1]);
-	}
-
-	/**
-	 * This is a debugging function. Please don't touch it.
-	 * 
-	 * @param limits
-	 * @param i
-	 */
-	@SuppressWarnings("unused")
-	private void debug_Sysoutlimits_INT(int[][] limits, int i) {
-		System.out.println(limits[i][0]);
-		System.out.println(limits[i][1]);
-	}
-
-	/**
-	 * This is a debugging function. Please don't touch it.
-	 * 
-	 * @param data
-	 * @param algorithm
-	 * @param isJar
-	 */
-	@SuppressWarnings("unused")
-	private void debugSysout_Start(Object[][] data, String algorithm, boolean isJar) {
-		System.out.println("============================================================");
-		System.out.println("BEGINNING runOptimization WITH THE FOLLOWING PARAMETERS:");
-		for (int i = 0; i < data.length; i++) {
-			System.out.println(data[i][0] + " " + data[i][1] + " " + data[i][2] + " " + data[i][3] + " " + data[i][4]
-					+ " " + data[i][5]);
-		}
-		System.out.println("============================================================");
-
-		System.out.println("Algorithm: " + algorithm);
-		System.out.println("Use jar: " + isJar);
-	}
-
-	/**
-	 * This is a debugging function. Please don't touch it.
-	 * 
-	 * @param true_data
-	 */
-	@SuppressWarnings("unused")
-	private void debugSysout_Parser(Object[][] true_data) {
-		System.out.println("============================================================");
-		System.out.println("PARSING SELECTED PARAMETERS:");
-		for (int i = 0; i < true_data.length; i++) {
-
-			System.out.println(true_data[i][0] + " " + true_data[i][1] + " " + true_data[i][2] + " " + true_data[i][3]
-					+ " " + true_data[i][4] + " " + true_data[i][5]);
-
-		}
-		System.out.println("True Data length: " + true_data.length);
-		System.out.println("============================================================");
 	}
 
 	public Object[][] getData() {
