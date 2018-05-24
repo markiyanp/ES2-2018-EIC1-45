@@ -2,8 +2,15 @@ package jMetal;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 public abstract class AbstractExperiment {
 
+	private static final String WARNING_TITLE_404 = "Program not found!";
+	private static final String WARNING_R_404 = "WARNING: RScript not detected. Do you have R installed? "
+			+ "Has your Administrator correctly set up its path?";
+	private static final String WARNING_MIKTEX_404 = "WARNING: miktex not detected. Do you have miktex installed? "
+			+ "Has your Administrator correctly set up its path?";
 	private String jarPath;
 	private String problemName;
 	private String algorithm;
@@ -98,11 +105,29 @@ public abstract class AbstractExperiment {
 		this.timelimit = timelimit;
 	}
 	
-	public void generateDocuments(String r_path, String latex_path, AbstractExperiment e) throws IOException {
-		ScriptGenerator.generateR(r_path, e.getClass().getSimpleName());
-		System.out.println("Generated R...");
-		ScriptGenerator.generatorLatex(latex_path, e.getClass().getSimpleName());
-		System.out.println("Generated LaTeX...");
+	public void generateDocuments(String r_path, String latex_path, AbstractExperiment e) {
+		try {
+			ScriptGenerator.generateR(r_path, e.getClass().getSimpleName());
+			System.out.println("Generated R...");
+		} catch (IOException e1) {
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, WARNING_R_404, WARNING_TITLE_404,
+							2);
+				}
+			}.start();
+		}
+		try {
+			ScriptGenerator.generatorLatex(latex_path, e.getClass().getSimpleName());
+			System.out.println("Generated LaTeX...");
+		} catch (IOException e1) {
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, WARNING_MIKTEX_404, WARNING_TITLE_404,
+							2);
+				}
+			}.start();
+		}
 		
 	}
 
