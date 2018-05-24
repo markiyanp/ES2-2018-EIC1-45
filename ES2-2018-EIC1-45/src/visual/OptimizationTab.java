@@ -197,7 +197,6 @@ public class OptimizationTab extends JPanel {
 
 		setLayout(null);
 		setBackground(Color.LIGHT_GRAY);
-		// ConfigXML.readXML(file_config);
 		createActionListener();
 		createFocusListener();
 		tools_panel();

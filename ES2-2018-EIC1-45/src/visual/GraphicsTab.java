@@ -25,6 +25,7 @@ import org.knowm.xchart.XYChart;
 import graphics.Individual_Graphic;
 import graphics.Objectives_Aux_Graphic;
 import graphics.Variables_Aux_Graphic;
+import xml.ConfigXML;
 
 /**
  * @author Tiago Almeida
@@ -221,22 +222,22 @@ public class GraphicsTab extends JPanel {
 				variable_name = variables[i][0].toString();
 				switch (algorithm_name) {
 				case "NSGAII":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/NSGAII/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/NSGAII/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				case "SMSEMOA":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/SMSEMOA/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/SMSEMOA/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				case "MOCell":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/MOCell/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/MOCell/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				case "PAES":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/PAES/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/PAES/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "RandomSearch":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/RandomSearch/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/RandomSearch/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				}
@@ -248,29 +249,29 @@ public class GraphicsTab extends JPanel {
 				experiments_panel.add(experiments_label);
 				switch (algorithm_name) {
 				case "NSGAII":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "SMSEMOA":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/SMSEMOA/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/SMSEMOA/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				case "GDE3":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/GDE3/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/GDE3/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "IBEA":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/IBEA/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/IBEA/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "MOCell":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/MOCell/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/MOCell/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "MOEAD":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/MOEAD/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/MOEAD/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "PAES":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/PAES/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/PAES/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "RandomSearch":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/RandomSearch/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/RandomSearch/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				}
@@ -282,27 +283,27 @@ public class GraphicsTab extends JPanel {
 				experiments_panel.add(experiments_label);
 				switch (algorithm_name) {
 				case "NSGAII":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "SMSEMOA":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/SMSEMOA/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/SMSEMOA/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				case "MOCell":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/MOCell/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/MOCell/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "MOCH":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/MOCH/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/MOCH/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "PAES":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/PAES/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/PAES/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				case "RandomSearch":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/RandomSearch/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/RandomSearch/" + problem_name
 							+ "/BEST_HV_VAR.tsv";
 					break;
 				case "SPEA2":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/SPEA2/" + problem_name + "/BEST_HV_VAR.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/SPEA2/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
 				}
 			}
@@ -343,22 +344,22 @@ public class GraphicsTab extends JPanel {
 				objective_name = objectives[i][0].toString();
 				switch (algorithm_name) {
 				case "NSGAII":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/NSGAII/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/NSGAII/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				case "SMSEMOA":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/SMSEMOA/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/SMSEMOA/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				case "MOCell":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/MOCell/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/MOCell/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				case "PAES":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/PAES/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/PAES/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "RandomSearch":
-					path = "experimentBaseDirectory/ExperimentsInteger/data/RandomSearch/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsInteger/data/RandomSearch/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				}
@@ -370,29 +371,29 @@ public class GraphicsTab extends JPanel {
 				experiments_panel.add(experiments_label);
 				switch (algorithm_name) {
 				case "NSGAII":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "SMSEMOA":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/SMSEMOA/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/SMSEMOA/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				case "GDE3":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/GDE3/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/GDE3/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "IBEA":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/IBEA/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/IBEA/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "MOCell":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/MOCell/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/MOCell/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "MOEAD":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/MOEAD/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/MOEAD/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "PAES":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/PAES/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/PAES/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "RandomSearch":
-					path = "experimentBaseDirectory/ExperimentsDouble/data/RandomSearch/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/RandomSearch/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				}
@@ -404,27 +405,27 @@ public class GraphicsTab extends JPanel {
 				experiments_panel.add(experiments_label);
 				switch (algorithm_name) {
 				case "NSGAII":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "SMSEMOA":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/SMSEMOA/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/SMSEMOA/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				case "MOCell":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/MOCell/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/MOCell/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "MOCH":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/MOCH/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/MOCH/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "PAES":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/PAES/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/PAES/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				case "RandomSearch":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/RandomSearch/" + problem_name
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/RandomSearch/" + problem_name
 							+ "/BEST_HV_FUN.tsv";
 					break;
 				case "SPEA2":
-					path = "experimentBaseDirectory/ExperimentsBinary/data/SPEA2/" + problem_name + "/BEST_HV_FUN.tsv";
+					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/SPEA2/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
 				}
 			}
