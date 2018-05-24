@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
-
-import visual.Window;
 
 /**
  * @author Tiago Almeida

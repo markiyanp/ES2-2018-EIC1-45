@@ -16,12 +16,6 @@ import org.apache.commons.mail.SimpleEmail;
  */
 public class EMail_Tools {
 	
-	//temporary!!! The admin_email will be imported from a XML file...
-	private static final String ADMIN_EMAIL = "AGrupo45@gmail.com";
-	//This class should never be instatiated!
-	private EMail_Tools(){
-		
-	}
 	
 	protected static Object[] mailProviderToSMTP(String email){
 		int i;
@@ -168,17 +162,5 @@ public class EMail_Tools {
 			System.out.println("Sending e-mail (no attachment)");
 			email.send();
 		}
-		
-	}
-	
-	public static void sendProgressMail(int progress) throws EmailException {
-//		if (progress != 100)
-//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null, "Your Optimization is currently at " + progress, progressEmailBody + progress, null);
-//		else
-//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null, "Your Optimization is completed!", completedProgressEmailBody, null);
-	}
-	
-	public static String getAdminEmail() {
-		return ADMIN_EMAIL;
 	}
 }

@@ -73,8 +73,8 @@ public class JUnitCoverage {
 				problemRootElement.appendChild(putUser(doc, user.getName(), user.getEmailAddr(), user.getAlgorithms()));
 			}
 
-			for (Path path : config.getPaths()) {
-				problemRootElement.appendChild(putPath(doc, path.getName(), path.getUrl()));
+			for (String path : config.getPaths().keySet()) {
+				problemRootElement.appendChild(putPath(doc, path, config.getPaths().get(path).getUrl()));
 			}
 
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -115,7 +115,7 @@ public class JUnitCoverage {
 						Element eElement = (Element) nNode;
 						variable.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
 						variable.setUrl(eElement.getElementsByTagName("url").item(0).getTextContent());
-						config2.getPaths().add(variable);
+						config2.getPaths().put(eElement.getElementsByTagName("name").item(0).getTextContent(), variable);
 					}
 				}
 
@@ -207,7 +207,7 @@ public class JUnitCoverage {
 	 */
 	@Test
 	public void checkAdminEmail() {
-		assertEquals(EMail_Tools.getAdminEmail(), "AGrupo45@gmail.com");
+		assertEquals(ConfigXML.config.getAdmin_mail(), "AGrupo45@gmail.com");
 	}
 
 	/**

@@ -35,8 +35,8 @@ public class Launcher extends JFrame {
 	 * @throws URISyntaxException
 	 */
 	public Launcher() throws IOException, URISyntaxException {
-		String curDir = System.getProperty("user.dir");
-		file = new File(curDir + "/" + "config.xml");
+		ConfigXML.currentDirectory = System.getProperty("user.dir");
+		file = new File(ConfigXML.currentDirectory + "/" + "config.xml");
 		ConfigXML.readXML(file);
 		setTitle(TITLE);
 		main = new LauncherPanel(this, file);
