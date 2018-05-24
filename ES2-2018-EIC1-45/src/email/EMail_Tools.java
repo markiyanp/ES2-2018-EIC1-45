@@ -165,12 +165,12 @@ public class EMail_Tools {
 	}
 
 	public static void sendProgressMail(int progress) throws EmailException {
-		if (progress != 100)
-			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null,
-					"Your Optimization is currently at " + progress, "", null);
-		else
-			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null,
-					"Your Optimization is completed!", "", null);
+//		if (progress != 100)
+//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null,
+//					"Your Optimization is currently at " + progress, "", null);
+//		else
+//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null,
+//					"Your Optimization is completed!", "", null);
 	}
 
 }
