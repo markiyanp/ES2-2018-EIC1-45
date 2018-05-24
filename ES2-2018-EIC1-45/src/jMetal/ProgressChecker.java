@@ -37,15 +37,15 @@ public class ProgressChecker {
 		int act_prog = (int) (progress * 100);
 		LeftPanel.setProgress(act_prog);
 		if (progress >= 0.25 && !email25) {
-			new EmailSender(25);
+			new EmailSender(25).start();
 			email25 = true;
 		}
 		if (progress >= 0.5 && !email50) {
-			new EmailSender(50);
+			new EmailSender(50).start();
 			email50 = true;
 		}
 		if (progress >= 0.75 && !email75) {
-			new EmailSender(75);
+			new EmailSender(75).start();
 			email75 = true;
 		}
 		if (progress == 1) {
@@ -54,7 +54,7 @@ public class ProgressChecker {
 					JOptionPane.showMessageDialog(null, CONFIRM_FINISH, CONFIRM_TITLE_FINISH, 1);
 				}
 			}.start();
-			new EmailSender(100);
+			new EmailSender(100).start();
 		}
 
 	}
@@ -67,7 +67,6 @@ public class ProgressChecker {
 
 		public EmailSender(int prog) {
 			this.progress = prog;
-			this.start();
 		}
 
 		public void run() {
