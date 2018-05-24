@@ -1,5 +1,7 @@
 package jMetal;
 
+import javax.swing.JOptionPane;
+
 import org.apache.commons.mail.EmailException;
 
 import email.EMail_Tools;
@@ -7,6 +9,8 @@ import visual.LeftPanel;
 
 public class ProgressChecker {
 	
+	private static final String CONFIRM_TITLE_FINISH = "Optimization finished";
+	private static final String CONFIRM_FINISH = "Optimization complete! Check out the Graphics tab for your results.";
 	private boolean email25 = false;
 	private boolean email50 = false;
 	private boolean email75 = false;
@@ -46,6 +50,13 @@ public class ProgressChecker {
 				email75 = true;
 			}
 			if (progress == 1) {
+				new Thread() {
+					public void run() {
+						JOptionPane.showMessageDialog(null,
+								CONFIRM_FINISH,
+								CONFIRM_TITLE_FINISH, 1);
+					}
+				}.start();
 				EMail_Tools.sendProgressMail(100);
 			}
 		} catch (EmailException e) {

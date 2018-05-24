@@ -20,13 +20,13 @@ import jMetal.integerProblems.ExperimentsInteger;
 public class OptimizationProcess extends Thread {
 
 	private static final String WARNING_TITLE_INVALID_MINMAX = "Invalid min/max";
-	private static final String WARNING_INVALID_MINMAX = "WARNING: Invalid min/max on a variable, assuming -100/100";
 	private static final String WARNING_TITLE_MULTIPLE_DATA_TYPES = "Multiple data types fail";
 	private static final String WARNING_TITLE_INVALID_ALGORITHM_SELECTED = "Invalid algorithm selected";
 	private static final String WARNING_TITLE_INVALID_DATA_TYPE_COMBO = "Invalid data type combination";
 	private static final String WARNING_TITLE_WRITE_FAIL = "Write fail";
 	private static final String WARNING_TITLE_DATA_VALIDATION = "Data Validation Warning";
 	
+	private static final String WARNING_INVALID_MINMAX = "WARNING: Invalid min/max on a variable, assuming -100/100";
 	private static final String WARNING_MULTIPLE_DATA_TYPES = "Multiple data types detected! Please keep only ONE data type "
 			+ "per problem!";
 	private static final String WARNING_INVALID_ALGORITHM = "Invalid algorithm for problem type!";
