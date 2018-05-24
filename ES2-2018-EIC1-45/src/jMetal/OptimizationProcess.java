@@ -481,6 +481,10 @@ public class OptimizationProcess extends Thread {
 		OptimizationProcess.objectives = objectives;
 	}
 
+	public static Object[][] getObjectives() {
+		return objectives;
+	}
+
 	public static void setProblemName(String problemName) {
 		OptimizationProcess.problemName = problemName;
 	}

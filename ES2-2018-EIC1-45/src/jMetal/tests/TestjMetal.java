@@ -73,6 +73,7 @@ public class TestjMetal {
 		OptimizationProcess.setTimelimit(100000);
 		OptimizationProcess.setProblemName("TestjMetal");
 		OptimizationProcess.runOptimization();
+		
 //
 //		
 //		Object[][] test1 = {{"test1-singular-variable", "Double", "-1.1", "2.2", null, true }};
