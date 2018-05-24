@@ -31,6 +31,7 @@ import org.apache.commons.mail.EmailException;
 import core.Article;
 import core.User;
 import email.EMail_Tools;
+import xml.ConfigXML;
 
 /**
  * @author Markiyan Pyekh
@@ -92,10 +93,13 @@ public class HelpTab extends JPanel{
 
 	//*************************************GENERAL FIELDS****************************************
 
+	private Window window;
+	
 	/**
 	 * The constructor
 	 */
-	public HelpTab() {
+	public HelpTab(Window window) {
+		this.window = window;
 		setBackground(Color.LIGHT_GRAY);
 		help();
 		faq();
@@ -178,12 +182,11 @@ public class HelpTab extends JPanel{
 		help_choose_field.addActionListener(listener());
 
 		//TODO This should refer to the Admin E-Mail on config.xml instead of EMail_Tools.getAdminEmail().
-		help_to_field.setText(EMail_Tools.getAdminEmail());
+		help_to_field.setText(ConfigXML.config.getAdmin_mail());
 		help_to_field.setEditable(false);
 
 		//TODO This should refer to the User E-Mail on OptimizationTab instead of User.getEmailAddr().
-		User u = new User("default", "group45.dummy.user.1@gmail.com");
-		help_from_field.setText(u.getEmailAddr());
+		help_from_field.setText(window.getUser().getEmailAddr());
 		help_from_field.setEditable(false);
 
 		help_panel.add(help_choose_field);
@@ -252,7 +255,7 @@ public class HelpTab extends JPanel{
 
 
 	/**
-	 * Load a spcify article
+	 * Load a specify article
 	 * 
 	 * @param selectedValue
 	 * @throws IOException

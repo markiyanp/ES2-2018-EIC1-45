@@ -17,7 +17,7 @@ public class RightPanel extends JPanel {
 		setLayout(null);
 		panel_map.put("optimization", new OptimizationTab(window));
 		panel_map.put("graphics", new GraphicsTab(window));
-		panel_map.put("help", new HelpTab());
+		panel_map.put("help", new HelpTab(window));
 
 		loadTab("optimization");
 		add(panel);
@@ -44,6 +44,10 @@ public class RightPanel extends JPanel {
 	
 	public GraphicsTab getGraphicTab() {
 		return (GraphicsTab) this.panel_map.get("graphics");
+	}
+	
+	public HelpTab getHelpTab() {
+		return (HelpTab) this.panel_map.get("help");
 	}
 
 }

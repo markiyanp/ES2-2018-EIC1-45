@@ -28,6 +28,8 @@ public class Launcher extends JFrame {
 	private File file;
 	// **********************************INSTANCES**************************************
 
+	private LauncherPanel launcher_panel;
+	
 	/**
 	 * The constructor
 	 * 
@@ -58,4 +60,5 @@ public class Launcher extends JFrame {
 	public static void main(String[] args) throws IOException, URISyntaxException {
 		new Launcher();
 	}
+	
 }
