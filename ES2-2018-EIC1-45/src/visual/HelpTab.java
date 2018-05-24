@@ -92,7 +92,8 @@ public class HelpTab extends JPanel{
 		setBackground(Color.LIGHT_GRAY);
 		help();
 		faq();
-//		try {loadArticles();} catch (InterruptedException e) {e.printStackTrace();}
+		//TODO maybe solve this...
+		//try {loadArticles();} catch (InterruptedException e) {e.printStackTrace();}
 	}
 
 
@@ -255,6 +256,7 @@ public class HelpTab extends JPanel{
 	}
 
 
+	@SuppressWarnings("unused")
 	private void loadArticles() throws InterruptedException{
 		this.current_prev = new HashMap<>();
 		this.articles = new ArrayList<>();
