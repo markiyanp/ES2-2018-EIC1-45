@@ -32,6 +32,7 @@ public class ConfigXML {
 
 	private static ConfigXML instance;
 	public static Config config;
+	public static String currentDirectory;
 	
 	/**
 	 * Writes "config" in "file" with xml format

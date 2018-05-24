@@ -25,7 +25,6 @@ import org.knowm.xchart.XYChart;
 import graphics.Individual_Graphic;
 import graphics.Objectives_Aux_Graphic;
 import graphics.Variables_Aux_Graphic;
-import jMetal.OptimizationProcess;
 
 /**
  * @author Tiago Almeida
@@ -191,6 +190,10 @@ public class GraphicsTab extends JPanel {
 		this.action_listener = lis;
 	}
 
+	/**
+	 * Reads the Objectives data from the gui and creates the chart source info.
+	 * @return Variables_Aux_Graphic
+	 */
 	public Variables_Aux_Graphic processVariables() {
 		String algorithm_name = window.getRight_panel().getOpt_tab().getAlgo_name_field().getSelectedItem().toString()
 				.trim();
@@ -309,6 +312,10 @@ public class GraphicsTab extends JPanel {
 		return new Variables_Aux_Graphic(path, variables_name_aux);
 	}
 
+	/**
+	 * Reads the Objectives data from the gui and creates the chart source info.
+	 * @return Objectives_Aux_Graphic
+	 */
 	public Objectives_Aux_Graphic processObjectives() {
 		String algorithm_name = window.getRight_panel().getOpt_tab().getAlgo_name_field().getSelectedItem().toString()
 				.trim();
@@ -427,6 +434,12 @@ public class GraphicsTab extends JPanel {
 		return new Objectives_Aux_Graphic(path, objectives_name_aux);
 	}
 
+	/**
+	 * Creates the default table model.
+	 * @param data_matrix
+	 * @param columns
+	 * @return
+	 */
 	private DefaultTableModel tableModel(Object[][] data_matrix, String[] columns) {
 		DefaultTableModel model = new DefaultTableModel(data_matrix, columns) {
 			private static final long serialVersionUID = 1L;
@@ -448,6 +461,9 @@ public class GraphicsTab extends JPanel {
 		return model;
 	}
 
+	/**
+	 * Sets the objectives chart.
+	 */
 	public void setDoneObjectives() {
 		processObjectives();
 		Objectives_Aux_Graphic aux = processObjectives();
@@ -459,6 +475,9 @@ public class GraphicsTab extends JPanel {
 		createPanels();
 	}
 
+	/**
+	 * Sets the variables chart.
+	 */
 	public void setDoneVariables() {
 		processVariables();
 		Variables_Aux_Graphic aux = processVariables();
@@ -470,6 +489,11 @@ public class GraphicsTab extends JPanel {
 		createPanels();
 	}
 
+	/**
+	 * Converts the Objectives charts to Object matrix.
+	 * @param charts
+	 * @param aux
+	 */
 	private void convertToMatrix_Objectives(ArrayList<XYChart> charts, Objectives_Aux_Graphic aux) {
 		Object[][] ret = new Object[charts.size()][2];
 		for (int i = 0; i < charts.size(); i++) {
@@ -479,6 +503,11 @@ public class GraphicsTab extends JPanel {
 		this.table_data_objectives = ret;
 	}
 
+	/**
+	 * Converts the variables charts to Object matrix.
+	 * @param charts
+	 * @param aux
+	 */
 	private void convertToMatrix_Variables(ArrayList<XYChart> charts, Variables_Aux_Graphic aux) {
 		Object[][] ret = new Object[charts.size()][2];
 		for (int i = 0; i < charts.size(); i++) {

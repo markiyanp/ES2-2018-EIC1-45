@@ -619,7 +619,7 @@ public class OptimizationTab extends JPanel {
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
-			String[] admin = { EMail_Tools.getAdminEmail() };
+			String[] admin = { ConfigXML.config.getAdmin_mail() };
 
 			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc
 																											// to

@@ -62,7 +62,7 @@ public class HelpTab extends JPanel{
 	private HashMap<String,Article> current_prev;
 	private JPanel help_panel = new JPanel();
 	private JPanel faq_panel = new JPanel();
-	private final File dir = new File("Resources/faq_docs");
+	private final File dir = new File(ConfigXML.currentDirectory + "/faq_docs");
 	private File[] files;
 	private ArrayList<Article> articles;
 	//************************************FAQ FIELDS********************************************
@@ -103,12 +103,10 @@ public class HelpTab extends JPanel{
 		setBackground(Color.LIGHT_GRAY);
 		help();
 		faq();
-		//TODO maybe solve this...
-		//try {loadArticles();} catch (InterruptedException e) {e.printStackTrace();}
+		try {loadArticles();} catch (InterruptedException e) {e.printStackTrace();}
 	}
 
 
-	//TODO make list scrollable
 	/**
 	 * Faq panel
 	 */
@@ -181,11 +179,9 @@ public class HelpTab extends JPanel{
 		help_choose_field.setBounds(748, 185, 30, 25);
 		help_choose_field.addActionListener(listener());
 
-		//TODO This should refer to the Admin E-Mail on config.xml instead of EMail_Tools.getAdminEmail().
 		help_to_field.setText(ConfigXML.config.getAdmin_mail());
 		help_to_field.setEditable(false);
 
-		//TODO This should refer to the User E-Mail on OptimizationTab instead of User.getEmailAddr().
 		help_from_field.setText(window.getUser().getEmailAddr());
 		help_from_field.setEditable(false);
 
@@ -227,16 +223,14 @@ public class HelpTab extends JPanel{
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						help_attachment_field.setText(jc.getSelectedFile().getAbsolutePath());
 					}
-				//TODO IMPLEMENTAR A FUNCIONALIDADE DE ADICIONAR ATTACHMENT!!!
 
 				}else if(e.getSource() == help_send_field){
 					try {
-						//TODO !!! SE O EMAIL NAO FOR ENVIADO POR CAUSA DA PASSE, O ERRO PODE ESTAR AQUI!!!  help....to STRING()
 						User u = new User("default", "group45.dummy.user.1@gmail.com");
 	
 						EMail_Tools.sendMail(u.getEmailAddr(),
 								String.copyValueOf(help_passwd_field.getPassword()), 
-								EMail_Tools.getAdminEmail(), 
+								ConfigXML.config.getAdmin_mail(), 
 								null,
 								help_possibleSubj_field.getSelectedItem().toString(), 
 								help_text_field.getText(), 
