@@ -34,7 +34,6 @@ public class ProblemXML {
 	 * @param file
 	 */
 	public static void writeXML(Problem problem, File file) {
-		String fileName = null;
 		DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder icBuilder;
 		try {
@@ -61,11 +60,9 @@ public class ProblemXML {
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource source = new DOMSource(doc);
-			//TODO CORRECT THIS!
 			if (file == null) {
-				File f = new File("C:/Users/Admin/Desktop/testXML/" + fileName);
-				Result output = new StreamResult(f);
-				transformer.transform(source, output);
+				JOptionPane.showMessageDialog(null, "File no longer exists! \nConfig has not been saved!", "File error",
+						JOptionPane.ERROR_MESSAGE);
 			} else {
 				Result output = new StreamResult(file);
 				transformer.transform(source, output);
