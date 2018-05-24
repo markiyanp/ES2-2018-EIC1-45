@@ -23,32 +23,34 @@ import org.uma.jmetal.util.experiment.component.*;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
+import jMetal.AbstractExperiment;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExperimentsBinary {
+public class ExperimentsBinary extends AbstractExperiment {
 	private static int INDEPENDENT_RUNS = 5;
 	private static int maxEvaluations = 500;
 
-	public static void execute(int limits, String algorithm, int number_of_variables, boolean isJar, String jarPath) throws IOException {
+	public void execute() throws IOException {
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
-		if (isJar) {
+		if (isJar()) {
 			INDEPENDENT_RUNS = 2;
 			maxEvaluations = 250;
-			problemList.add(new ExperimentProblem<>(new MyProblemBinary(limits, number_of_variables, isJar, jarPath)));
-		}
-		else { 
+			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_objectives(),
+					getNumber_of_variables(), isJar(), getJarPath(), getProblemName(), getTimelimit())));
+		} else {
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
-			problemList.add(new ExperimentProblem<>(new MyProblemBinary(limits, number_of_variables, isJar, null)));
+			problemList.add(new ExperimentProblem<>(new MyProblemBinary(getLimits_Binary(), getNumber_of_objectives(),
+					getNumber_of_variables(), isJar(), null, getProblemName(), getTimelimit())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
-		
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureAlgorithmList(
-				problemList, algorithm);
+				problemList, getAlgorithm());
 
 		Experiment<BinarySolution, List<BinarySolution>> experiment = new ExperimentBuilder<BinarySolution, List<BinarySolution>>(
 				"ExperimentsBinary").setAlgorithmList(algorithmList).setProblemList(problemList)
@@ -63,9 +65,11 @@ public class ExperimentsBinary {
 		new ComputeQualityIndicators<>(experiment).run();
 		new GenerateLatexTablesWithStatistics(experiment).run();
 		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
+		
+		generateDocuments(DEFAULT_R_PATH, DEFAULT_LATEX_PATH, this);
 	}
 
-	static List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureAlgorithmList(
+	private List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureAlgorithmList(
 			List<ExperimentProblem<BinarySolution>> problemList, String algo) {
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithms = new ArrayList<>();
 
@@ -128,7 +132,8 @@ public class ExperimentsBinary {
 				algorithms.add(new ExperimentAlgorithm<>(algorithm7, "SPEA2", problemList.get(i).getTag()));
 				break;
 			default:
-				throw new IllegalStateException("This has got to stop. How did algorithm parsing succeed until the Experiment?");
+				throw new IllegalStateException(
+						"This has got to stop. How did algorithm parsing succeed until the Experiment?");
 			}
 
 		}

@@ -2,7 +2,6 @@ package jMetal.integerProblems;
 
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.IntegerSolution;
-import org.uma.jmetal.util.JMetalException;
 
 import jMetal.JarEvaluator;
 import jMetal.ProgressChecker;
@@ -13,21 +12,25 @@ import java.util.List;
 public class MyProblemInteger extends AbstractIntegerProblem {
 	private static final long serialVersionUID = 5053442100790906706L;
 
-	private final static long startingTime = System.currentTimeMillis();
+	private final long startingTime = System.currentTimeMillis();
 
 	private boolean useJar = false;
 	private String jarPath;
 	private ProgressChecker progC;
 	private int testNumber = 0;
 	private boolean barWarning = false;
+	
+	private long timelimit;
 
-	public MyProblemInteger(int[][] limits, boolean isJar, String jarPath) throws JMetalException {
+	public MyProblemInteger(int[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName, long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
+		this.timelimit = timelimit;
+		
 		setNumberOfVariables(limits.length);
-		setNumberOfObjectives(2);
-		setName("MyProblemInteger");
+		setNumberOfObjectives(number_of_objectives);
+		setName(problemName);
 
 		List<Integer> lowerLimit = new ArrayList<>(getNumberOfVariables());
 		List<Integer> upperLimit = new ArrayList<>(getNumberOfVariables());
@@ -42,7 +45,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	}
 
 	public void evaluate(IntegerSolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 10000) {
+		if (System.currentTimeMillis() - startingTime <= timelimit) {
 			if (!useJar) {
 				double[] fx = new double[getNumberOfObjectives()];
 				int[] x = new int[getNumberOfVariables()];
@@ -67,7 +70,7 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 			} catch (NullPointerException e) {
 				if (!barWarning) {
 					System.out.println("WARNING: Progress bar not found. Ignoring error!");
-					barWarning  = true;
+					barWarning = true;
 				}
 			}
 		}

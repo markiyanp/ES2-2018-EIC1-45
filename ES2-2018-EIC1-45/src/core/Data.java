@@ -2,6 +2,10 @@ package core;
 
 import java.io.Serializable;
 
+/**
+ * @author Markiyan Pyekh
+ *
+ */
 public class Data implements Serializable {
 	private static final long serialVersionUID = -4460660903766402949L;
 //	private int ocurr_number;

@@ -13,14 +13,26 @@ import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
+/**
+ * @author Tiago Almeida
+ *
+ */
 public class Individual_Graphic {
 
 	private static XYSeries series;
 
+	/**
+	 * The constructor
+	 */
 	public Individual_Graphic() {
 		getCharts();
 	}
 	
+	/**
+	 * Returns the graphics
+	 * 
+	 * @return charts
+	 */
 	public ArrayList<XYChart> getCharts() {
 		
 		ArrayList<XYChart> charts = new ArrayList<XYChart>();
@@ -53,6 +65,12 @@ public class Individual_Graphic {
 		return charts;
 	}
 
+	/**
+	 * Read a file
+	 * 
+	 * @param fileName
+	 * @return row_list
+	 */
 	public static ArrayList<ArrayList<String>> readFile(String fileName) {
 		ArrayList<ArrayList<String>> row_list = new ArrayList<>();
 		try {

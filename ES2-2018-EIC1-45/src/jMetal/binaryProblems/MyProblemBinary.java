@@ -13,26 +13,29 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	*/
 	private static final long serialVersionUID = 1720856094158596822L;
 
-	private final static long startingTime = System.currentTimeMillis();
+	private final long startingTime = System.currentTimeMillis();
 
 	private int bits;
 	private boolean useJar = false;
-	
-	private ProgressChecker progC;
-	
-	private String jarPath;
-	
-	private int testNumber = 0;
 
+	private ProgressChecker progC;
+
+	private String jarPath;
+	private int testNumber = 0;
 	private boolean barWarning = false;
 
-	public MyProblemBinary(Integer numberOfBits, int number_of_variables, boolean isJar, String jarPath) {
+	private long timelimit;
+	
+	public MyProblemBinary(Integer numberOfBits, int number_of_objectives, int number_of_variables, boolean isJar,
+			String jarPath, String problemName, long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(useJar);
+		this.timelimit = timelimit;
+		
 		setNumberOfVariables(number_of_variables);
-		setNumberOfObjectives(2);
-		setName("MyProblemBinary");
+		setNumberOfObjectives(number_of_objectives);
+		setName(problemName);
 		bits = numberOfBits;
 	}
 
@@ -48,7 +51,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 
 	@Override
 	public void evaluate(BinarySolution solution) {
-		if (System.currentTimeMillis() - startingTime <= 10000) {
+		if (System.currentTimeMillis() - startingTime <= timelimit) {
 			if (!useJar) {
 				double[] solutionObjectives = OneZeroMax.OneZeroMaxSolution(solution);
 				for (int i = 0; i < solutionObjectives.length; i++) {
@@ -73,6 +76,5 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 			}
 		}
 	}
-
 
 }

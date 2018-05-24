@@ -33,11 +33,22 @@ import xml.ConfigXML;
 
 public class LauncherPanel extends JPanel {
 
-	// private static final String USER_LOGGED_MSG = "Your user has logged in!";
+	private static final String USER_LOGGED_MSG = "Your user has logged in!";
 	private static final String USER_PERMISSION_TO_MODIFY_MSG = "Permission to modify accept!";
 	private static final String USER_REGISTERED_MSG = "An user has been registered in your name!";
 	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
 	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
+	
+	//TODO: This needs to be displayed in a YES/NO dialog when the user hits the "Create User" button!!!
+	private final String USER_HITS_REGISTER_LEGAL_MSG = "ATTENTION: We need your complete consent to use your e-mail address. "
+			+ "It will only be used for the following ends: "
+			+ "\n -General warnings to the system's Administrator about the optimization process; "
+			+ "\n -Reception of messages with information pertinent to the optimization process "
+			+ "(start of process, current status, errors, etc); "
+			+ "\n -Sending help messages to the system's Administrator. "
+			+ "\n\n The system may ask for your e-mail address's password for authentication purposes. "
+			+ "Your password will never be saved anywhere or shared with anyone. "
+			+ "\n Proceed with the registration process?";
 
 	private static final long serialVersionUID = 1L;
 
@@ -112,6 +123,11 @@ public class LauncherPanel extends JPanel {
 
 	// *************************CREATE_USER_FIELDS*************************************
 
+	/**
+	 * The constructor
+	 * @param launch
+	 * @param file_config
+	 */
 	public LauncherPanel(Launcher launch, File file_config) {
 		this.launch = launch;
 		this.file = file_config;
@@ -591,11 +607,6 @@ public class LauncherPanel extends JPanel {
 		create_user_retypePass_field.setText("");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
 	public void paintComponent(Graphics page) {
 		super.paintComponent(page);
 		int h = background.getHeight(null);
@@ -616,16 +627,22 @@ public class LauncherPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * @return
+	 */
 	public Window getWindow() {
 		return window;
 	}
 
+	/**
+	 * @param window
+	 */
 	public void setWindow(Window window) {
 		this.window = window;
 	}
 
 	/*
-	 * public void test() { Config cfg = new Config();
+	 * public void createUsersTest() { Config cfg = new Config();
 	 * cfg.setAdmin_mail("mphna@gmail.com"); cfg.setAdmin_name("Markiyan");
 	 * 
 	 * ArrayList<String> algorithms = new ArrayList<String>();
@@ -653,6 +670,10 @@ public class LauncherPanel extends JPanel {
 	 * ConfigXML.writeXML(cfg, new File("Resources/config.xml")); }
 	 */
 
+	/**
+	 * Returns the user who is logged in
+	 * @return User
+	 */
 	public User getUserLogged() {
 
 		ArrayList<User> users = ConfigXML.config.getUsers();
