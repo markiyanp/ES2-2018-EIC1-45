@@ -1,5 +1,7 @@
 package jMetal;
 
+import java.io.IOException;
+
 public abstract class AbstractExperiment {
 
 	private String jarPath;
@@ -12,6 +14,9 @@ public abstract class AbstractExperiment {
 	private int number_of_objectives;
 	private boolean isJar;
 	private long timelimit;
+	
+	public static final String DEFAULT_R_PATH = "C:\\Program Files\\R\\R-3.4.3\\bin\\RScript.exe"; 
+	public static final String DEFAULT_LATEX_PATH = "C:\\Program Files\\MiKTeX-2.9\\miktex\\bin\\x64\\pdflatex.exe";
 
 	public String getJarPath() {
 		return jarPath;
@@ -91,6 +96,14 @@ public abstract class AbstractExperiment {
 
 	public void setTimelimit(long timelimit) {
 		this.timelimit = timelimit;
+	}
+	
+	public void generateDocuments(String r_path, String latex_path, AbstractExperiment e) throws IOException {
+		ScriptGenerator.generateR(r_path, e.getClass().getSimpleName());
+		System.out.println("Generated R...");
+		ScriptGenerator.generatorLatex(latex_path, e.getClass().getSimpleName());
+		System.out.println("Generated LaTeX...");
+		
 	}
 
 }

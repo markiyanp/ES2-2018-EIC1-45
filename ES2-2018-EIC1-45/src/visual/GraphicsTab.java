@@ -243,7 +243,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
-				switch (OptimizationProcess.getAlgorithm()) {
+				switch (algorithm_name) {
 				case "NSGAII":
 					path = "experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
@@ -277,7 +277,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
-				switch (OptimizationProcess.getAlgorithm()) {
+				switch (algorithm_name) {
 				case "NSGAII":
 					path = "experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
 					break;
@@ -361,7 +361,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
-				switch (OptimizationProcess.getAlgorithm()) {
+				switch (algorithm_name) {
 				case "NSGAII":
 					path = "experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;
@@ -395,7 +395,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
-				switch (OptimizationProcess.getAlgorithm()) {
+				switch (algorithm_name) {
 				case "NSGAII":
 					path = "experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";
 					break;

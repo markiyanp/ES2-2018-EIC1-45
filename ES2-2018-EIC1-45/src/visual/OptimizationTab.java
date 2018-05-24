@@ -277,28 +277,24 @@ public class OptimizationTab extends JPanel {
 		timelimit += (int) settings_time_spinner.getValue();
 
 		timelimit = getMaxTime(timelimit);
-		System.out.println("Caught timelimit: " + timelimit);
-
-		if (timelimit <= 10000) {
-			System.out.println(
-					"WARNING: Unreasonable time limit! The optimization process may not work properly!");
-		}
 
 		// sendMailAdmin();
-		OptimizationProcess.setData(data);
-		OptimizationProcess.setObjectives(objectives_data);
-		OptimizationProcess.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
-		OptimizationProcess.setJar(restrictions_jarcheck.isSelected());
-		OptimizationProcess.setJarPath(restrictions_externaljarpath_field.getText().trim());
-		OptimizationProcess.setProblemName(problem_name_field.getText());
-		OptimizationProcess.setTimelimit(timelimit);
-		new OptimizationProcess().start();
+		OptimizationProcess op1 = new OptimizationProcess();
+		op1.setData(data);
+		op1.setObjectives(objectives_data);
+		op1.setAlgorithm(((String) algo_name_field.getSelectedItem()).trim());
+		op1.setJar(restrictions_jarcheck.isSelected());
+		op1.setJarPath(restrictions_externaljarpath_field.getText().trim());
+		op1.setProblemName(problem_name_field.getText());
+		op1.setTimelimit(timelimit);
+		op1.start();
 	}
 
 	/**
 	 * Returns the max time limit that the user specified.
+	 * 
 	 * @param timelimit
-	 * @return the time limit
+	 * @return the time limit in miliseconds
 	 */
 	private long getMaxTime(long timelimit) {
 		switch ((String) settings_time_combobox.getSelectedItem()) {

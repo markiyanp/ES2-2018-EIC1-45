@@ -13,7 +13,7 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	*/
 	private static final long serialVersionUID = 1720856094158596822L;
 
-	private final static long startingTime = System.currentTimeMillis();
+	private final long startingTime = System.currentTimeMillis();
 
 	private int bits;
 	private boolean useJar = false;

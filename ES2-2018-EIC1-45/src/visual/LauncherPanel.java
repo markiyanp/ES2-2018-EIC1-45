@@ -1,7 +1,6 @@
 package visual;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -24,7 +23,6 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import core.User;
-import email.EMail_Tools;
 import xml.ConfigXML;
 
 /**

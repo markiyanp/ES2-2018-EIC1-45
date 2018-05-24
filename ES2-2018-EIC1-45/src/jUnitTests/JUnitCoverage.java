@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -413,9 +415,11 @@ public class JUnitCoverage {
 	
 	/**
 	 * Test GUI opening
+	 * @throws URISyntaxException 
+	 * @throws IOException 
 	 */
 	@Test
-	public void testGUI() {
+	public void testGUI() throws IOException, URISyntaxException {
 		Launcher launcher = new Launcher();
 		try {
 			Thread.sleep(10000);

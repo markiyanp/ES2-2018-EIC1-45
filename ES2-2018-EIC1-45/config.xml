@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Config>
 <Admin>
-<name>Markiyan</name>
+<name>Markiyan Pyekh</name>
 <mail>mphna@gmail.com</mail>
 </Admin>
 <User>
-<name>Paulo Pinaw</name>
-<mail>paulo@gmailcom</mail>
+<name>Paulo Pina</name>
+<mail>paulo@gmail.com</mail>
 <algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
 <createVars>yes</createVars>
 </User>
