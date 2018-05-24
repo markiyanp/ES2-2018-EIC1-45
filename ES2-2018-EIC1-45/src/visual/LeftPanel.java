@@ -16,7 +16,7 @@ public class LeftPanel extends JPanel {
 	// *****************BUTTONS**************************
 	private JButton optimization = new JButton();
 	private JButton importExport = new JButton();
-	private JButton graphics = new JButton();
+	private static JButton graphics = new JButton();
 	private JButton help = new JButton();
 	// *****************BUTTONS**************************
 
@@ -25,7 +25,7 @@ public class LeftPanel extends JPanel {
 	private JLabel selector = new JLabel(new ImageIcon(LeftPanel.class.getResource("/selector.png")));
 	private JLabel selector1 = new JLabel(new ImageIcon(LeftPanel.class.getResource("/selector.png")));
 	private Object current = null;
-	private Window window;
+	private static Window window;
 	private static JProgressBar pb;
 	private static int MAX = 100;
 	// *******************OTHER**************************
@@ -33,7 +33,7 @@ public class LeftPanel extends JPanel {
 	public LeftPanel(Window window, int WIDTH) {
 		this.window = window;
 		setLayout(null);
-
+		
 		listener = action_listener();
 
 		this.optimization = optimization();
@@ -52,6 +52,8 @@ public class LeftPanel extends JPanel {
 		add(importExport);
 		add(graphics);
 		add(help);
+		
+		graphics.setEnabled(false);
 		repaint();
 	}
 
@@ -70,6 +72,10 @@ public class LeftPanel extends JPanel {
 			pb.setValue(progress);
 		} else {
 			System.out.println(progress);
+		}
+		
+		if(progress == 100) {
+			graphics.setEnabled(true);
 		}
 	}
 
