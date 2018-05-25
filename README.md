@@ -1,14 +1,22 @@
 ![alt text](/Logo.jpg)
 
 
-**EIC1**
+**EIC1** - Grupo **45**
 
-Grupo **45**
+<link do vídeo>
 
-- [73324] Paulo Pina
-- [69223] Markiyan Pyekh 
-- [69362] Tiago Almeida 
-- [73263] André Godinho
+Trabalho quase completo, falta:
+
+-Possibilitar a escolha de vários algoritmos, escolha automática/mista de algoritmos (por defeito, NSGAII é usado, mas pode-se mudar na GUI)
+
+-Forma adequada de definir limite de bits para problemas binários (o Max Value da primeira variável é usada como referência)
+
+-Mostrar o tempo que foi preciso para o processo de optimização acabar na GUI (é escrito para um ficheiro)
+
+- [73324] Paulo Pina - pvmpa@iscte-iul.pt
+- [69223] Markiyan Pyekh - markiyan_pyekh@iscte-iul.pt
+- [69362] Tiago Almeida - tiago_pardal@iscte-iul.pt
+- [73263] André Godinho - afgos@iscte-iul.pt
 
 **Dependências e Licensas**: 
 
