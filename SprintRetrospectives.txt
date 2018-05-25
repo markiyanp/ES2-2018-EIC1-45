@@ -1,0 +1,60 @@
+Sprint 1 Retrospective:
+O que foi feito:
+-Definição de restrições para o problema de optimização a resolver.
+-Definição de quantidade de variáveis de decisão do problema.
+-Secção de Ajuda/FAQ.
+-Execução do processo de optimização a partir de um controlo na GUI.
+-Definição do nome do problema a optimizar pelo Utilizador.
+-Introdução de uma descrição sobre um problema pelo Utilizador.
+-Possibilitar a escolha do tipo de variável de decisão do sistema a usar na framework jMetal, incluindo o intervalo de valores.
+-Estruturação do ficheiro "config.xml"
+-Implementação de um parser XML para configurar o comportamento do sistema através de um ficheiro "config.xml"
+-Carregar a caracterização completa de um problema a partir de um ficheiro XML.
+-Guardar a caracterização completa de um problema num ficheiro XML.
+-Desenho da GUI em Photoshop.
+-Representação gráfica das soluções ótimas geradas pelo processo de otimização usando técnicas de visualização multidimensionais.
+-Atribuição de nomes a grupos de variáveis.
+-Atribuição de nomes a variáveis individuais.
+-Envio de um e-mail ao Utilizador (CC ao Administrador) a indicar o início do processo de otimização.
+-Escrever e-mails ao Administrador.
+-Checkboxes para escolher o algoritmo manualmente, automaticamente ou misto.
+
+Comentários:
+Este Sprint foi caracterizado por um grande esforço para apresentar a primeira versão do GUI e como este fora desenhado para o adequar como uma plataforma de optimização com metaheurísticas. Também foram feitos os primeiros esforços para a parametrização de dados em XML e o envio de e-mails.
+
+Sprint 2 Retrospective:
+O que foi feito:
+-Explicitar o propósito e utilização do e-mail fornecido pelo utilizador; garantir que o utilizador dá o seu consentimento informado sobre a utilização que será feita dos seus dados.
+-Associações iniciais do projeto aos problemas propostos.
+-Solicitação de e-mails com informações de ajuda e/ou indicações sobre o processo de optimização que o Utilizador solicitou através da plataforma.
+-Definição de critérios a otimizar indicando o nome de cada critério e fazendo upload de um JAR que implementa o cálculo correspondente a cada um dos critérios a otimizar.
+-Definir tempo máximo de espera por uma solução ótima.
+-Definição do protocolo/interface a ser usado para a troca de dados entre o ficheiro JAR e a plataforma. (NOTA: Este foi dado como realizado com o upload do Professor Vítor do ficheiro dos "exemplos de jMetal mais completos" no E-Learning)
+-Criação dos utilizadores "Utilizador" e "Administrador".
+-Definição de restrições para o problema de otimização a resolver.
+
+Comentários:
+Para este Sprint foi focado a implementação dos problemas e Experiments do jMetal ao projeto. Muitas funcionalidades ficaram por fazer para o terceiro sprint, como a definição de objetivos, pelo que foi preciso um re-design do GUI original para acomodar todas as definições do jMetal.
+
+
+Sprint 3 Retrospective:
+O que foi feito:
+-Parametrização do problema em XML.
+-Visualização de soluções geradas num gráfico.
+-Compilação automática dos outputs gerados pela framework jMetal. Visualização de outputs em programas externos.
+-Seleção de algoritmos a usar, usando JAR ou não.
+-Associar possibilidades de configuração do comportamento da plataforma ao Administrador (parametrização do "config.xml").
+-Optimização da qualidade e desempenho do serviço com mais três casos de teste.
+-Associar funcionalidades de resolução de problemas de utilização a utilizadores.
+-Otimização da qualidade e desempenho do serviço de filtragem anti-spam.
+-Relatório de coverage dos testes.
+-Relatório de code smells com recurso ao JDeodorant.
+-Teste da plataforma recorrendo ao RuleSIM.jar.
+
+O que não foi feito:
+-Escolha manual, automática, ou mista do algoritmo de otimização.
+-Foi decidido que a plataforma apenas suporta a seleção de um algoritmo de cada vez devido a um erro de interpretação dos requisitos.
+
+Comentários:
+O projeto foi concluído com algum sucesso. O que não foi feito pode ser rapidamente implementado num quarto sprint, porém o tempo de limite não consegue acomodar isso.
+
