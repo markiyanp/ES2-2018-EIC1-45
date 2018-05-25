@@ -227,7 +227,7 @@ public class EMail_Tools {
 	public static void sendProgressMail(int progress) throws EmailException {
 		if (progress != 100)
 			sendMail(OPTIMIZATION_BOT_ADDRESS, OPTIMIZATION_BOT_PASSWORD, currentUserEmail, null,
-					"Your Optimization is currently at " + progress, "Please wait...", null);
+					"Your Optimization is currently at " + progress +"%", "Please wait...", null);
 		else
 			sendMail(OPTIMIZATION_BOT_ADDRESS, OPTIMIZATION_BOT_PASSWORD, currentUserEmail, null,
 					"Your Optimization is completed!", "Check out the results as soon as possible.", null);

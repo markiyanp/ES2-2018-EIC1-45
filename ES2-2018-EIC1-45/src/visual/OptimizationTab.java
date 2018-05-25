@@ -210,6 +210,7 @@ public class OptimizationTab extends JPanel {
 		settings_panel();
 		objectives_panel();
 		buildNewAboutWindow();
+		buildAboutWindow();
 		
 		new_problem_about_save_button.addActionListener(action_listener);
 	}
@@ -487,9 +488,9 @@ public class OptimizationTab extends JPanel {
 	}
 
 	/**
-	 * Show a about problem
+	 * Builds the about window.
 	 */
-	private void showAboutWindow() {
+	private void buildAboutWindow() {
 		about_frame.setSize(266, 400);
 		about_frame.setLocationRelativeTo(null);
 		JPanel main_about_panel = new JPanel();
@@ -527,6 +528,13 @@ public class OptimizationTab extends JPanel {
 		main_about_panel.add(picLabel);
 
 		about_frame.add(main_about_panel);
+	}
+	
+	/**
+	 * Show a about problem
+	 */
+	private void showAboutWindow() {
+		
 		about_frame.setVisible(true);
 	}
 
