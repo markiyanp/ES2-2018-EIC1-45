@@ -67,6 +67,11 @@ public class EMail_Tools {
 			smtp_and_port[1] = "587";
 			smtp_and_port[2] = Boolean.FALSE;
 			return smtp_and_port;
+		case "yandex.com":
+			smtp_and_port[0] = "smtp.yandex.com";
+			smtp_and_port[1] = "465";
+			smtp_and_port[2] = Boolean.TRUE;
+			return smtp_and_port;
 		}
 		// something messed up..
 		new Thread() {
@@ -222,10 +227,10 @@ public class EMail_Tools {
 	public static void sendProgressMail(int progress) throws EmailException {
 		if (progress != 100)
 			sendMail(OPTIMIZATION_BOT_ADDRESS, OPTIMIZATION_BOT_PASSWORD, currentUserEmail, null,
-					"Your Optimization is currently at " + progress, "", null);
+					"Your Optimization is currently at " + progress, "Please wait...", null);
 		else
 			sendMail(OPTIMIZATION_BOT_ADDRESS, OPTIMIZATION_BOT_PASSWORD, currentUserEmail, null,
-					"Your Optimization is completed!", "", null);
+					"Your Optimization is completed!", "Check out the results as soon as possible.", null);
 	}
 
 	/**
