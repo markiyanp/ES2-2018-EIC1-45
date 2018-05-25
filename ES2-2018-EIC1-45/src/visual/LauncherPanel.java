@@ -355,7 +355,7 @@ public class LauncherPanel extends JPanel {
 			private void loginUser() {
 				String passwd = String.valueOf(user_passwd_field.getPassword());
 				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
-
+				
 				if (check) {
 					launch.dispose();
 					new Window(getUserLogged(), file);

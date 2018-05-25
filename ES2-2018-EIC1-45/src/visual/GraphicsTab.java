@@ -199,6 +199,10 @@ public class GraphicsTab extends JPanel {
 		String algorithm_name = window.getRight_panel().getOpt_tab().getAlgo_name_field().getSelectedItem().toString()
 				.trim();
 		
+		algorithm_panel.removeAll();
+		problem_panel.removeAll();
+		experiments_panel.removeAll();
+		
 		algorithm_name_label = new JLabel(algorithm_name);
 		algorithm_name_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 		algorithm_name_label.setBounds(10, 0, 200, 30);
@@ -206,13 +210,11 @@ public class GraphicsTab extends JPanel {
 		
 		String problem_name = window.getRight_panel().getOpt_tab().getProblem_name_field().getText();
 
+		
 		problem_name_label = new JLabel(problem_name);
 		problem_name_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 		problem_name_label.setBounds(10, 0, 200, 30);
 		problem_panel.add(problem_name_label);
-		
-		algorithm_name_label.repaint();
-		problem_name_label.repaint();
 		
 		Object[][] variables = window.getRight_panel().getOpt_tab().getData();
 		for (int i = 0; i < variables.length; i++) {
@@ -325,6 +327,10 @@ public class GraphicsTab extends JPanel {
 	public Objectives_Aux_Graphic processObjectives() {
 		String algorithm_name = window.getRight_panel().getOpt_tab().getAlgo_name_field().getSelectedItem().toString()
 				.trim();
+		
+		algorithm_panel.removeAll();
+		problem_panel.removeAll();
+		experiments_panel.removeAll();
 		
 		algorithm_name_label = new JLabel(algorithm_name);
 		algorithm_name_label.setFont(new Font("SansSerif", Font.BOLD, 15));

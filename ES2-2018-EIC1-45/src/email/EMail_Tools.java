@@ -27,7 +27,7 @@ public class EMail_Tools {
 	private static final String WARNING_TITLE_AUTH_FAILED = "Auth failure";
 
 	private static final String WARNING_INVALID_EMAIL = "WARNING: Invalid e-mail address detected! Failed to parse provider!"
-			+ "\nTry again with an e-mail from the following providers:\nGMail\nmail.com";
+			+ "\nTry again with an e-mail from the following providers:\nGMail\nmail.com\nyandex.com";
 	private static final String WARNING_AUTH_FAILED = "Authentication has failed during '";
 	
 	private static String currentUserEmail;
