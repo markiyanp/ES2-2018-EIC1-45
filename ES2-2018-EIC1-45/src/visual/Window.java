@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import core.User;
+import email.EMail_Tools;
 
 public class Window extends JFrame {
 
@@ -59,6 +60,9 @@ public class Window extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		//LOCK USER E-MAIL
+		EMail_Tools.setCurrentUserEmail(user.getEmailAddr());
 	}
 
 	/**

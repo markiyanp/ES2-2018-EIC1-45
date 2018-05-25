@@ -20,12 +20,17 @@ import org.apache.commons.mail.SimpleEmail;
  */
 public class EMail_Tools {
 
+	public static final String OPTIMIZATION_BOT_ADDRESS = "group45.optimization.bot@gmail.com";
+	public static final String OPTIMIZATION_BOT_PASSWORD = "";
+	
 	private static final String WARNING_TITLE_INVALID_EMAIL = "Address failure";
 	private static final String WARNING_TITLE_AUTH_FAILED = "Auth failure";
 
 	private static final String WARNING_INVALID_EMAIL = "WARNING: Invalid e-mail address detected! Failed to parse provider!"
 			+ "\nTry again with an e-mail from the following providers:\nGMail\nmail.com";
 	private static final String WARNING_AUTH_FAILED = "Authentication has failed during '";
+	
+	private static String currentUserEmail;
 
 	// this class should never be instatiated!
 	private EMail_Tools() {
@@ -33,10 +38,14 @@ public class EMail_Tools {
 	}
 
 	/**
-	 * Finds out the correct SMTP server and port depending on the e-mail address specified. </p>
+	 * Finds out the correct SMTP server and port depending on the e-mail address
+	 * specified.
+	 * </p>
 	 * Supports GMail and mail.com only.
+	 * 
 	 * @param email
-	 * @return array containing the smtp address, the port and whether SSL is used or not 
+	 * @return array containing the smtp address, the port and whether SSL is used
+	 *         or not
 	 */
 	private static Object[] mailProviderToSMTP(String email) {
 		int i;
@@ -68,8 +77,11 @@ public class EMail_Tools {
 	}
 
 	/**
-	 * Checks whether the e-mail/password combination is valid by sending an email to the same address.</p>
+	 * Checks whether the e-mail/password combination is valid by sending an email
+	 * to the same address.
+	 * </p>
 	 * A reason must be provided to do this.
+	 * 
 	 * @param userAddr
 	 * @param userPw
 	 * @param reason
@@ -200,20 +212,35 @@ public class EMail_Tools {
 	}
 
 	/**
-	 * Periodically used to send an e-mail containing information about the current optimization process
-	 * to the current user.
+	 * Periodically used to send an e-mail containing information about the current
+	 * optimization process to the current user.
+	 * 
 	 * @param progress
 	 * @throws EmailException
 	 */
 	public static void sendProgressMail(int progress) throws EmailException {
-		// if (progress != 100)
-		// sendMail("group45.optimization.bot@gmail.com", "",
-		// "group45.dummy.user.1@gmail.com", null,
-		// "Your Optimization is currently at " + progress, "", null);
-		// else
-		// sendMail("group45.optimization.bot@gmail.com", "",
-		// "group45.dummy.user.1@gmail.com", null,
-		// "Your Optimization is completed!", "", null);
+		if (progress != 100)
+			sendMail(OPTIMIZATION_BOT_ADDRESS, OPTIMIZATION_BOT_PASSWORD, currentUserEmail, null,
+					"Your Optimization is currently at " + progress, "", null);
+		else
+			sendMail(OPTIMIZATION_BOT_ADDRESS, OPTIMIZATION_BOT_PASSWORD, currentUserEmail, null,
+					"Your Optimization is completed!", "", null);
+	}
+
+	/**
+	 * Gets the logged user's e-mail.
+	 * @return E-Mail
+	 */
+	public static String getCurrentUserEmail() {
+		return currentUserEmail;
+	}
+
+	/**
+	 * Sets the logged user's e-mail.
+	 * @param currentUserEmail
+	 */
+	public static void setCurrentUserEmail(String currentUserEmail) {
+		EMail_Tools.currentUserEmail = currentUserEmail;
 	}
 
 }

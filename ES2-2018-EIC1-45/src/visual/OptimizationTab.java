@@ -75,6 +75,7 @@ public class OptimizationTab extends JPanel {
 	protected static final String WARNING_HELP_EMAIL_FAILED = "WARNING: Failed to send E-Mail! Please check your connection"
 			+ " to the internet, check your anti-virus's SMTP settings and try again.";
 	protected static final String WARNING_TITLE_HELP_EMAIL_FAILED = "E-Mail fail";
+	private User user_logged;
 
 	// ***************************GENERAL_FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -194,6 +195,7 @@ public class OptimizationTab extends JPanel {
 	public OptimizationTab(Window window) {
 
 		this.window = window;
+		this.user_logged = window.getUser();
 		tools_run_button.setEnabled(false);
 		tools_export_button.setEnabled(false);
 		tools_about_button.setEnabled(false);
@@ -282,7 +284,12 @@ public class OptimizationTab extends JPanel {
 
 		timelimit = getMaxTime(timelimit);
 
-		// sendMailAdmin();
+		new Thread() {
+			public void run() {
+				sendMail_startOptimization();
+			}
+		}.start();
+		
 		OptimizationProcess op1 = new OptimizationProcess();
 		op1.setData(data);
 		op1.setObjectives(objectives_data);
@@ -618,25 +625,25 @@ public class OptimizationTab extends JPanel {
 	}
 
 	/**
-	 * Send an email to the administrator
+	 * Send an email to the user and administrator about the start of a new optimization process.
 	 */
-	private void sendMailAdmin() {
-		User u = new User("default", "group45.dummy.user.1@gmail.com");
+	private void sendMail_startOptimization() {
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
 			String[] admin = { ConfigXML.config.getAdmin_mail() };
 
-			EMail_Tools.sendMail("group45.optimization.bot@gmail.com", "******", u.getEmailAddr(), admin, // cc
-																											// to
-																											// admin
-					"Otimização em curso: " + // need to say what it is
-							problem_name_field.getText() + // get the problem's
-															// name
-							" " + dateFormat.format(date), // and the current
-															// date:time
-					thankyou_message, ""); // no attachment YET, it needs to be
-											// an XML
+			EMail_Tools.sendMail(EMail_Tools.OPTIMIZATION_BOT_ADDRESS, 
+					EMail_Tools.OPTIMIZATION_BOT_PASSWORD, 
+					user_logged.getEmailAddr(), 
+					admin, // cc to admin
+					
+					"Optimization in Progress: " + // need to say what it is
+					problem_name_field.getText() + // get the problem's name
+					" " + dateFormat.format(date), // and the current date:time
+					
+					thankyou_message, 
+					file_problem.getAbsolutePath());
 		} catch (EmailException e1) {
 			new Thread() {
 				public void run() {
@@ -776,7 +783,7 @@ public class OptimizationTab extends JPanel {
 		restrictions_panel.setOpaque(false);
 		restrictions_panel.setLayout(null);
 
-		User user_logged = window.getUser();
+		
 		String[] algorithms = new String[user_logged.getAlgorithms().size()];
 		for (String s : user_logged.getAlgorithms()) {
 			algorithms[user_logged.getAlgorithms().indexOf(s)] = s;

@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import core.User;
+import email.EMail_Tools;
 import xml.ConfigXML;
 
 /**
@@ -38,8 +39,9 @@ public class LauncherPanel extends JPanel {
 	private static final String USER_REGISTERED_MSG = "An user has been registered in your name!";
 	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
 	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
-	
-	//TODO: This needs to be displayed in a YES/NO dialog when the user hits the "Create User" button!!!
+
+	// TODO: This needs to be displayed in a YES/NO dialog when the user hits the
+	// "Create User" button!!!
 	private final String USER_HITS_REGISTER_LEGAL_MSG = "ATTENTION: We need your complete consent to use your e-mail address. "
 			+ "It will only be used for the following ends: "
 			+ "\n -General warnings to the system's Administrator about the optimization process; "
@@ -125,6 +127,7 @@ public class LauncherPanel extends JPanel {
 
 	/**
 	 * The constructor
+	 * 
 	 * @param launch
 	 * @param file_config
 	 */
@@ -310,9 +313,14 @@ public class LauncherPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == user_signup_button) {
-					removeAll();
-					add(create_user_panel);
-					repaint();
+					Object[] options = { "Yes", "No" };
+					int n = JOptionPane.showOptionDialog(null, USER_HITS_REGISTER_LEGAL_MSG, "Legal Warning",
+							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+					if (n == 0) {
+						removeAll();
+						add(create_user_panel);
+						repaint();
+					}
 				} else if (e.getSource() == create_user_back_button) {
 					clean_create_users_fields();
 					removeAll();
@@ -349,210 +357,197 @@ public class LauncherPanel extends JPanel {
 			 * Verify authentication
 			 */
 			private void loginUser() {
-				// String passwd = String.valueOf(user_passwd_field.getPassword());
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_LOGGED_MSG);
-				//
-				// if (check) {
-				launch.dispose();
-				new Window(getUserLogged(), file);
-				// } else {
-				// messageDialog("<html><font color=RED > The credentials are wrong!
-				// </font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
-				// String passwd =
-				// String.valueOf(user_passwd_field.getPassword());
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(),
-				// passwd, USER_LOGGED_MSG);
-				//
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
+
+				if (check) {
+					launch.dispose();
+					new Window(getUserLogged(), file);
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!  </font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
+				}
+
 			}
 
 			/**
 			 * Method for creating users
 			 */
 			private void createUser() {
-				// String passwd = String.valueOf(create_user_passwd_field.getPassword());
-				// String repeat = String.valueOf(create_user_retypePass_field.getPassword());
-				//
-				// if (!passwd.equals(repeat)) {
-				// messageDialog("<html><font color=RED > The retype password is wrong!
-				// </font></html>");
-				// System.out.println("Passwords don't match.");
-				// return;
-				// }
+				String passwd = String.valueOf(create_user_passwd_field.getPassword());
+				String repeat = String.valueOf(create_user_retypePass_field.getPassword());
 
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_REGISTERED_MSG);
-				//
-				// if (check) {
-				int verify = 0;
-				ArrayList<User> users = ConfigXML.config.getUsers();
-				String[] array = create_user_name_field.getText().split(" ");
-				if (!(array.length == 2)) {
-					messageDialog(
-							"<html><font color=RED > The field name must have first and last name! </font></html>");
-					create_user_name_field.setText("");
-					create_user_name_field.requestFocus();
-				} else {
-					for (int i = 0; i < users.size(); i++) {
-						if (users.get(i).getName().equals(create_user_name_field.getText())) {
-							messageDialog("<html><font color=RED > This user already exists! </font></html>");
-							verify = 1;
-							create_user_name_field.setText("");
-							create_user_name_field.requestFocus();
-						}
-						if (users.get(i).getEmailAddr().equals(create_user_email_field.getText())) {
-							messageDialog("<html><font color=RED > This email already exists! </font></html>");
-							verify = 1;
-							create_user_email_field.setText("");
-							create_user_email_field.requestFocus();
-						}
-					}
-					if (verify == 0) {
-						ArrayList<String> algorithms = new ArrayList<String>();
-						algorithms.add("SPEA2");
-						algorithms.add("SMPSO");
-						algorithms.add("PAES");
-						algorithms.add("IBEA");
-						algorithms.add("NSGAII");
-						algorithms.add("SMSEMOA");
-						algorithms.add("GDE3");
-						algorithms.add("MOCell");
-						algorithms.add("MOEAD");
-						algorithms.add("RandomSearch");
-						algorithms.add("MOCH");
-
-						User new_user = new User(create_user_name_field.getText(), create_user_email_field.getText(),
-								algorithms, "yes");
-						users.add(new_user);
-
-						ConfigXML.config.setUsers(users);
-						ConfigXML.writeXML(ConfigXML.config, file);
-
-						String new_item = "";
-						new_item += new_user.getName();
-						new_item += "  [";
-						new_item += new_user.getEmailAddr();
-						new_item += "]";
-						user_list_field.addItem(new_item);
-
-						JOptionPane.showMessageDialog(null,
-								create_user_name_field.getText() + " was successfully created!", "SUCESS",
-								JOptionPane.INFORMATION_MESSAGE);
-						clean_create_users_fields();
-
-					}
+				if (!passwd.equals(repeat)) {
+					messageDialog("<html><font color=RED > The retype password is wrong! </font></html>");
+					System.out.println("Passwords don't match.");
+					return;
 				}
-				// } else {
-				// messageDialog("<html><font color=RED > The credentials are
-				// wrong!</font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
+
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_REGISTERED_MSG);
+
+				if (check) {
+					int verify = 0;
+					ArrayList<User> users = ConfigXML.config.getUsers();
+					String[] array = create_user_name_field.getText().split(" ");
+					if (!(array.length == 2)) {
+						messageDialog(
+								"<html><font color=RED > The field name must have first and last name! </font></html>");
+						create_user_name_field.setText("");
+						create_user_name_field.requestFocus();
+					} else {
+						for (int i = 0; i < users.size(); i++) {
+							if (users.get(i).getName().equals(create_user_name_field.getText())) {
+								messageDialog("<html><font color=RED > This user already exists! </font></html>");
+								verify = 1;
+								create_user_name_field.setText("");
+								create_user_name_field.requestFocus();
+							}
+							if (users.get(i).getEmailAddr().equals(create_user_email_field.getText())) {
+								messageDialog("<html><font color=RED > This email already exists! </font></html>");
+								verify = 1;
+								create_user_email_field.setText("");
+								create_user_email_field.requestFocus();
+							}
+						}
+						if (verify == 0) {
+							ArrayList<String> algorithms = new ArrayList<String>();
+							algorithms.add("SPEA2");
+							algorithms.add("SMPSO");
+							algorithms.add("PAES");
+							algorithms.add("IBEA");
+							algorithms.add("NSGAII");
+							algorithms.add("SMSEMOA");
+							algorithms.add("GDE3");
+							algorithms.add("MOCell");
+							algorithms.add("MOEAD");
+							algorithms.add("RandomSearch");
+							algorithms.add("MOCH");
+
+							User new_user = new User(create_user_name_field.getText(),
+									create_user_email_field.getText(), algorithms, "yes");
+							users.add(new_user);
+
+							ConfigXML.config.setUsers(users);
+							ConfigXML.writeXML(ConfigXML.config, file);
+
+							String new_item = "";
+							new_item += new_user.getName();
+							new_item += "  [";
+							new_item += new_user.getEmailAddr();
+							new_item += "]";
+							user_list_field.addItem(new_item);
+
+							JOptionPane.showMessageDialog(null,
+									create_user_name_field.getText() + " was successfully created!", "SUCESS",
+									JOptionPane.INFORMATION_MESSAGE);
+							clean_create_users_fields();
+
+						}
+					}
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
+				}
 			}
 
 			/**
 			 * Verify authentication to modify users
 			 */
 			private void loginModifyUser() {
-				// String passwd = String.valueOf(user_passwd_field.getPassword());
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_PERMISSION_TO_MODIFY_MSG);
-				//
-				// if (check) {
-				String[] array = user_list_field.getSelectedItem().toString().split(" ");
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_PERMISSION_TO_MODIFY_MSG);
 
-				String name_user = "";
-				name_user += array[0];
-				name_user += " ";
-				name_user += array[1];
+				if (check) {
+					String[] array = user_list_field.getSelectedItem().toString().split(" ");
 
-				String email_user = "";
-				email_user += array[3];
-				email_user = email_user.replace("[", "");
-				email_user = email_user.replace("]", "");
+					String name_user = "";
+					name_user += array[0];
+					name_user += " ";
+					name_user += array[1];
 
-				modify_user_name_field.setText(name_user);
-				modify_user_email_field.setText(email_user);
+					String email_user = "";
+					email_user += array[3];
+					email_user = email_user.replace("[", "");
+					email_user = email_user.replace("]", "");
 
-				add(modify_user_panel);
-				// } else {
-				// add(user_panel);
-				// messageDialog("<html><font color=RED > The credentials are wrong!
-				// </font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
+					modify_user_name_field.setText(name_user);
+					modify_user_email_field.setText(email_user);
+
+					add(modify_user_panel);
+				} else {
+					add(user_panel);
+					messageDialog("<html><font color=RED > The credentials are wrong! </font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
+				}
 			}
 
 			/**
 			 * Method to modify users
 			 */
 			private void modifyUser() {
-				// String passwd = String.valueOf(user_passwd_field.getPassword());
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_HAS_BEEN_MODIFIED_MSG);
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_MODIFIED_MSG);
 
-				// if (check) {
-				String old_name = "";
-				String[] array = modify_user_name_field.getText().split(" ");
-				if (!(array.length == 2)) {
-					messageDialog(
-							"<html><font color=RED > The field name must have first and last name! </font></html>");
-					modify_user_name_field.setText("");
-					modify_user_name_field.requestFocus();
-				} else {
-					int verify = 0;
-					ArrayList<User> users = ConfigXML.config.getUsers();
-					for (int i = 0; i < users.size(); i++) {
-						if (users.get(i).getName().equals(modify_user_name_field.getText())
-								&& !((String) user_list_field.getSelectedItem()).contains(users.get(i).getName())) {
-							messageDialog("<html><font color=RED > This user already exists! </font></html>");
-							verify = 1;
-							modify_user_name_field.setText("");
-							modify_user_name_field.requestFocus();
-						}
-						if (users.get(i).getEmailAddr().equals(modify_user_email_field.getText())
-								&& !((String) user_list_field.getSelectedItem())
-										.contains(users.get(i).getEmailAddr())) {
-							messageDialog("<html><font color=RED > This email already exists! </font></html>");
-							verify = 1;
-							modify_user_email_field.setText("");
-							modify_user_email_field.requestFocus();
-						}
-					}
-					if (verify == 0) {
+				if (check) {
+					String old_name = "";
+					String[] array = modify_user_name_field.getText().split(" ");
+					if (!(array.length == 2)) {
+						messageDialog(
+								"<html><font color=RED > The field name must have first and last name! </font></html>");
+						modify_user_name_field.setText("");
+						modify_user_name_field.requestFocus();
+					} else {
+						int verify = 0;
+						ArrayList<User> users = ConfigXML.config.getUsers();
 						for (int i = 0; i < users.size(); i++) {
-							if (((String) user_list_field.getSelectedItem()).contains(users.get(i).getName())) {
-								old_name = users.get(i).getName();
-								users.get(i).setName(modify_user_name_field.getText());
-								users.get(i).setEmailAddr(modify_user_email_field.getText());
-
-								String new_item = "";
-								new_item += users.get(i).getName();
-								new_item += "  [";
-								new_item += users.get(i).getEmailAddr();
-								new_item += "]";
-								user_list_field.addItem(new_item);
-								
-								modify_user_name_field.setText(users.get(i).getName());
-								modify_user_email_field.setText(users.get(i).getEmailAddr());
+							if (users.get(i).getName().equals(modify_user_name_field.getText())
+									&& !((String) user_list_field.getSelectedItem()).contains(users.get(i).getName())) {
+								messageDialog("<html><font color=RED > This user already exists! </font></html>");
+								verify = 1;
+								modify_user_name_field.setText("");
+								modify_user_name_field.requestFocus();
+							}
+							if (users.get(i).getEmailAddr().equals(modify_user_email_field.getText())
+									&& !((String) user_list_field.getSelectedItem())
+											.contains(users.get(i).getEmailAddr())) {
+								messageDialog("<html><font color=RED > This email already exists! </font></html>");
+								verify = 1;
+								modify_user_email_field.setText("");
+								modify_user_email_field.requestFocus();
 							}
 						}
-						ConfigXML.writeXML(ConfigXML.config, file);
-						user_list_field.removeItem(user_list_field.getSelectedItem());
-						JOptionPane.showMessageDialog(null, old_name + " was successfully modified!", "SUCESS",
-								JOptionPane.INFORMATION_MESSAGE);
-						clean_create_users_fields();
-						removeAll();
-						add(user_panel);
-						repaint();
+						if (verify == 0) {
+							for (int i = 0; i < users.size(); i++) {
+								if (((String) user_list_field.getSelectedItem()).contains(users.get(i).getName())) {
+									old_name = users.get(i).getName();
+									users.get(i).setName(modify_user_name_field.getText());
+									users.get(i).setEmailAddr(modify_user_email_field.getText());
+
+									String new_item = "";
+									new_item += users.get(i).getName();
+									new_item += "  [";
+									new_item += users.get(i).getEmailAddr();
+									new_item += "]";
+									user_list_field.addItem(new_item);
+
+									modify_user_name_field.setText(users.get(i).getName());
+									modify_user_email_field.setText(users.get(i).getEmailAddr());
+								}
+							}
+							ConfigXML.writeXML(ConfigXML.config, file);
+							user_list_field.removeItem(user_list_field.getSelectedItem());
+							JOptionPane.showMessageDialog(null, old_name + " was successfully modified!", "SUCESS",
+									JOptionPane.INFORMATION_MESSAGE);
+							clean_create_users_fields();
+							removeAll();
+							add(user_panel);
+							repaint();
+						}
 					}
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
 				}
-				// } else {
-				// messageDialog("<html><font color=RED > The credentials are
-				// wrong!</font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
 			}
 
 			/**
@@ -560,31 +555,29 @@ public class LauncherPanel extends JPanel {
 			 */
 			private void deleteUser() {
 
-				// String passwd = String.valueOf(user_passwd_field.getPassword());
-				// boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd,
-				// USER_HAS_BEEN_DELETED_MSG);
-				//
-				// if (check) {
-				String old_name = "";
-				ArrayList<User> users = ConfigXML.config.getUsers();
-				for (int i = 0; i < users.size(); i++) {
-					if (((String) user_list_field.getSelectedItem()).contains(users.get(i).getName())) {
-						old_name = users.get(i).getName();
-						users.remove(i);
+				String passwd = String.valueOf(user_passwd_field.getPassword());
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_HAS_BEEN_DELETED_MSG);
+
+				if (check) {
+					String old_name = "";
+					ArrayList<User> users = ConfigXML.config.getUsers();
+					for (int i = 0; i < users.size(); i++) {
+						if (((String) user_list_field.getSelectedItem()).contains(users.get(i).getName())) {
+							old_name = users.get(i).getName();
+							users.remove(i);
+						}
 					}
+					ConfigXML.config.setUsers(users);
+					ConfigXML.writeXML(ConfigXML.config, file);
+
+					user_list_field.removeItem(user_list_field.getSelectedItem());
+					JOptionPane.showMessageDialog(null, old_name + " was successfully deleted!", "SUCESS",
+							JOptionPane.INFORMATION_MESSAGE);
+
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!</font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
 				}
-				ConfigXML.config.setUsers(users);
-				ConfigXML.writeXML(ConfigXML.config, file);
-
-				user_list_field.removeItem(user_list_field.getSelectedItem());
-				JOptionPane.showMessageDialog(null, old_name + " was successfully deleted!", "SUCESS",
-						JOptionPane.INFORMATION_MESSAGE);
-
-				// } else {
-				// messageDialog("<html><font color=RED > The credentials are
-				// wrong!</font></html>");
-				// System.out.println("WARNING: Incorrect credentials!");
-				// }
 
 			}
 		};
@@ -641,37 +634,9 @@ public class LauncherPanel extends JPanel {
 		this.window = window;
 	}
 
-	/*
-	 * public void createUsersTest() { Config cfg = new Config();
-	 * cfg.setAdmin_mail("mphna@gmail.com"); cfg.setAdmin_name("Markiyan");
-	 * 
-	 * ArrayList<String> algorithms = new ArrayList<String>();
-	 * algorithms.add("SPEA2"); algorithms.add("SMPSO"); algorithms.add("PAES");
-	 * algorithms.add("IBEA"); algorithms.add("NSGAII"); algorithms.add("SMSEMOA");
-	 * algorithms.add("GDE3"); algorithms.add("MOCell"); algorithms.add("MOEAD");
-	 * algorithms.add("RandomSearch"); algorithms.add("MOCH");
-	 * 
-	 * String create_var = "yes";
-	 * 
-	 * User u = new User("Tiago Almeida", "tiago@gmail.com", algorithms,
-	 * create_var); User u1 = new User("Paulo Pina", "paulo@gmail.com", algorithms,
-	 * create_var); User u2 = new User("Andre Godinho", "andre@gmail.com",
-	 * algorithms, create_var);
-	 * 
-	 * ArrayList<User> users = new ArrayList<>(); users.add(u); users.add(u1);
-	 * users.add(u2);
-	 * 
-	 * Path p = new Path("ProblemsPath", "C:/");
-	 * 
-	 * ArrayList<Path> paths = new ArrayList<>(); paths.add(p);
-	 * 
-	 * cfg.setTime("5"); cfg.setUsers(users); // cfg.setPaths(paths);
-	 * 
-	 * ConfigXML.writeXML(cfg, new File("Resources/config.xml")); }
-	 */
-
 	/**
 	 * Returns the user who is logged in
+	 * 
 	 * @return User
 	 */
 	public User getUserLogged() {
