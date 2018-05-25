@@ -40,8 +40,6 @@ public class LauncherPanel extends JPanel {
 	private static final String USER_HAS_BEEN_DELETED_MSG = "Your user has been deleted!";
 	private static final String USER_HAS_BEEN_MODIFIED_MSG = "Your user has been modified!";
 
-	// TODO: This needs to be displayed in a YES/NO dialog when the user hits the
-	// "Create User" button!!!
 	private final String USER_HITS_REGISTER_LEGAL_MSG = "ATTENTION: We need your complete consent to use your e-mail address. "
 			+ "It will only be used for the following ends: "
 			+ "\n -General warnings to the system's Administrator about the optimization process; "
@@ -356,15 +354,15 @@ public class LauncherPanel extends JPanel {
 			 */
 			private void loginUser() {
 				String passwd = String.valueOf(user_passwd_field.getPassword());
-//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
-//
-//			if (check) {
+				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
+
+				if (check) {
 					launch.dispose();
 					new Window(getUserLogged(), file);
-//				} else {
-//					messageDialog("<html><font color=RED > The credentials are wrong!  </font></html>");
-//					System.out.println("WARNING: Incorrect credentials!");
-//				}
+				} else {
+					messageDialog("<html><font color=RED > The credentials are wrong!  </font></html>");
+					System.out.println("WARNING: Incorrect credentials!");
+				}
 
 			}
 
