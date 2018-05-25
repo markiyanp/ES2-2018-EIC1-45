@@ -54,6 +54,7 @@ public class EMail_Tools {
 				email = email.substring(i + 1);
 			}
 		}
+		System.out.println(email);
 		Object[] smtp_and_port = new Object[3];
 		switch (email) {
 		case "gmail.com":

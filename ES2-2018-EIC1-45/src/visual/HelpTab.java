@@ -229,9 +229,8 @@ public class HelpTab extends JPanel{
 
 				}else if(e.getSource() == help_send_field){
 					try {
-						User u = new User("default", "group45.dummy.user.1@gmail.com");
 	
-						EMail_Tools.sendMail(u.getEmailAddr(),
+						EMail_Tools.sendMail(window.getUser().getEmailAddr(),
 								String.copyValueOf(help_passwd_field.getPassword()), 
 								ConfigXML.config.getAdmin_mail(), 
 								null,

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Config>
 <Admin>
-<name>Markiyan Pyekh</name>
-<mail>mphna@gmail.com</mail>
+<name>Cool Admin</name>
+<mail>group45.dummy.user.1@gmail.com</mail>
 </Admin>
 <User>
 <name>Paulo Pina</name>
@@ -13,6 +13,12 @@
 <User>
 <name>Andre Godinho</name>
 <mail>andre@gmail.com</mail>
+<algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
+<createVars>yes</createVars>
+</User>
+<User>
+<name>Cool Dude</name>
+<mail>cool_user@mail.com</mail>
 <algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
 <createVars>yes</createVars>
 </User>

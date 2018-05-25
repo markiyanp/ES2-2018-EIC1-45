@@ -263,8 +263,6 @@ public class LauncherPanel extends JPanel {
 		create_user_panel.add(create_user_retypePass_field);
 		create_user_panel.add(create_user_create_button);
 		create_user_panel.add(create_user_back_button);
-
-		// getUserLogged();
 	}
 
 	/**
@@ -358,15 +356,15 @@ public class LauncherPanel extends JPanel {
 			 */
 			private void loginUser() {
 				String passwd = String.valueOf(user_passwd_field.getPassword());
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
-
-				if (check) {
+//				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_LOGGED_MSG);
+//
+//			if (check) {
 					launch.dispose();
 					new Window(getUserLogged(), file);
-				} else {
-					messageDialog("<html><font color=RED > The credentials are wrong!  </font></html>");
-					System.out.println("WARNING: Incorrect credentials!");
-				}
+//				} else {
+//					messageDialog("<html><font color=RED > The credentials are wrong!  </font></html>");
+//					System.out.println("WARNING: Incorrect credentials!");
+//				}
 
 			}
 
@@ -383,7 +381,7 @@ public class LauncherPanel extends JPanel {
 					return;
 				}
 
-				boolean check = EMail_Tools.checkAuth(getCurrentEmail(), passwd, USER_REGISTERED_MSG);
+				boolean check = EMail_Tools.checkAuth(create_user_email_field.getText(), passwd, USER_REGISTERED_MSG);
 
 				if (check) {
 					int verify = 0;

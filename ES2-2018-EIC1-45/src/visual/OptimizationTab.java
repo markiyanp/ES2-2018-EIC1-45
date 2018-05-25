@@ -539,10 +539,10 @@ public class OptimizationTab extends JPanel {
 	 * Save a new about problem with name and description
 	 */
 	private void saveNewAbout() {
-		if (!problem_name_field.getText().isEmpty()) {
+		if (!new_problem_name_field.getText().isEmpty()) {
 			Problem new_problem = new Problem();
-			new_problem.setProblem_name(problem_name_field.getText());
-			new_problem.setProblem_description(problem_description_area.getText());
+			new_problem.setProblem_name(new_problem_name_field.getText());
+			new_problem.setProblem_description(new_problem_description_area.getText());
 			saveNewProblem(new_problem);
 			problem_creation_frame.dispose();
 		} else {
