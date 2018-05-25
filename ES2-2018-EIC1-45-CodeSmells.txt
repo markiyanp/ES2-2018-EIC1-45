@@ -1,0 +1,161 @@
+---------------------- LONG METHOD ----------------------
+
+visual.LauncherPanel	private void loadUsers() 	items	B1	0/17
+visual.LauncherPanel	private void loadUsers() 	items	B2	0/15
+jMetal.doubleProblems.Kursawe	public static double[] kurzaseSolution(double[], double[]) 	fx	B1	0/12
+jMetal.doubleProblems.Kursawe	public static double[] kurzaseSolution(double[], double[]) 	fx	B2	0/11
+jMetal.doubleProblems.Kursawe	public static double[] kurzaseSolution(double[], double[]) 	fx	B4	0/9
+visual.OptimizationTab	private void runProcess() 	op1	B1	0/11
+jMetal.exampleProblems.AntiSpamFilterProblem	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	fx	B1	0/10
+jMetal.exampleProblems.AntiSpamFilterProblem	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	fx	B2	0/8
+jMetal.exampleProblems.AntiSpamFilterProblem	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	fx	B4	0/6
+visual.OptimizationTab	private void importProblem() 	chooser	B1	0/9
+visual.OptimizationTab	private void importProblem() 	chooser	B3	0/4
+visual.OptimizationTab	private void saveNewProblem(core.Problem) 	chooser	B1	0/9
+visual.OptimizationTab	private void saveNewProblem(core.Problem) 	chooser	B3	0/4
+jMetal.OptimizationProcess	private void launchProblem(java.lang.Object[][], java.lang.Object[][], java.lang.String, boolean, boolean, boolean, boolean) throws java.io.IOException	e	B16	0/9
+jMetal.integerProblems.NMMin	public static double[] NMMinSolution(double[], int[]) 	fx	B1	0/8
+jUnitTests.JUnitCoverage	public void testReadXML2() 	variable	B5	0/8
+xml.ProblemXML	public static void readXML(java.io.File) 	variable	B5	0/8
+visual.LauncherPanel	private void loadUsers() 	admin_string	B4	0/7
+visual.OptimizationTab	private void createVariable() 	row	B4	0/7
+jUnitTests.JUnitCoverage	private static org.w3c.dom.Node putUser(org.w3c.dom.Document, java.lang.String, java.lang.String, ArrayList<java.lang.String>) 	algo	B1	0/6
+jUnitTests.JUnitCoverage	private static org.w3c.dom.Node putUser(org.w3c.dom.Document, java.lang.String, java.lang.String, ArrayList<java.lang.String>) 	algo	B2	0/5
+jUnitTests.JUnitCoverage	private static org.w3c.dom.Node putUser(org.w3c.dom.Document, java.lang.String, java.lang.String, ArrayList<java.lang.String>) 	algo	B3	0/4
+xml.ConfigXML	private static org.w3c.dom.Node putUser(org.w3c.dom.Document, java.lang.String, java.lang.String, ArrayList<java.lang.String>, java.lang.String) 	algo	B1	0/6
+xml.ConfigXML	private static org.w3c.dom.Node putUser(org.w3c.dom.Document, java.lang.String, java.lang.String, ArrayList<java.lang.String>, java.lang.String) 	algo	B2	0/5
+xml.ConfigXML	private static org.w3c.dom.Node putUser(org.w3c.dom.Document, java.lang.String, java.lang.String, ArrayList<java.lang.String>, java.lang.String) 	algo	B3	0/4
+visual.LauncherPanel	private void loadUsers() 	ret	B3	0/5
+visual.LauncherPanel	public void paintComponent(java.awt.Graphics) 	h	B1	0/5
+visual.LauncherPanel	public void paintComponent(java.awt.Graphics) 	h	B2	0/2
+visual.MainPanel	public void paintComponent(java.awt.Graphics) 	h	B1	0/5
+visual.MainPanel	public void paintComponent(java.awt.Graphics) 	h	B2	0/2
+xml.ProblemXML	public static void readXML(java.io.File) 	objective	B9	0/5
+jMetal.ProgressChecker	public void checkProgress(int) 	numberTests	B1	0/4
+visual.OptimizationTab	private ArrayList<core.Objective> toArrayListObjectives(java.lang.Object[][]) 	a	B3	0/4
+visual.OptimizationTab	private ArrayList<core.Variable> toArrayListVariables(java.lang.Object[][]) 	a	B3	0/4
+visual.OptimizationTab	private void importProblem() 	path	B1	0/4
+visual.OptimizationTab	private void saveNewProblem(core.Problem) 	path	B1	0/4
+jMetal.OptimizationProcess	private void writeNamesOfResultsAndTime(boolean, boolean, boolean, java.lang.Object[][], java.lang.Object[][], double) 	variable_names	B1	0/4
+jMetal.OptimizationProcess	private void writeNamesOfResultsAndTime(boolean, boolean, boolean, java.lang.Object[][], java.lang.Object[][], double) 	variable_names	B2	0/3
+jMetal.OptimizationProcess	private void writeNamesOfResultsAndTime(boolean, boolean, boolean, java.lang.Object[][], java.lang.Object[][], double) 	objective_names	B1	0/4
+jMetal.OptimizationProcess	private void writeNamesOfResultsAndTime(boolean, boolean, boolean, java.lang.Object[][], java.lang.Object[][], double) 	objective_names	B5	0/3
+email.EMail_Tools	private static java.lang.Object[] mailProviderToSMTP(java.lang.String) 	email	B1	0/4
+email.EMail_Tools	private static java.lang.Object[] mailProviderToSMTP(java.lang.String) 	email	B2	0/3
+email.EMail_Tools	private static java.lang.Object[] mailProviderToSMTP(java.lang.String) 	email	B3	0/2
+email.EMail_Tools	public static void sendMail(java.lang.String, java.lang.String, java.lang.String, java.lang.String[], java.lang.String, java.lang.String, java.lang.String) throws org.apache.commons.mail.EmailException	validCc	B1	0/4
+email.EMail_Tools	public static void sendMail(java.lang.String, java.lang.String, java.lang.String, java.lang.String[], java.lang.String, java.lang.String, java.lang.String) throws org.apache.commons.mail.EmailException	validCc	B4	0/3
+email.EMail_Tools	public static void sendMail(java.lang.String, java.lang.String, java.lang.String, java.lang.String[], java.lang.String, java.lang.String, java.lang.String) throws org.apache.commons.mail.EmailException	validCc	B5	0/2
+jMetal.OptimizationProcess	private java.lang.Object[][] parseTrueObjectives(java.lang.Object[][], boolean, boolean, boolean) 	objectives_count	B1	0/4
+jMetal.OptimizationProcess	private java.lang.Object[][] parseTrueObjectives(java.lang.Object[][], boolean, boolean, boolean) 	objectives_count	B2	0/3
+jMetal.OptimizationProcess	private java.lang.Object[][] parseTrueObjectives(java.lang.Object[][], boolean, boolean, boolean) 	objectives_count	B3	0/2
+visual.OptimizationTab	private void addObjective() 	row	B5	0/4
+visual.OptimizationTab	private void restrictionToCreateVar(JComboBox<java.lang.String>) 	check	B3	0/4
+visual.OptimizationTab	private void restrictionToCreateVar(JComboBox<java.lang.String>) 	check	B4	0/3
+visual.OptimizationTab	private void restrictionToCreateVar(JComboBox<java.lang.String>) 	check	B5	0/2
+visual.OptimizationTab	private void saveNewAbout() 	new_problem	B2	0/4
+jMetal.doubleProblems.Kursawe	public static double[] kurzaseSolution(double[], double[]) 	aux	B6	0/3
+visual.OptimizationTab	private void compareDoubleValues() 	show_message	B6	0/3
+visual.OptimizationTab	private void runProcess() 	timelimit	B1	0/3
+jMetal.JarEvaluator	public static java.lang.String[] jarEvaluate(Solution<?>, java.lang.String) 	solutionString	B1	0/3
+jMetal.JarEvaluator	public static java.lang.String[] jarEvaluate(Solution<?>, java.lang.String) 	solutionString	B2	0/2
+jMetal.exampleProblems.AntiSpamFilterProblem	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	x	B1	0/3
+jMetal.exampleProblems.AntiSpamFilterProblem	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	x	B2	0/2
+visual.OptimizationTab	private void settings_panel() 	algorithms	B1	0/3
+visual.OptimizationTab	private void settings_panel() 	algorithms	B2	0/2
+jMetal.doubleProblems.MyProblemDouble	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	x	B3	0/3
+jMetal.doubleProblems.MyProblemDouble	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	x	B4	0/2
+jMetal.integerProblems.MyProblemInteger	public void evaluate(org.uma.jmetal.solution.IntegerSolution) 	x	B3	0/3
+jMetal.integerProblems.MyProblemInteger	public void evaluate(org.uma.jmetal.solution.IntegerSolution) 	x	B4	0/2
+jMetal.JarEvaluator	public static java.lang.String[] jarEvaluate(Solution<?>, java.lang.String) 	evaluationResultString	B5	0/2
+jMetal.doubleProblems.Kursawe	public static double[] kurzaseSolution(double[], double[]) 	x	B2	0/2
+jMetal.OptimizationProcess	private void launchProblem(java.lang.Object[][], java.lang.Object[][], java.lang.String, boolean, boolean, boolean, boolean) throws java.io.IOException	e	B9	1/9
+jMetal.OptimizationProcess	private void launchProblem(java.lang.Object[][], java.lang.Object[][], java.lang.String, boolean, boolean, boolean, boolean) throws java.io.IOException	e	B14	0/7
+jMetal.OptimizationProcess	private void launchProblem(java.lang.Object[][], java.lang.Object[][], java.lang.String, boolean, boolean, boolean, boolean) throws java.io.IOException	e	B2	1/9
+jMetal.OptimizationProcess	private void launchProblem(java.lang.Object[][], java.lang.Object[][], java.lang.String, boolean, boolean, boolean, boolean) throws java.io.IOException	e	B7	0/7
+xml.ProblemXML	public static void readXML(java.io.File) 	result	B1	5/44
+xml.ProblemXML	public static void readXML(java.io.File) 	result	B2	3/41
+xml.ProblemXML	public static void readXML(java.io.File) 	result	B3	0/37
+jUnitTests.JUnitCoverage	public void testWriteXML2() throws javax.xml.transform.TransformerException	fileName	B1	1/7
+jUnitTests.JUnitCoverage	public void testWriteXML2() throws javax.xml.transform.TransformerException	fileName	B2	0/4
+jUnitTests.JUnitCoverage	public void testReadXML2() 	result	B1	6/35
+jUnitTests.JUnitCoverage	public void testReadXML2() 	result	B2	3/31
+jUnitTests.JUnitCoverage	public void testReadXML2() 	result	B3	0/27
+jMetal.binaryProblems.MyProblemBinary	public void evaluate(org.uma.jmetal.solution.BinarySolution) 	progC	B1	1/3
+jMetal.binaryProblems.MyProblemBinary	public void evaluate(org.uma.jmetal.solution.BinarySolution) 	progC	B9	0/2
+jMetal.doubleProblems.MyProblemDouble	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	progC	B1	1/3
+jMetal.doubleProblems.MyProblemDouble	public void evaluate(org.uma.jmetal.solution.DoubleSolution) 	progC	B12	0/2
+jMetal.integerProblems.MyProblemInteger	public void evaluate(org.uma.jmetal.solution.IntegerSolution) 	progC	B1	1/3
+jMetal.integerProblems.MyProblemInteger	public void evaluate(org.uma.jmetal.solution.IntegerSolution) 	progC	B12	0/2
+visual.OptimizationTab	private void removeObjective() 	mod	B2	0/6
+visual.OptimizationTab	private void removeObjective() 	mod	B3	0/4
+visual.OptimizationTab	private void removeObjective() 	mod	B4	1/2
+visual.OptimizationTab	private void removeVariable() 	mod	B2	0/6
+visual.OptimizationTab	private void removeVariable() 	mod	B3	0/4
+visual.OptimizationTab	private void removeVariable() 	mod	B4	1/2
+jUnitTests.JUnitCoverage	public void testReadXML() 	variable	B5	1/4
+xml.ConfigXML	public static void readXML(java.io.File) 	variable	B5	1/4
+visual.OptimizationTab	private void saveNewProblem(core.Problem) 	prob	B6	2/6
+visual.OptimizationTab	private void saveNewProblem(core.Problem) 	prob	B7	0/4
+visual.LauncherPanel	public core.User getUserLogged() 	email_user	B1	1/5
+visual.LauncherPanel	public core.User getUserLogged() 	name_user	B1	1/5
+jUnitTests.JUnitCoverage	public void testWriteXML2() throws javax.xml.transform.TransformerException	icBuilder	B3	1/4
+xml.ConfigXML	public static void writeXML(core.Config, java.io.File) 	icBuilder	B1	1/4
+xml.ProblemXML	public static void writeXML(core.Problem, java.io.File) 	icBuilder	B1	1/4
+graphics.Individual_Graphic	public ArrayList<org.knowm.xchart.XYChart> getCharts(java.lang.String, ArrayList<java.lang.String>) 	count	B1	1/3
+visual.HelpTab	private void loadArticles() throws java.lang.InterruptedException	cat_array	B4	1/3
+visual.HelpTab	private void loadArticles() throws java.lang.InterruptedException	cat_array	B5	1/2
+visual.OptimizationTab	private void DoubleRestriction(java.awt.event.FocusEvent) 	show_message	B13	1/2
+visual.OptimizationTab	private void IntegerRestriction(java.awt.event.FocusEvent) 	show_message	B9	1/2
+jMetal.binaryProblems.OneZeroMax	public static double[] OneZeroMaxSolution(org.uma.jmetal.solution.BinarySolution) 	counterOnes	B1	3/6
+jMetal.binaryProblems.OneZeroMax	public static double[] OneZeroMaxSolution(org.uma.jmetal.solution.BinarySolution) 	counterZeroes	B1	3/6
+visual.LauncherPanel	public core.User getUserLogged() 	algo	B1	12/16
+visual.LauncherPanel	public core.User getUserLogged() 	algo	B2	2/5
+jMetal.OptimizationProcess	public void runOptimization() 	integerProblem	B2	2/3
+jMetal.OptimizationProcess	public void runOptimization() 	integerProblem	B3	1/2
+email.EMail_Tools	public static void sendMail(java.lang.String, java.lang.String, java.lang.String, java.lang.String[], java.lang.String, java.lang.String, java.lang.String) throws org.apache.commons.mail.EmailException	validAttachment	B1	3/5
+email.EMail_Tools	public static void sendMail(java.lang.String, java.lang.String, java.lang.String, java.lang.String[], java.lang.String, java.lang.String, java.lang.String) throws org.apache.commons.mail.EmailException	validAttachment	B2	2/3
+jMetal.OptimizationProcess	public void runOptimization() 	doubleProblem	B2	3/4
+jMetal.OptimizationProcess	public void runOptimization() 	doubleProblem	B3	2/3
+jMetal.OptimizationProcess	public void runOptimization() 	doubleProblem	B5	1/2
+visual.OptimizationTab	private void compareIntegerValues() 	show_message	B6	2/3
+visual.LauncherPanel	public core.User getUserLogged() 	create_var	B1	12/14
+visual.LauncherPanel	public core.User getUserLogged() 	create_var	B2	2/3
+visual.LauncherPanel	public core.User getUserLogged() 	create_var	B3	1/2
+jMetal.OptimizationProcess	public void runOptimization() 	binaryProblem	B2	4/5
+jMetal.OptimizationProcess	public void runOptimization() 	binaryProblem	B3	3/4
+jMetal.OptimizationProcess	public void runOptimization() 	binaryProblem	B5	2/3
+jMetal.OptimizationProcess	public void runOptimization() 	binaryProblem	B7	1/2
+
+---------------------- GOD CLASS ----------------------
+
+visual.GraphicsTab	[visual.GraphicsTab::java.lang.String path, visual.GraphicsTab::visual.Window window, visual.GraphicsTab::javax.swing.JPanel experiments_panel, visual.GraphicsTab::javax.swing.JPanel algorithm_panel, visual.GraphicsTab::javax.swing.JPanel problem_panel, visual.GraphicsTab::javax.swing.JLabel experiments_label, visual.GraphicsTab::javax.swing.JLabel algorithm_name_label, visual.GraphicsTab::javax.swing.JLabel problem_name_label, visual.GraphicsTab::java.util.ArrayList<java.lang.String> variables_name_aux, visual.GraphicsTab::java.util.ArrayList<java.lang.String> objectives_name_aux, visual.GraphicsTab::processVariables():graphics.Variables_Aux_Graphic, visual.GraphicsTab::processObjectives():graphics.Objectives_Aux_Graphic]
+core.Problem	[core.Problem::java.lang.String problem_name, core.Problem::java.lang.String problem_description, core.Problem::getProblem_name():java.lang.String, core.Problem::getProblem_description():java.lang.String, core.Problem::java.lang.String algorithm, core.Problem::getAlgorithm():java.lang.String, core.Problem::java.lang.String user_name, core.Problem::java.lang.String user_email, core.Problem::getUser_name():java.lang.String, core.Problem::getUser_email():java.lang.String]
+core.Problem	[core.Problem::java.lang.String algorithm, core.Problem::getAlgorithm():java.lang.String, core.Problem::java.lang.String user_name, core.Problem::java.lang.String user_email, core.Problem::getUser_name():java.lang.String, core.Problem::getUser_email():java.lang.String]
+core.Problem	[core.Problem::java.util.ArrayList<core.Variable> variables, core.Problem::getVariables():java.util.ArrayList<core.Variable>, core.Problem::java.util.ArrayList<core.Objective> objectives, core.Problem::getObjectives():java.util.ArrayList<core.Objective>]
+core.Problem	[core.Problem::java.lang.String user_name, core.Problem::java.lang.String user_email, core.Problem::getUser_name():java.lang.String, core.Problem::getUser_email():java.lang.String]
+core.Problem	[core.Problem::java.lang.String problem_name, core.Problem::java.lang.String problem_description, core.Problem::getProblem_name():java.lang.String, core.Problem::getProblem_description():java.lang.String]
+core.Variable	[core.Variable::java.lang.String variable_name, core.Variable::getVariable_name():java.lang.String, core.Variable::java.lang.String variable_type, core.Variable::getVariable_type():java.lang.String, core.Variable::java.lang.String variable_min_val, core.Variable::getVariable_min_val():java.lang.String, core.Variable::java.lang.String variable_max_val, core.Variable::getVariable_max_val():java.lang.String, core.Variable::java.lang.String variable_restricted, core.Variable::getVariable_restricted():java.lang.String]
+core.Variable	[core.Variable::java.lang.String variable_name, core.Variable::getVariable_name():java.lang.String, core.Variable::java.lang.String variable_type, core.Variable::getVariable_type():java.lang.String, core.Variable::java.lang.String variable_min_val, core.Variable::getVariable_min_val():java.lang.String, core.Variable::java.lang.String variable_max_val, core.Variable::getVariable_max_val():java.lang.String]
+core.Variable	[core.Variable::java.lang.String variable_name, core.Variable::getVariable_name():java.lang.String, core.Variable::java.lang.String variable_type, core.Variable::getVariable_type():java.lang.String, core.Variable::java.lang.String variable_min_val, core.Variable::getVariable_min_val():java.lang.String]
+core.Variable	[core.Variable::java.lang.String variable_name, core.Variable::getVariable_name():java.lang.String, core.Variable::java.lang.String variable_type, core.Variable::getVariable_type():java.lang.String]
+core.Variable	[core.Variable::java.lang.String variable_used, core.Variable::isVariable_used():java.lang.String, core.Variable::setVariable_used(java.lang.String):void]
+visual.LeftPanel	[visual.LeftPanel::javax.swing.JButton optimization, visual.LeftPanel::javax.swing.JButton help, visual.LeftPanel::javax.swing.JLabel selector, visual.LeftPanel::javax.swing.JLabel selector1, visual.LeftPanel::java.lang.Object current, visual.LeftPanel::action_listener():java.awt.event.ActionListener]
+visual.LeftPanel	[visual.LeftPanel::java.awt.event.ActionListener listener, visual.LeftPanel::optimization():javax.swing.JButton, visual.LeftPanel::graphics():javax.swing.JButton, visual.LeftPanel::help():javax.swing.JButton]
+jMetal.OptimizationProcess	[jMetal.OptimizationProcess::java.lang.String[] AlgorithmsForDoubleProblemType, jMetal.OptimizationProcess::verifyAlgorithmAndTypes(java.lang.String, boolean, boolean, boolean):void, jMetal.OptimizationProcess::java.lang.String[] AlgorithmsForIntegerProblemType, jMetal.OptimizationProcess::java.lang.String[] AlgorithmsForBinaryProblemType, jMetal.OptimizationProcess::java.lang.String expectedAlgorithm]
+jMetal.OptimizationProcess	[jMetal.OptimizationProcess::int variable_count, jMetal.OptimizationProcess::parseTrueData(java.lang.Object[][]):java.lang.Object[][], jMetal.OptimizationProcess::runOptimization():void, jMetal.OptimizationProcess::java.lang.Object[][] data, jMetal.OptimizationProcess::java.lang.Object[][] objectives, jMetal.OptimizationProcess::java.lang.String algorithm, jMetal.OptimizationProcess::boolean isJar, jMetal.OptimizationProcess::java.lang.String problemName, jMetal.OptimizationProcess::long timelimit, jMetal.OptimizationProcess::java.lang.String jarPath, jMetal.OptimizationProcess::validateData():void, jMetal.OptimizationProcess::writeNamesOfResultsAndTime(boolean, boolean, boolean, java.lang.Object[][], java.lang.Object[][], double):void, jMetal.OptimizationProcess::launchProblem(java.lang.Object[][], java.lang.Object[][], java.lang.String, boolean, boolean, boolean, boolean):void]
+core.Config	[core.Config::java.lang.String admin_name, core.Config::getAdmin_name():java.lang.String, core.Config::java.lang.String admin_mail, core.Config::getAdmin_mail():java.lang.String, core.Config::getAdmin():core.User, core.Config::java.lang.String time, core.Config::getLimitTime():core.LimitTime, core.Config::getTime():java.lang.String]
+core.Config	[core.Config::java.lang.String admin_name, core.Config::getAdmin_name():java.lang.String, core.Config::java.lang.String admin_mail, core.Config::getAdmin_mail():java.lang.String, core.Config::getAdmin():core.User]
+core.Config	[core.Config::java.lang.String time, core.Config::getLimitTime():core.LimitTime, core.Config::getTime():java.lang.String]
+visual.OptimizationTab	[visual.OptimizationTab::javax.swing.JTextField new_problem_name_field, visual.OptimizationTab::javax.swing.JTextArea new_problem_description_area, visual.OptimizationTab::javax.swing.JFrame problem_creation_frame, visual.OptimizationTab::createProblem():void]
+visual.RightPanel	[visual.RightPanel::java.util.HashMap<java.lang.String,javax.swing.JPanel> panel_map, visual.RightPanel::getOpt_tab():visual.OptimizationTab, visual.RightPanel::getGraphicTab():visual.GraphicsTab, visual.RightPanel::getHelpTab():visual.HelpTab]
+visual.HelpTab	[visual.HelpTab::javax.swing.border.TitledBorder help_area_border, visual.HelpTab::int help_panel_width, visual.HelpTab::int help_panel_height, visual.HelpTab::javax.swing.JLabel help_to_label, visual.HelpTab::javax.swing.JLabel help_subj_label, visual.HelpTab::javax.swing.JLabel help_from_label, visual.HelpTab::javax.swing.JLabel help_text_label, visual.HelpTab::javax.swing.JLabel help_atachment_label, visual.HelpTab::javax.swing.JLabel help_passwd_label, visual.HelpTab::javax.swing.JTextField help_to_field, visual.HelpTab::javax.swing.JTextField help_subj_field, visual.HelpTab::javax.swing.JTextField help_from_field, visual.HelpTab::javax.swing.JPanel help_panel, visual.HelpTab::javax.swing.JTextField help_attachment_field, visual.HelpTab::javax.swing.JTextField help_text_field, visual.HelpTab::javax.swing.JPasswordField help_passwd_field, visual.HelpTab::javax.swing.JButton help_choose_field, visual.HelpTab::javax.swing.JButton help_send_field, visual.HelpTab::javax.swing.JComboBox<java.lang.String> help_possibleSubj_field, visual.HelpTab::visual.Window window, visual.HelpTab::java.lang.String WARNING_HELP_EMAIL_FAILED, visual.HelpTab::java.lang.String WARNING_TITLE_HELP_EMAIL_FAILED, visual.HelpTab::help():void, visual.HelpTab::listener():java.awt.event.ActionListener]
+visual.HelpTab	[visual.HelpTab::javax.swing.border.TitledBorder faq_area_border, visual.HelpTab::int faq_panel_width, visual.HelpTab::int faq_panel_height, visual.HelpTab::javax.swing.JScrollPane scrollpane2, visual.HelpTab::javax.swing.JPanel faq_panel, visual.HelpTab::javax.swing.JList<java.lang.String> list, visual.HelpTab::javax.swing.JScrollPane scrollpane1, visual.HelpTab::java.io.File dir, visual.HelpTab::java.io.File[] files, visual.HelpTab::java.util.ArrayList<core.Article> articles, visual.HelpTab::javax.swing.JTextPane textPane, visual.HelpTab::appendString(java.lang.String):void, visual.HelpTab::loadSelectedArticle(java.lang.String):void, visual.HelpTab::java.util.HashMap<java.lang.String,core.Article> current_prev, visual.HelpTab::faq():void, visual.HelpTab::loadArticles():void]
+
+---------------------- FEATURE ENVY ----------------------
+
+[NO SMELLS FOUND]
+
+---------------------- TYPE CHECKING ----------------------
+
+[NO SMELLS FOUND]
