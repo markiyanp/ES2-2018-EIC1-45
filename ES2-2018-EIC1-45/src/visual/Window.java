@@ -9,6 +9,10 @@ import javax.swing.JPanel;
 import core.User;
 import email.EMail_Tools;
 
+/**
+ * @author Markiyan Pyekh
+ *
+ */
 public class Window extends JFrame {
 
 	private static final long serialVersionUID = -1172067089622609226L;
@@ -68,7 +72,7 @@ public class Window extends JFrame {
 	/**
 	 * Returns the main Panel.
 	 * 
-	 * @return
+	 * @return main_panel
 	 */
 	public JPanel getMain_panel() {
 		return main_panel;
@@ -86,7 +90,7 @@ public class Window extends JFrame {
 	/**
 	 * Returns the top Panel.
 	 * 
-	 * @return
+	 * @return top_panel
 	 */
 	public TopPanel getTop_panel() {
 		return top_panel;
@@ -95,7 +99,7 @@ public class Window extends JFrame {
 	/**
 	 * Returns the left Panel.
 	 * 
-	 * @return
+	 * @return left_panel
 	 */
 	public JPanel getLeft_panel() {
 		return left_panel;
@@ -104,7 +108,7 @@ public class Window extends JFrame {
 	/**
 	 * Returns the right Panel.
 	 * 
-	 * @return
+	 * @return right_panel
 	 */
 	public RightPanel getRight_panel() {
 		return right_panel;
@@ -113,7 +117,7 @@ public class Window extends JFrame {
 	/**
 	 * Returns the Bottom Panel.
 	 * 
-	 * @return
+	 * @return bott_panel
 	 */
 	public JPanel getBott_panel() {
 		return bott_panel;
@@ -122,7 +126,7 @@ public class Window extends JFrame {
 	/**
 	 * Returns logged User instance.
 	 * 
-	 * @return
+	 * @return user
 	 */
 	public User getUser() {
 		return user;
@@ -140,7 +144,7 @@ public class Window extends JFrame {
 	/**
 	 * Returns the Path to config file.
 	 * 
-	 * @return
+	 * @return file
 	 */
 	public File getConfigPath() {
 		return file;

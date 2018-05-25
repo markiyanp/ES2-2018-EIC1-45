@@ -6,13 +6,20 @@ import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
+/**
+ * @author Markyian Pyekh
+ *
+ */
 public class MainPanel  extends JPanel{
 
 	private static final long serialVersionUID = -5317356868846370620L;
 	private Image background = Toolkit.getDefaultToolkit().createImage(Window.class.getResource("/background.png"));
 	private Window window;
 
-	
+	/**
+	 * The construtor
+	 * @param window
+	 */
 	public MainPanel(Window window) {
 		this.window = window;
 		setLayout(null);
@@ -31,7 +38,6 @@ public class MainPanel  extends JPanel{
 		add(right_panel);
 		add(left_panel);
 		add(top_panel);
-		
 	}
 	
 	public void paintComponent(Graphics page){
@@ -56,10 +62,19 @@ public class MainPanel  extends JPanel{
 	    repaint();
 	}
 
+	/**
+	 * Return the window
+	 * @return window
+	 */
 	public Window getWindow() {
+		
 		return window;
 	}
 
+	/**
+	 * Set a window
+	 * @param window
+	 */
 	public void setWindow(Window window) {
 		this.window = window;
 	}

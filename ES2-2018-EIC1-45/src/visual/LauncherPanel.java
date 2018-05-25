@@ -617,13 +617,15 @@ public class LauncherPanel extends JPanel {
 	}
 
 	/**
-	 * @return
+	 * Return the window
+	 * @return window
 	 */
 	public Window getWindow() {
 		return window;
 	}
 
 	/**
+	 * Set a window
 	 * @param window
 	 */
 	public void setWindow(Window window) {

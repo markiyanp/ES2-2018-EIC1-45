@@ -419,7 +419,7 @@ public class OptimizationTab extends JPanel {
 	 * Returns a list of variables
 	 * 
 	 * @param data
-	 * @return
+	 * @return ret
 	 */
 	private ArrayList<Variable> toArrayListVariables(Object[][] data) {
 		ArrayList<Variable> ret = new ArrayList<>();
@@ -440,7 +440,7 @@ public class OptimizationTab extends JPanel {
 	 * Returns a list of objectives
 	 * 
 	 * @param data
-	 * @return
+	 * @return ret
 	 */
 	private ArrayList<Objective> toArrayListObjectives(Object[][] data) {
 		ArrayList<Objective> ret = new ArrayList<>();
@@ -1249,7 +1249,7 @@ public class OptimizationTab extends JPanel {
 	 * Verify if it's double
 	 * 
 	 * @param str
-	 * @return
+	 * @return boolean
 	 */
 	private boolean isDouble(String str) {
 		try {
@@ -1351,7 +1351,7 @@ public class OptimizationTab extends JPanel {
 	 * Verify if it's integer
 	 * 
 	 * @param str
-	 * @return
+	 * @return boolean
 	 */
 	private boolean isInteger(String str) {
 		try {
@@ -1481,18 +1481,34 @@ public class OptimizationTab extends JPanel {
 		JOptionPane.showMessageDialog(null, try_again + "\n" + message, "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
+	/**
+	 * Return the data structure
+	 * @return data
+	 */
 	public Object[][] getData() {
 		return data;
 	}
 
+	/**
+	 * Return the objectives data structure
+	 * @return objectives_data
+	 */
 	public Object[][] getObjectives_data() {
 		return objectives_data;
 	}
 
+	/**
+	 * Return the the combo box algorithm name
+	 * @return algo_name_field
+	 */
 	public JComboBox<String> getAlgo_name_field() {
 		return algo_name_field;
 	}
 	
+	/**
+	 * Return the problem name field
+	 * @return
+	 */
 	public JTextField getProblem_name_field() {
 		return problem_name_field;
 	}
