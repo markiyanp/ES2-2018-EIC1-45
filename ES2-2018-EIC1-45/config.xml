@@ -23,7 +23,7 @@
 <createVars>yes</createVars>
 </User>
 <User>
-<name>ASd asd</name>
+<name>User Man</name>
 <mail>group45.dummy@yandex.com</mail>
 <algorithms>SPEA2,SMPSO,PAES,IBEA,NSGAII,SMSEMOA,GDE3,MOCell,MOEAD,RandomSearch,MOCH</algorithms>
 <createVars>yes</createVars>
