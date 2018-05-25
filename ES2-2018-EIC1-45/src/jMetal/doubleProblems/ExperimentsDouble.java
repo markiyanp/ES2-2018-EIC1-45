@@ -28,10 +28,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Handles Double experiments.
+ * 
+ * @author vbasto-iscte & pvmpa-iscteiulpt
+ *
+ */
 public class ExperimentsDouble extends AbstractExperiment {
 	private static int INDEPENDENT_RUNS = 5;
 	private static int maxEvaluations = 500;
 
+	/**
+	 * Executes the experiment.
+	 * 
+	 * @throws IOException
+	 */
 	public void execute() throws IOException {
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 		if (isJar()) {
@@ -64,10 +75,18 @@ public class ExperimentsDouble extends AbstractExperiment {
 		new ComputeQualityIndicators<>(experiment).run();
 		new GenerateLatexTablesWithStatistics(experiment).run();
 		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
-		
+
 		generateDocuments(DEFAULT_R_PATH, DEFAULT_LATEX_PATH, this);
 	}
 
+	/**
+	 * Configures the algorithm list, taking a single algorithm as its second
+	 * parameter.
+	 * 
+	 * @param problemList
+	 * @param algo
+	 * @return algorithm
+	 */
 	private List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
 			List<ExperimentProblem<DoubleSolution>> problemList, String algo) {
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();

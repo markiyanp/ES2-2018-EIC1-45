@@ -59,12 +59,21 @@ public class ProgressChecker {
 
 	}
 
+	/**
+	 * A thread that handles ProgressChecker's specific e-mails.
+	 * @author pvmpa-iscteiulpt
+	 *
+	 */
 	private class EmailSender extends Thread {
 		private final String WARNING_FAILED_MAIL = "Failed to send progress e-mail!";
 		private final String WARNING_TITLE_FAILED_MAIL = "E-Mail failure";
 		
 		public int progress = 0;
 
+		/**
+		 * EmailSender's constructor. Gets the current progress as its only parameter.
+		 * @param prog
+		 */
 		public EmailSender(int prog) {
 			this.progress = prog;
 		}

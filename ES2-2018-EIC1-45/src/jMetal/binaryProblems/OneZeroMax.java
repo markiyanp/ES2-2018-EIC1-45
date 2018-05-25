@@ -6,6 +6,11 @@ import org.uma.jmetal.solution.BinarySolution;
 
 public class OneZeroMax {
 
+	/**
+	 * Returns a solution
+	 * @param solution
+	 * @return solution
+	 */
 	public static double[] OneZeroMaxSolution(BinarySolution solution) {
 	    int counterOnes;
 	    int counterZeroes;

@@ -7,6 +7,12 @@ import org.uma.jmetal.solution.impl.DefaultBinarySolution;
 import jMetal.JarEvaluator;
 import jMetal.ProgressChecker;
 
+/**
+ * Handles Binary problems.
+ * 
+ * @author vbasto-iscte & pvmpa-iscteiulpt
+ *
+ */
 public class MyProblemBinary extends AbstractBinaryProblem {
 	/**
 	* 
@@ -25,14 +31,25 @@ public class MyProblemBinary extends AbstractBinaryProblem {
 	private boolean barWarning = false;
 
 	private long timelimit;
-	
+
+	/**
+	 * Constructs a Binary problem.
+	 * 
+	 * @param numberOfBits
+	 * @param number_of_objectives
+	 * @param number_of_variables
+	 * @param isJar
+	 * @param jarPath
+	 * @param problemName
+	 * @param timelimit
+	 */
 	public MyProblemBinary(Integer numberOfBits, int number_of_objectives, int number_of_variables, boolean isJar,
 			String jarPath, String problemName, long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(useJar);
 		this.timelimit = timelimit;
-		
+
 		setNumberOfVariables(number_of_variables);
 		setNumberOfObjectives(number_of_objectives);
 		setName(problemName);

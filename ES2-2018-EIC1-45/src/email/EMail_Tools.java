@@ -19,7 +19,7 @@ import org.apache.commons.mail.SimpleEmail;
  *
  */
 public class EMail_Tools {
-	
+
 	private static final String WARNING_TITLE_INVALID_EMAIL = "Address failure";
 	private static final String WARNING_TITLE_AUTH_FAILED = "Auth failure";
 
@@ -27,13 +27,18 @@ public class EMail_Tools {
 			+ "\nTry again with an e-mail from the following providers:\nGMail\nmail.com";
 	private static final String WARNING_AUTH_FAILED = "Authentication has failed during '";
 
-
 	// this class should never be instatiated!
 	private EMail_Tools() {
 
 	}
 
-	protected static Object[] mailProviderToSMTP(String email) {
+	/**
+	 * Finds out the correct SMTP server and port depending on the e-mail address specified. </p>
+	 * Supports GMail and mail.com only.
+	 * @param email
+	 * @return array containing the smtp address, the port and whether SSL is used or not 
+	 */
+	private static Object[] mailProviderToSMTP(String email) {
 		int i;
 		for (i = 0; i < email.length(); i++) {
 			if (email.charAt(i) == '@') {
@@ -53,16 +58,23 @@ public class EMail_Tools {
 			smtp_and_port[2] = Boolean.FALSE;
 			return smtp_and_port;
 		}
-		//something messed up..
+		// something messed up..
 		new Thread() {
 			public void run() {
-				JOptionPane.showMessageDialog(null, WARNING_INVALID_EMAIL, WARNING_TITLE_INVALID_EMAIL,
-						0);
+				JOptionPane.showMessageDialog(null, WARNING_INVALID_EMAIL, WARNING_TITLE_INVALID_EMAIL, 0);
 			}
 		}.start();
 		throw new IllegalArgumentException(WARNING_INVALID_EMAIL);
 	}
 
+	/**
+	 * Checks whether the e-mail/password combination is valid by sending an email to the same address.</p>
+	 * A reason must be provided to do this.
+	 * @param userAddr
+	 * @param userPw
+	 * @param reason
+	 * @return successful/unsuccessful auth
+	 */
 	public static boolean checkAuth(String userAddr, String userPw, String reason) {
 
 		if (reason.isEmpty()) {
@@ -76,9 +88,9 @@ public class EMail_Tools {
 		} catch (EmailException e) {
 			new Thread() {
 				public void run() {
-					JOptionPane.showMessageDialog(null, WARNING_AUTH_FAILED + reason +"'"
-							+ "\nCheck your anti-virus program's SMTP features.", WARNING_TITLE_AUTH_FAILED,
-							0);
+					JOptionPane.showMessageDialog(null,
+							WARNING_AUTH_FAILED + reason + "'" + "\nCheck your anti-virus program's SMTP features.",
+							WARNING_TITLE_AUTH_FAILED, 0);
 				}
 			}.start();
 			e.printStackTrace();
@@ -187,13 +199,21 @@ public class EMail_Tools {
 		}
 	}
 
+	/**
+	 * Periodically used to send an e-mail containing information about the current optimization process
+	 * to the current user.
+	 * @param progress
+	 * @throws EmailException
+	 */
 	public static void sendProgressMail(int progress) throws EmailException {
-//		if (progress != 100)
-//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null,
-//					"Your Optimization is currently at " + progress, "", null);
-//		else
-//			sendMail("group45.optimization.bot@gmail.com", "", "group45.dummy.user.1@gmail.com", null,
-//					"Your Optimization is completed!", "", null);
+		// if (progress != 100)
+		// sendMail("group45.optimization.bot@gmail.com", "",
+		// "group45.dummy.user.1@gmail.com", null,
+		// "Your Optimization is currently at " + progress, "", null);
+		// else
+		// sendMail("group45.optimization.bot@gmail.com", "",
+		// "group45.dummy.user.1@gmail.com", null,
+		// "Your Optimization is completed!", "", null);
 	}
 
 }

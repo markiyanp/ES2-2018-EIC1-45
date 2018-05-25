@@ -23,10 +23,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Handles Integer experiments.
+ * 
+ * @author vbasto-iscte & pvmpa-iscteiulpt
+ *
+ */
 public class ExperimentsInteger extends AbstractExperiment {
 	private static int INDEPENDENT_RUNS = 5;
 	private static int maxEvaluations = 500;
 
+	/**
+	 * Executes the experiment.
+	 * 
+	 * @throws IOException
+	 */
 	public void execute() throws IOException {
 		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
 		if (isJar()) {
@@ -37,8 +48,8 @@ public class ExperimentsInteger extends AbstractExperiment {
 		} else {
 			INDEPENDENT_RUNS = 5;
 			maxEvaluations = 500;
-			problemList.add(new ExperimentProblem<>(
-					new MyProblemInteger(getLimits_Int(), getNumber_of_objectives(), isJar(), null, getProblemName(), getTimelimit())));
+			problemList.add(new ExperimentProblem<>(new MyProblemInteger(getLimits_Int(), getNumber_of_objectives(),
+					isJar(), null, getProblemName(), getTimelimit())));
 		}
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
@@ -58,10 +69,18 @@ public class ExperimentsInteger extends AbstractExperiment {
 		new ComputeQualityIndicators<>(experiment).run();
 		new GenerateLatexTablesWithStatistics(experiment).run();
 		new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
-		
+
 		generateDocuments(DEFAULT_R_PATH, DEFAULT_LATEX_PATH, this);
 	}
 
+	/**
+	 * Configures the algorithm list, taking a single algorithm as its second
+	 * parameter.
+	 * 
+	 * @param problemList
+	 * @param algo
+	 * @return algorithm
+	 */
 	private List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> configureAlgorithmList(
 			List<ExperimentProblem<IntegerSolution>> problemList, String algo) {
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithms = new ArrayList<>();

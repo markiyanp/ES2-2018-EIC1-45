@@ -8,6 +8,12 @@ import org.uma.jmetal.solution.DoubleSolution;
 import jMetal.JarEvaluator;
 import jMetal.ProgressChecker;
 
+/**
+ * Handles Double problems.
+ * 
+ * @author vbasto-iscte & pvmpa-iscteiulpt
+ *
+ */
 public class MyProblemDouble extends AbstractDoubleProblem {
 
 	/**
@@ -18,21 +24,32 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 	private final long startingTime = System.currentTimeMillis();
 	private boolean useJar = false;
 	private boolean barWarning = false;
-	
+
 	private ProgressChecker progC;
-	
+
 	private String jarPath;
 
 	private int testNumber = 0;
-	
+
 	private long timelimit;
 
-	public MyProblemDouble(double[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName, long timelimit) {
+	/**
+	 * Constructs a Double problem.
+	 * 
+	 * @param limits
+	 * @param number_of_objectives
+	 * @param isJar
+	 * @param jarPath
+	 * @param problemName
+	 * @param timelimit
+	 */
+	public MyProblemDouble(double[][] limits, int number_of_objectives, boolean isJar, String jarPath,
+			String problemName, long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
 		this.timelimit = timelimit;
-		
+
 		setNumberOfVariables(limits.length);
 		setNumberOfObjectives(number_of_objectives);
 		setName(problemName);
@@ -44,7 +61,7 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			lowerLimit.add(limits[i][0]);
 			upperLimit.add(limits[i][1]);
 		}
-		
+
 		setLowerLimit(lowerLimit);
 		setUpperLimit(upperLimit);
 	}
@@ -80,6 +97,5 @@ public class MyProblemDouble extends AbstractDoubleProblem {
 			}
 		}
 	}
-
 
 }

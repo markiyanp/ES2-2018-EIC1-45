@@ -2,6 +2,12 @@ package jMetal.doubleProblems;
 
 public class Kursawe {
 
+	/**
+	 * Returns a solution.
+	 * @param fx
+	 * @param x
+	 * @return solution
+	 */
 	public static double[] kurzaseSolution(double[] fx, double[] x) {
 		double aux, xi, xj;
 	    for (int i = 0; i < x.length; i++) {

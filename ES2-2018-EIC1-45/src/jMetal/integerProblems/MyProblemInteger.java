@@ -9,6 +9,12 @@ import jMetal.ProgressChecker;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles Integer problems.
+ * 
+ * @author vbasto-iscte & pvmpa-iscteiulpt
+ *
+ */
 public class MyProblemInteger extends AbstractIntegerProblem {
 	private static final long serialVersionUID = 5053442100790906706L;
 
@@ -19,15 +25,26 @@ public class MyProblemInteger extends AbstractIntegerProblem {
 	private ProgressChecker progC;
 	private int testNumber = 0;
 	private boolean barWarning = false;
-	
+
 	private long timelimit;
 
-	public MyProblemInteger(int[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName, long timelimit) {
+	/**
+	 * Constructs an Integer problem.
+	 * 
+	 * @param limits
+	 * @param number_of_objectives
+	 * @param isJar
+	 * @param jarPath
+	 * @param problemName
+	 * @param timelimit
+	 */
+	public MyProblemInteger(int[][] limits, int number_of_objectives, boolean isJar, String jarPath, String problemName,
+			long timelimit) {
 		this.useJar = isJar;
 		this.jarPath = jarPath;
 		this.progC = new ProgressChecker(isJar);
 		this.timelimit = timelimit;
-		
+
 		setNumberOfVariables(limits.length);
 		setNumberOfObjectives(number_of_objectives);
 		setName(problemName);

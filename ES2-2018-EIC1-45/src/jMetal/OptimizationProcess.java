@@ -70,17 +70,12 @@ public class OptimizationProcess extends Thread {
 	 * Executes a problem depending on the data fed from the GUI's table, the chosen
 	 * algorithm, and whether a jar is used or not along with its path.
 	 * 
-	 * @param data
-	 * @param objectives
-	 * @param algorithm
-	 * @param problemName
-	 * @param isJar
+	 * 
 	 * @author pvmpa-iscteiulpt
 	 */
 	public void runOptimization() {
 		try {
 			variable_count = 0;
-			// debugSysout_Start(data, algorithm, isJar);
 
 			validateData();
 
@@ -127,7 +122,13 @@ public class OptimizationProcess extends Thread {
 		}
 	}
 
-
+	/**
+	 * Makes several checks to determine if the specified problem is valid:</p>
+	 * -Checks if an algorithm was specified at all; (Aborts the procedure)</p>
+	 * -Checks if a JAR file was specified; (Aborts the procedure)</p>
+	 * -Checks if the time limit is reasonable; (Can be ignored)</p>
+	 * -Checks if a problem name was specified at all. (Rectifies the situation by calling it 'Untitled')
+	 */
 	private void validateData() {
 		if (algorithm.equals(null) || algorithm.equals("")) {
 			new Thread() {
@@ -538,8 +539,6 @@ public class OptimizationProcess extends Thread {
 		// is a binary Problem
 		else if (binaryProblem && !integerProblem && !doubleProblem) {
 			ExperimentsBinary e = new ExperimentsBinary();
-			// TODO: WARNING WARNING WARNING THIS IS ASSUMING THAT THE FIRST VARIABLE HOLDS
-			// THE ONE TRUE MAX VALUE
 			e.setLimits_Binary(Integer.parseInt((String) data[0][3]));
 			e.setAlgorithm(algorithm);
 			e.setNumber_of_variables(data.length);
@@ -556,46 +555,90 @@ public class OptimizationProcess extends Thread {
 
 	}
 
+	/**
+	 * Gets the variable data.
+	 * @return variable data
+	 */
 	public Object[][] getData() {
 		return data;
 	}
 
+	/**
+	 * Sets the variable data.
+	 * @param data
+	 */
 	public void setData(Object[][] data) {
 		this.data = data;
 	}
 
+	/**
+	 * Gets the current algorithm.
+	 * @return Algorithm
+	 */
 	public String getAlgorithm() {
 		return algorithm;
 	}
 
+	/**
+	 * Sets the current algorithm.
+	 * @param algorithm
+	 */
 	public void setAlgorithm(String algorithm) {
 		this.algorithm = algorithm;
 	}
 
+	/**
+	 * Gets whether a jar is used or not.
+	 * @return is/isn't using a Jar
+	 */
 	public boolean isJar() {
 		return isJar;
 	}
 
+	/**
+	 * Sets whether a jar is used or not.
+	 * @param isJar
+	 */
 	public void setJar(boolean isJar) {
 		this.isJar = isJar;
 	}
 
+	/**
+	 * Sets the jar path.
+	 * @param path
+	 */
 	public void setJarPath(String path) {
 		jarPath = path;
 	}
 
+	/**
+	 * Sets the objective data.
+	 * @param objective data
+	 */
 	public void setObjectives(Object[][] objectives) {
 		this.objectives = objectives;
 	}
 
+	/**
+	 * Sets the problem's name.
+	 * @param problemName
+	 */
 	public void setProblemName(String problemName) {
 		this.problemName = problemName;
 	}
 
+	/**
+	 * Gets the current timelimit.
+	 * @return timelimit
+	 */
 	public long getTimelimit() {
 		return timelimit;
 	}
 
+	/**
+	 * Sets the timelimit.
+	 * @param timelimit
+	 */
 	public void setTimelimit(long timelimit) {
 		this.timelimit = timelimit;
 	}

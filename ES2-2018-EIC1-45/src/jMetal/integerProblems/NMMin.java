@@ -2,6 +2,12 @@ package jMetal.integerProblems;
 
 public class NMMin {
 
+	/**
+	 * Returns a solution.
+	 * @param fx
+	 * @param x
+	 * @return solution
+	 */
 	public static double[] NMMinSolution(double[] fx, int[] x) {
 		int valueN = 100;
 		int valueM = -100;
