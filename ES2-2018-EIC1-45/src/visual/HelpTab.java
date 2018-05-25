@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -94,6 +95,8 @@ public class HelpTab extends JPanel{
 	//*************************************GENERAL FIELDS****************************************
 
 	private Window window;
+	private final String WARNING_HELP_EMAIL_FAILED = "WARNING: Failed to send E-Mail. Have you typed your password correctly?";
+	private final String WARNING_TITLE_HELP_EMAIL_FAILED = "E-Mail fail";
 	
 	/**
 	 * The constructor
@@ -236,6 +239,12 @@ public class HelpTab extends JPanel{
 								help_text_field.getText(), 
 								help_attachment_field.getText());
 					} catch (EmailException e1) {
+						new Thread() {
+							public void run() {
+								JOptionPane.showMessageDialog(null, WARNING_HELP_EMAIL_FAILED, WARNING_TITLE_HELP_EMAIL_FAILED,
+										0);
+							}
+						}.start();
 						e1.printStackTrace();
 					}
 

@@ -72,6 +72,9 @@ public class OptimizationTab extends JPanel {
 	private final Color general_color = new Color(255, 242, 211);
 	// ******************************INSTANCES*********************************************
 	private static final long serialVersionUID = 4683732155570118854L;
+	protected static final String WARNING_HELP_EMAIL_FAILED = "WARNING: Failed to send E-Mail! Please check your connection"
+			+ " to the internet, check your anti-virus's SMTP settings and try again.";
+	protected static final String WARNING_TITLE_HELP_EMAIL_FAILED = "E-Mail fail";
 
 	// ***************************GENERAL_FIELDS********************************************
 	private Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -635,8 +638,12 @@ public class OptimizationTab extends JPanel {
 					thankyou_message, ""); // no attachment YET, it needs to be
 											// an XML
 		} catch (EmailException e1) {
-			e1.printStackTrace();
-		} catch (Throwable e1) {
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, WARNING_HELP_EMAIL_FAILED, WARNING_TITLE_HELP_EMAIL_FAILED,
+							0);
+				}
+			}.start();
 			e1.printStackTrace();
 		}
 	}

@@ -2,6 +2,8 @@ package email;
 
 import java.io.File;
 
+import javax.swing.JOptionPane;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
@@ -17,6 +19,14 @@ import org.apache.commons.mail.SimpleEmail;
  *
  */
 public class EMail_Tools {
+	
+	private static final String WARNING_TITLE_INVALID_EMAIL = "Address failure";
+	private static final String WARNING_TITLE_AUTH_FAILED = "Auth failure";
+
+	private static final String WARNING_INVALID_EMAIL = "WARNING: Invalid e-mail address detected! Failed to parse provider!"
+			+ "\nTry again with an e-mail from the following providers:\nGMail\nmail.com";
+	private static final String WARNING_AUTH_FAILED = "Authentication has failed during '";
+
 
 	// this class should never be instatiated!
 	private EMail_Tools() {
@@ -43,8 +53,14 @@ public class EMail_Tools {
 			smtp_and_port[2] = Boolean.FALSE;
 			return smtp_and_port;
 		}
-
-		throw new IllegalArgumentException("WARNING: Invalid e-mail detected! Failed to parse provider!");
+		//something messed up..
+		new Thread() {
+			public void run() {
+				JOptionPane.showMessageDialog(null, WARNING_INVALID_EMAIL, WARNING_TITLE_INVALID_EMAIL,
+						0);
+			}
+		}.start();
+		throw new IllegalArgumentException(WARNING_INVALID_EMAIL);
 	}
 
 	public static boolean checkAuth(String userAddr, String userPw, String reason) {
@@ -58,6 +74,13 @@ public class EMail_Tools {
 			sendMail(userAddr, userPw, userAddr, null, "[OPTIMIZATION PROGRAM] User activity detected", reason, null);
 			return true;
 		} catch (EmailException e) {
+			new Thread() {
+				public void run() {
+					JOptionPane.showMessageDialog(null, WARNING_AUTH_FAILED + reason +"'"
+							+ "\nCheck your anti-virus program's SMTP features.", WARNING_TITLE_AUTH_FAILED,
+							0);
+				}
+			}.start();
 			e.printStackTrace();
 			return false;
 		}
