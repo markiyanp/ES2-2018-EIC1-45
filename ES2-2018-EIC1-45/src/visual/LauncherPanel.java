@@ -29,7 +29,7 @@ import xml.ConfigXML;
 /**
  * The launcher of this program with some methods to manage the users.
  * 
- * @authors Tiago Almeida, Markiyan Pyekh
+ * @author Tiago Almeida, Markiyan Pyekh
  */
 
 public class LauncherPanel extends JPanel {

@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Handles Integer experiments.
  * 
- * @author vbasto-iscte & pvmpa-iscteiulpt
+ * @author vbasto-iscte and pvmpa-iscteiulpt
  *
  */
 public class ExperimentsInteger extends AbstractExperiment {

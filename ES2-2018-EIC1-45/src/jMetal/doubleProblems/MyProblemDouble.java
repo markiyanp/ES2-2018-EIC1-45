@@ -11,7 +11,7 @@ import jMetal.ProgressChecker;
 /**
  * Handles Double problems.
  * 
- * @author vbasto-iscte & pvmpa-iscteiulpt
+ * @author vbasto-iscte and pvmpa-iscteiulpt
  *
  */
 public class MyProblemDouble extends AbstractDoubleProblem {

@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Handles Binary experiments.
  * 
- * @author vbasto-iscte & pvmpa-iscteiulpt
+ * @author vbasto-iscte and pvmpa-iscteiulpt
  *
  */
 public class ExperimentsBinary extends AbstractExperiment {

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Handles Integer problems.
  * 
- * @author vbasto-iscte & pvmpa-iscteiulpt
+ * @author vbasto-iscte and pvmpa-iscteiulpt
  *
  */
 public class MyProblemInteger extends AbstractIntegerProblem {

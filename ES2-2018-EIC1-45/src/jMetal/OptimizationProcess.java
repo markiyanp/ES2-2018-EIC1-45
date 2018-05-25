@@ -613,7 +613,7 @@ public class OptimizationProcess extends Thread {
 
 	/**
 	 * Sets the objective data.
-	 * @param objective data
+	 * @param objectives
 	 */
 	public void setObjectives(Object[][] objectives) {
 		this.objectives = objectives;

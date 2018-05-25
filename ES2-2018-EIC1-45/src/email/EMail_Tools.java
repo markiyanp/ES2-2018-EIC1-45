@@ -85,7 +85,7 @@ public class EMail_Tools {
 	/**
 	 * Checks whether the e-mail/password combination is valid by sending an email
 	 * to the same address.
-	 * </p>
+	 * 
 	 * A reason must be provided to do this.
 	 * 
 	 * @param userAddr

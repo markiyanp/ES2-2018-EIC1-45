@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Handles Double experiments.
  * 
- * @author vbasto-iscte & pvmpa-iscteiulpt
+ * @author vbasto-iscte and pvmpa-iscteiulpt
  *
  */
 public class ExperimentsDouble extends AbstractExperiment {

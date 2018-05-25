@@ -51,7 +51,8 @@ public abstract class AbstractExperiment {
 
 	/**
 	 * USED ONLY FOR PROBLEMS USING DOUBLE VARIABLES.
-	 * </p>Gets the min/max values of the variable data.
+	 * Gets the min/max values of the variable data.
+	 * 
 	 * @return min/max values
 	 */
 	public double[][] getLimits_Double() {
@@ -84,7 +85,7 @@ public abstract class AbstractExperiment {
 
 	/**
 	 * USED ONLY FOR PROBLEMS USING DOUBLE VARIABLES.
-	 * </p>Sets the min/max values of the variable data.
+	 * Sets the min/max values of the variable data.
 	 * @param limits
 	 */
 	public void setLimits_Double(double[][] limits) {
@@ -109,7 +110,7 @@ public abstract class AbstractExperiment {
 
 	/**
 	 * USED ONLY FOR PROBLEMS USING INTEGER VARIABLES.
-	 * </p>Gets the min/max values of the variable data.
+	 * Gets the min/max values of the variable data.
 	 * @return min/max values
 	 */
 	public int[][] getLimits_Int() {
@@ -118,7 +119,7 @@ public abstract class AbstractExperiment {
 
 	/**
 	 * USED ONLY FOR PROBLEMS USING INTEGER VARIABLES.
-	 * </p>Sets the min/max values of the variable data.
+	 * Sets the min/max values of the variable data.
 	 * @param limits_Int
 	 */
 	public void setLimits_Int(int[][] limits_Int) {
@@ -127,7 +128,7 @@ public abstract class AbstractExperiment {
 
 	/**
 	 * USED ONLY FOR PROBLEMS USING DOUBLE LIMITS.
-	 * </p>Gets the min/max values of the variable data.
+	 * Gets the min/max values of the variable data.
 	 * @return min/max values
 	 */
 	public int getLimits_Binary() {
@@ -135,7 +136,7 @@ public abstract class AbstractExperiment {
 	}
 	
 	/**
-	 * USED ONLY FOR BINARY PROBLEMS.</p>
+	 * USED ONLY FOR BINARY PROBLEMS.
 	 * Sets the number of used variables.
 	 * @param limits_Binary
 	 */
@@ -144,7 +145,7 @@ public abstract class AbstractExperiment {
 	}
 
 	/**
-	 * USED ONLY FOR BINARY PROBLEMS.</p>
+	 * USED ONLY FOR BINARY PROBLEMS.
 	 * Gets the number of used variables.
 	 * @return the number of variables
 	 */
@@ -153,7 +154,7 @@ public abstract class AbstractExperiment {
 	}
 
 	/**
-	 * USED ONLY FOR BINARY PROBLEMS.</p>
+	 * USED ONLY FOR BINARY PROBLEMS.
 	 * Sets the number of used variables.
 	 * @param number_of_variables
 	 */

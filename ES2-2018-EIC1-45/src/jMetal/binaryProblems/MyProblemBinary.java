@@ -10,7 +10,7 @@ import jMetal.ProgressChecker;
 /**
  * Handles Binary problems.
  * 
- * @author vbasto-iscte & pvmpa-iscteiulpt
+ * @author vbasto-iscte and pvmpa-iscteiulpt
  *
  */
 public class MyProblemBinary extends AbstractBinaryProblem {
