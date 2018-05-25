@@ -211,6 +211,9 @@ public class GraphicsTab extends JPanel {
 		problem_name_label.setBounds(10, 0, 200, 30);
 		problem_panel.add(problem_name_label);
 		
+		algorithm_name_label.repaint();
+		problem_name_label.repaint();
+		
 		Object[][] variables = window.getRight_panel().getOpt_tab().getData();
 		for (int i = 0; i < variables.length; i++) {
 			String variable_name = "";
@@ -247,6 +250,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
+				variable_name = variables[i][0].toString();
 				switch (algorithm_name) {
 				case "NSGAII":
 					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
@@ -281,6 +285,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
+				variable_name = variables[i][0].toString();
 				switch (algorithm_name) {
 				case "NSGAII":
 					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_VAR.tsv";
@@ -333,6 +338,9 @@ public class GraphicsTab extends JPanel {
 		problem_name_label.setBounds(10, 0, 200, 30);
 		problem_panel.add(problem_name_label);
 		
+		algorithm_name_label.repaint();
+		problem_name_label.repaint();
+		
 		Object[][] objectives = window.getRight_panel().getOpt_tab().getObjectives_data();
 		for (int i = 0; i < objectives.length; i++) {
 			String objective_name = "";
@@ -369,6 +377,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
+				objective_name = objectives[i][0].toString();
 				switch (algorithm_name) {
 				case "NSGAII":
 					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsDouble/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";
@@ -403,6 +412,7 @@ public class GraphicsTab extends JPanel {
 				experiments_label.setFont(new Font("SansSerif", Font.BOLD, 15));
 				experiments_label.setBounds(10, 0, 200, 30);
 				experiments_panel.add(experiments_label);
+				objective_name = objectives[i][0].toString();
 				switch (algorithm_name) {
 				case "NSGAII":
 					path = ConfigXML.currentDirectory + "/experimentBaseDirectory/ExperimentsBinary/data/NSGAII/" + problem_name + "/BEST_HV_FUN.tsv";

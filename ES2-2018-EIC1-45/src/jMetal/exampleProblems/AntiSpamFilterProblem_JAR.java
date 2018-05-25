@@ -1,5 +1,6 @@
 package jMetal.exampleProblems;
 
+
 public class AntiSpamFilterProblem_JAR {
 
 	public static void main(String[] args) {
@@ -8,6 +9,7 @@ public class AntiSpamFilterProblem_JAR {
 
 		for (int i = 0; i < x.length; i++) {
 			x[i] = Double.parseDouble(args[i]);
+			System.out.println(x[i]);
 		}
 
 		double[] s = AntiSpamSolution(t, x);
