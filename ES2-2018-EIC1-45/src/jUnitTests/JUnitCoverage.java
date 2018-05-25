@@ -99,7 +99,7 @@ public class JUnitCoverage {
 		File file = new File("Resources/TestXML/Config.xml");
 		ConfigXML.readXML(file);
 		Config config2 = ConfigXML.config;
-		if(file.getFreeSpace() != 0){
+		if (file.getFreeSpace() != 0) {
 			try {
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -115,7 +115,8 @@ public class JUnitCoverage {
 						Element eElement = (Element) nNode;
 						variable.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
 						variable.setUrl(eElement.getElementsByTagName("url").item(0).getTextContent());
-						config2.getPaths().put(eElement.getElementsByTagName("name").item(0).getTextContent(), variable);
+						config2.getPaths().put(eElement.getElementsByTagName("name").item(0).getTextContent(),
+								variable);
 					}
 				}
 
@@ -129,7 +130,6 @@ public class JUnitCoverage {
 					}
 				}
 
-
 				NodeList aboutUser = doc.getElementsByTagName("User");
 				for (int temp = 0; temp < aboutUser.getLength(); temp++) {
 					Node nNode = aboutUser.item(temp);
@@ -138,9 +138,10 @@ public class JUnitCoverage {
 						User u = new User();
 						u.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
 						u.setEmailAddr(eElement.getElementsByTagName("mail").item(0).getTextContent());
-						String[] algorithms = eElement.getElementsByTagName("algorithms").item(0).getTextContent().split(",");
+						String[] algorithms = eElement.getElementsByTagName("algorithms").item(0).getTextContent()
+								.split(",");
 						ArrayList<String> array = new ArrayList<String>();
-						for(String algo : algorithms) {
+						for (String algo : algorithms) {
 							array.add(algo);
 						}
 						u.setAlgorithms(array);
@@ -151,19 +152,15 @@ public class JUnitCoverage {
 
 				e.printStackTrace();
 			}
-		}else{
-			JOptionPane.showMessageDialog(null,
-					"File no longer exists! \nConfig has not been saved!",
-					"File error",
+		} else {
+			JOptionPane.showMessageDialog(null, "File no longer exists! \nConfig has not been saved!", "File error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		assertEquals(config2.getUsers(),ConfigXML.config.getUsers());
-		assertEquals(config2.getPaths(),ConfigXML.config.getPaths());
-		assertEquals(config2.getAdmin_name(),ConfigXML.config.getAdmin_name());
-		assertEquals(config2.getAdmin_mail(),ConfigXML.config.getAdmin_mail());
+		assertEquals(config2.getUsers(), ConfigXML.config.getUsers());
+		assertEquals(config2.getPaths(), ConfigXML.config.getPaths());
+		assertEquals(config2.getAdmin_name(), ConfigXML.config.getAdmin_name());
+		assertEquals(config2.getAdmin_mail(), ConfigXML.config.getAdmin_mail());
 	}
-
-
 
 	private static Node putPath(Document doc, String name, String url) {
 		Element variable = doc.createElement("Path");
@@ -178,14 +175,14 @@ public class JUnitCoverage {
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
 		return variable;
 	}
-	
+
 	private static Node putUser(Document doc, String name, String mail, ArrayList<String> algorithms) {
 		Element variable = doc.createElement("User");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
 		variable.appendChild(putNodeElements(doc, variable, "mail", mail));
 		String algo = "";
-		for(int i = 0; i < algorithms.size(); i++) {
-			if(i != algorithms.size() - 1) {
+		for (int i = 0; i < algorithms.size(); i++) {
+			if (i != algorithms.size() - 1) {
 				algo += algorithms.get(i);
 				algo += ",";
 			} else {
@@ -344,7 +341,7 @@ public class JUnitCoverage {
 			}
 			assertTrue(file.length() > 0);
 		}
-		
+
 	}
 
 	/**
@@ -352,32 +349,56 @@ public class JUnitCoverage {
 	 */
 	@Test(expected = JMetalException.class)
 	public void testJMetal() {
-		Object[][] testD = { { "test1-should-not-appear", "Double", "-1.1", "2.2", null, false },
-				{ "test2-should-appear", "Double", "-2.0", "2.0", null, true },
-				{ "test3-should-appear", "Double", "-10.0", "10.0", null, true },
-				{ "test4-should-not-appear", "Integer", "-10", "10", null, false } };
-		OptimizationProcess.runOptimization(testD, "NSGAII", false, null);
+		Object[][] testD = { { "test1-should-not-appear-VAR-DOUBL", "Double", "-1.1", "2.2", null, false },
+				{ "test2-should-appear-VAR-DOUBL", "Double", "-2.0", "2.0", null, true },
+				{ "test3-should-appear-VAR-DOUBL", "Double", "-10.0", "10.0", null, true },
+				{ "test4-should-not-appear-VAR-DOUBL", "Integer", "-10", "10", null, false },
+				{ "test5-shoul-appear-VAR-DOUBL", "Double", "-10.0", "10.0", null, true } };
+		Object[][] testOD = { { "test1-should-appear-OBJ-DOUBL", "Double", true },
+				{ "test2-should-not-appear-OBJ-DOUBL", "Integer", false },
+				{ "test3-should-appear-OBJ-DOUBL", "Double", true },
+				{ "test5-should-not-appear-OBJ-DOUBL", "Double", false } };
 
-		Object[][] testI = { { "test1-should-appear", "Integer", "-1", "2", null, true },
-				{ "test2-should-appear", "Integer", "-2", "5", null, true },
-				{ "test3-should-appear", "Integer", "-10", "10", null, true },
-				{ "test4-should-not-appear", "Integer", "-10", "10", null, false } };
-		OptimizationProcess.runOptimization(testI, "SMSEMOA", false, null);
-		// SMSEMOA
+		runOptimizationHelper(testD, testOD, "NSGAII");
+		runOptimizationHelper(testD, testOD, "SMSEMOA");
+		runOptimizationHelper(testD, testOD, "GDE3");
+		runOptimizationHelper(testD, testOD, "IBEA");
+		runOptimizationHelper(testD, testOD, "MOCell");
+		runOptimizationHelper(testD, testOD, "MOEAD");
+		runOptimizationHelper(testD, testOD, "PAES");
+		runOptimizationHelper(testD, testOD, "RandomSearch");
+
+		Object[][] testI = { { "test1-should-appear-VAR-INTEG", "Integer", "-1", "2", null, true },
+				{ "test2-should-appear-VAR-INTEG", "Integer", "-1", "2", null, true },
+				{ "test3-should-appear-VAR-INTEG", "Integer", "-1", "2", null, true } };
+		Object[][] testOI = { { "test1-should-appear-OBJ-INTEG", "Integer", true },
+				{ "test2-should-not-appear-OBJ-INTEG", "Double", false },
+				{ "test3-should-appear-OBJ-INTEG", "Integer", true },
+				{ "test5-should-not-appear-OBJ-INTEG", "Integer", false } };
+
+		runOptimizationHelper(testI, testOI, "NSGAII");
+		runOptimizationHelper(testI, testOI, "SMSEMOA");
+		runOptimizationHelper(testI, testOI, "MOCell");
+		runOptimizationHelper(testI, testOI, "PAES");
+		runOptimizationHelper(testI, testOI, "RandomSearch");
+
+		Object[][] testB = { { "test1-should-appear-VAR-BINAR", "Binary", "-1", "2", null, true },
+				{ "test2-should-appear-VAR-BINAR", "Binary", "-2", "5", null, true },
+				{ "test3-should-appear-VAR-BINAR", "Binary", "-10", "10", null, true },
+				{ "test4-should-not-appear-VAR-BINAR", "Binary", "-10", "10", null, false } };
+		Object[][] testOB = { { "test1-should-appear-OBJ-VAR-BINAR", "Binary", true },
+				{ "test2-should-not-appear-OBJ-VAR-BINAR", "Integer", false },
+				{ "test3-should-appear-OBJ-VAR-BINAR", "Binary", true },
+				{ "test5-should-not-appear-OBJ-VAR-BINAR", "Binary", false } };
 		
-		Object[][] testII = { { "test1-should-appear", "Binary", "00010", "1000", null, true },
-				{ "test2-should-appear", "Integer", "00000", "10000", null, true },
-				{ "test3-should-appear", "Integer", "01010", "10101", null, true },
-				{ "test4-should-not-appear", "Integer", "0", "10", null, false } };
-		OptimizationProcess.runOptimization(testII, "SMSEMOA", false, null);
+		runOptimizationHelper(testB, testOB, "NSGAII");
+		runOptimizationHelper(testB, testOB, "SMSEMOA");
+		runOptimizationHelper(testB, testOB, "MOCell");
+		runOptimizationHelper(testB, testOB, "MOCH");
+		runOptimizationHelper(testB, testOB, "PAES");
+		runOptimizationHelper(testB, testOB, "RandomSearch");
+		runOptimizationHelper(testB, testOB, "SPEA2");
 
-		Object[][] test1 = { { "test1-singular-variable", "Double", "-1.1", "2.2", null, true } };
-		OptimizationProcess.runOptimization(test1, "NSGAII", false, null);
-
-		Object[][] testSame = { { "test1-should-crash", "Double", "0", "0", null, true } };
-		OptimizationProcess.runOptimization(testSame, "NSGAII", false, null);
-		throw new JMetalException("");
-		
 	}
 
 	private static Node putVariable2(Document doc, String name, String type, String min_val, String max_val,
@@ -412,11 +433,23 @@ public class JUnitCoverage {
 		node.appendChild(doc.createTextNode(value));
 		return node;
 	}
-	
+
+	private void runOptimizationHelper(Object[][] data, Object[][] obj, String algorithm) {
+		OptimizationProcess op1 = new OptimizationProcess();
+		op1.setObjectives(obj);
+		op1.setData(data);
+		op1.setAlgorithm(algorithm);
+		op1.setJar(false);
+		op1.setProblemName("TestjMetal");
+		op1.setTimelimit(100000);
+		op1.runOptimization();
+	}
+
 	/**
 	 * Test GUI opening
-	 * @throws URISyntaxException 
-	 * @throws IOException 
+	 * 
+	 * @throws URISyntaxException
+	 * @throws IOException
 	 */
 	@Test
 	public void testGUI() throws IOException, URISyntaxException {
