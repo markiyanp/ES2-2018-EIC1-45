@@ -154,6 +154,18 @@ public class ProblemXML {
 		problem = result;
 	}
 
+	/**
+	 * Creates Node with variable name, type, minimum value, maximum value and puts it in "doc"
+	 * 
+	 * @param doc
+	 * @param name
+	 * @param type
+	 * @param min_val
+	 * @param max_val
+	 * @param restricted
+	 * @param used
+	 * @return variable
+	 */
 	private static Node putVariable(Document doc, String name, String type, String min_val, String max_val,
 			String restricted, String used) {
 		Element variable = doc.createElement("Variable");
@@ -166,6 +178,15 @@ public class ProblemXML {
 		return variable;
 	}
 
+	/**
+	 * Creates Node with problem name, description, algorithm and puts it in "doc"
+	 * 
+	 * @param doc
+	 * @param name
+	 * @param description
+	 * @param algorythm
+	 * @return variable
+	 */
 	private static Node putAbout(Document doc, String name, String description, String algorythm) {
 		Element variable = doc.createElement("About");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
@@ -174,6 +195,14 @@ public class ProblemXML {
 		return variable;
 	}
 
+	/**
+	 * Creates Node with user name, email and puts it in "doc"
+	 * 
+	 * @param doc
+	 * @param name
+	 * @param mail
+	 * @return variable
+	 */
 	private static Node putUser(Document doc, String name, String mail) {
 		Element variable = doc.createElement("User");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
@@ -181,6 +210,15 @@ public class ProblemXML {
 		return variable;
 	}
 	
+	/**
+	 * Creates Node with objective name, type, if it used and puts it in "doc"
+	 * 
+	 * @param doc
+	 * @param name
+	 * @param type
+	 * @param used
+	 * @return variable
+	 */
 	private static Node putObjective(Document doc, String name, String type, String used) {
 		Element variable = doc.createElement("Objective");
 		variable.appendChild(putNodeElements(doc, variable, "name", name));
@@ -189,12 +227,26 @@ public class ProblemXML {
 		return variable;
 	}
 
+	/**
+	 * Creates Node with Elements "name" and "value" and puts it in "doc"
+	 * 
+	 * @param doc
+	 * @param element
+	 * @param name
+	 * @param value
+	 * @return node
+	 */
 	private static Node putNodeElements(Document doc, Element element, String name, String value) {
 		Element node = doc.createElement(name);
 		node.appendChild(doc.createTextNode(value));
 		return node;
 	}
 
+	/**
+	 * Getter to ProblemXML instance
+	 * 
+	 * @return instance
+	 */
 	public static synchronized ProblemXML getInstance() {
 		if (instance == null) {
 			instance = new ProblemXML();

@@ -151,12 +151,12 @@ public class ConfigXML {
 	}
 
 	/**
-	 * Creates Node with user "name" and "email" and puts it in "doc"
+	 * Creates Node with user name, email, algorithms, if the user can create variables and puts it in "doc"
 	 * 
 	 * @param doc
 	 * @param name
 	 * @param mail
-	 * @return Node
+	 * @return variable
 	 */
 	private static Node putUser(Document doc, String name, String mail, ArrayList<String> algorithms, String create_var) {
 		Element variable = doc.createElement("User");
@@ -182,7 +182,7 @@ public class ConfigXML {
 	 * @param doc
 	 * @param name
 	 * @param url
-	 * @return Node
+	 * @return variable
 	 */
 	private static Node putPath(Document doc, String name, String url) {
 		Element variable = doc.createElement("Path");
@@ -197,7 +197,7 @@ public class ConfigXML {
 	 * @param doc
 	 * @param name
 	 * @param mail
-	 * @return Node
+	 * @return variable
 	 */
 	private static Node putAdmin(Document doc, String name, String mail) {
 		Element variable = doc.createElement("Admin");
@@ -211,7 +211,7 @@ public class ConfigXML {
 	 * 
 	 * @param doc
 	 * @param name
-	 * @return Node
+	 * @return variable
 	 */
 	private static Node putLimitTime(Document doc, String time) {
 		Element variable = doc.createElement("TimeOut");
@@ -226,7 +226,7 @@ public class ConfigXML {
 	 * @param element
 	 * @param name
 	 * @param value
-	 * @return Node
+	 * @return node
 	 */
 	private static Node putNodeElements(Document doc, Element element, String name, String value) {
 		Element node = doc.createElement(name);

@@ -4,6 +4,10 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
+/**
+ * @author Markyian Pyekh
+ *
+ */
 public class RightPanel extends JPanel {
 
 	private static final long serialVersionUID = 6355942857665120138L;
@@ -13,6 +17,10 @@ public class RightPanel extends JPanel {
 	private JPanel panel = new JPanel();
 	// ********************INSTANCES**********************************
 
+	/**
+	 * The construtor
+	 * @param window
+	 */
 	public RightPanel(Window window) {
 		setLayout(null);
 		panel_map.put("optimization", new OptimizationTab(window));
@@ -24,6 +32,10 @@ public class RightPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Load the new tab
+	 * @param key
+	 */
 	private void loadTab(String key) {
 		if (panel_map.containsKey(key)) {
 			this.remove(panel);
@@ -34,18 +46,34 @@ public class RightPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Changing a tab according to tab name
+	 * @param tab_name
+	 */
 	public void changeTab(String tab_name) {
 		loadTab(tab_name);
 	}
 
+	/**
+	 * Return the optimization tab
+	 * @return optimization tab
+	 */
 	public OptimizationTab getOpt_tab() {
 		return (OptimizationTab) this.panel_map.get("optimization");
 	}
 	
+	/**
+	 * Return the graphics tab
+	 * @return graphics tab
+	 */
 	public GraphicsTab getGraphicTab() {
 		return (GraphicsTab) this.panel_map.get("graphics");
 	}
 	
+	/**
+	 * Return the help tab
+	 * @return help tab
+	 */
 	public HelpTab getHelpTab() {
 		return (HelpTab) this.panel_map.get("help");
 	}

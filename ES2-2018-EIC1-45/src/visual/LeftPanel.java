@@ -9,6 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+/**
+ * @author Markyian Pyekh
+ *
+ */
 public class LeftPanel extends JPanel {
 
 	private static final long serialVersionUID = -8909301298283476974L;
@@ -30,6 +34,11 @@ public class LeftPanel extends JPanel {
 	private static int MAX = 100;
 	// *******************OTHER**************************
 
+	/**
+	 * The construtor
+	 * @param window
+	 * @param WIDTH
+	 */
 	public LeftPanel(Window window, int WIDTH) {
 		this.window = window;
 		setLayout(null);
@@ -57,6 +66,9 @@ public class LeftPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * The progress bar with percentage
+	 */
 	private void progressBar() {
 		pb = new JProgressBar();
 		pb.setMinimum(0);
@@ -67,6 +79,10 @@ public class LeftPanel extends JPanel {
 		add(pb);
 	}
 
+	/**
+	 * Shows the percentage
+	 * @param progress
+	 */
 	public static void setProgress(int progress) {
 		if (progress <= MAX) {
 			pb.setValue(progress);
@@ -79,6 +95,10 @@ public class LeftPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * The listener
+	 * @return a
+	 */
 	private ActionListener action_listener() {
 		ActionListener a = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -112,6 +132,10 @@ public class LeftPanel extends JPanel {
 		return a;
 	}
 
+	/**
+	 * The button optimization
+	 * @return b
+	 */
 	private JButton optimization() {
 		JButton b = new JButton();
 		b.setBounds(0, 0, 295, 54);
@@ -122,6 +146,10 @@ public class LeftPanel extends JPanel {
 		return b;
 	}
 
+	/**
+	 * The button graphics
+	 * @return b
+	 */
 	private JButton graphics() {
 		JButton b = new JButton();
 		b.setBounds(0, 55, 295, 54);
@@ -132,6 +160,10 @@ public class LeftPanel extends JPanel {
 		return b;
 	}
 
+	/**
+	 * The button help
+	 * @return b
+	 */
 	private JButton help() {
 		JButton b = new JButton();
 		b.setBounds(0, 111, 295, 54);
