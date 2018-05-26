@@ -196,6 +196,7 @@ public class GraphicsTab extends JPanel {
 	 * @return Variables_Aux_Graphic
 	 */
 	public Variables_Aux_Graphic processVariables() {
+		variables_name_aux = new ArrayList<String>();
 		String algorithm_name = window.getRight_panel().getOpt_tab().getAlgo_name_field().getSelectedItem().toString()
 				.trim();
 		
@@ -325,6 +326,7 @@ public class GraphicsTab extends JPanel {
 	 * @return Objectives_Aux_Graphic
 	 */
 	public Objectives_Aux_Graphic processObjectives() {
+		objectives_name_aux = new ArrayList<String>();
 		String algorithm_name = window.getRight_panel().getOpt_tab().getAlgo_name_field().getSelectedItem().toString()
 				.trim();
 		
