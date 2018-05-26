@@ -3,7 +3,7 @@
 
 **EIC1** - Grupo **45**
 
-<link do vídeo>
+https://www.youtube.com/watch?v=zWiLVyJoeGc
 
 **Trabalho quase completo, falta**:
 
