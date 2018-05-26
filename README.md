@@ -5,13 +5,19 @@
 
 <link do vídeo>
 
-Trabalho quase completo, falta:
+**Trabalho quase completo, falta**:
 
 -Possibilitar a escolha de vários algoritmos, escolha automática/mista de algoritmos (por defeito, NSGAII é usado, mas pode-se mudar na GUI)
 
 -Forma adequada de definir limite de bits para problemas binários (o Max Value da primeira variável é usada como referência)
 
 -Mostrar o tempo que foi preciso para o processo de optimização acabar na GUI (é escrito para um ficheiro)
+
+**Avisos**:
+
+-É preciso fazer o download do zip e extraír os seus conteúdos para a mesma pasta onde descarrega o jar, senão o programa não funciona.
+
+-É preciso uma ligação à internet para fazer o log in no programa. Se quiser usar uma conta GMail, mantenha a certeza que esta permita "programas de pouca confiança" nas suas opções de segurança.
 
 - [73324] Paulo Pina - pvmpa@iscte-iul.pt
 - [69223] Markiyan Pyekh - markiyan_pyekh@iscte-iul.pt
