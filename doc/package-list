@@ -1,0 +1,13 @@
+core
+email
+graphics
+jMetal
+jMetal.binaryProblems
+jMetal.doubleProblems
+jMetal.exampleProblems
+jMetal.integerProblems
+jMetal.tests
+jUnitTests
+personal
+visual
+xml
