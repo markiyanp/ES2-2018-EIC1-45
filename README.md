@@ -3,6 +3,12 @@
 
 **EIC1** - Grupo **45**
 
+  - [73324] Paulo Pina - pvmpa@iscte-iul.pt
+  - [69223] Markiyan Pyekh - markiyan_pyekh@iscte-iul.pt
+  - [69362] Tiago Almeida - tiago_pardal@iscte-iul.pt
+  - [73263] André Godinho - afgos@iscte-iul.pt
+
+
 https://www.youtube.com/watch?v=zWiLVyJoeGc
 
 **Trabalho quase completo, falta**:
@@ -18,11 +24,6 @@ https://www.youtube.com/watch?v=zWiLVyJoeGc
 -É preciso fazer o download do zip e extraír os seus conteúdos para a mesma pasta onde descarrega o jar, senão o programa não funciona.
 
 -É preciso uma ligação à internet para fazer o log in no programa. Se quiser usar uma conta GMail, mantenha a certeza que esta permita "programas de pouca confiança" nas suas opções de segurança.
-
-- [73324] Paulo Pina - pvmpa@iscte-iul.pt
-- [69223] Markiyan Pyekh - markiyan_pyekh@iscte-iul.pt
-- [69362] Tiago Almeida - tiago_pardal@iscte-iul.pt
-- [73263] André Godinho - afgos@iscte-iul.pt
 
 **Dependências e Licensas**: 
 
